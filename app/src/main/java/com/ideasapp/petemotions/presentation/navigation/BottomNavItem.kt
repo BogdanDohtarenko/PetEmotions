@@ -7,7 +7,13 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class BottomNavItem(val route: String,val icon:ImageVector,val label: String) {
-    object Home : BottomNavItem("home", Icons.Default.Home, "Home")
-    object Search : BottomNavItem("search", Icons.Default.Search, "Search")
-    object Profile : BottomNavItem("profile", Icons.Default.Person, "Profile")
+    object Statistics : BottomNavItem(ROUTE_STATISTIC, Icons.Default.Home, "Statistics")
+    object Calendar : BottomNavItem(ROUTE_CALENDAR, Icons.Default.Search, "Calendar")
+    object Timetable : BottomNavItem(ROUTE_TIMETABLE, Icons.Default.Person, "Timetable")
+
+    companion object {
+        const val ROUTE_STATISTIC = "Statistics"
+        const val ROUTE_CALENDAR = "Calendar"
+        const val ROUTE_TIMETABLE = "Timetable"
+    }
 }

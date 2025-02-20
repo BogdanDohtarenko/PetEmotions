@@ -10,15 +10,15 @@ import com.ideasapp.petemotions.presentation.navigation.BottomNavItem
 
 @Composable
 fun NavigationHost(navController:NavHostController) {
-    NavHost(navController, startDestination = BottomNavItem.Home.route) {
-        composable(BottomNavItem.Home.route) {
+    NavHost(navController, startDestination = BottomNavItem.Statistics.route) {
+        composable(BottomNavItem.Statistics.route) {
             Text("Home")
         }
-        composable(BottomNavItem.Search.route) {
+        composable(BottomNavItem.Calendar.route) {
             Text("Search")
         }
-        composable(BottomNavItem.Profile.route) {
-            Text("Profile")
+        composable(BottomNavItem.Timetable.route) {
+            Text("Day Timetable")
         }
     }
 }
