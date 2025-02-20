@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ideasapp.petemotions.presentation.navigation.BottomNavItem
 
+//TODO add beautiful animations
 @Composable
 fun BottomNavigationBar(navController:NavController) {
     BottomNavigation() {

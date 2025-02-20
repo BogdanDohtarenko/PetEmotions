@@ -8,17 +8,23 @@ import androidx.navigation.compose.composable
 import com.ideasapp.petemotions.presentation.navigation.BottomNavItem
 
 
+//TODO try deepLinks
 @Composable
-fun NavigationHost(navController:NavHostController) {
+fun NavigationHost(
+    navController:NavHostController,
+    statisticsScreenContent: @Composable () -> Unit,
+    calendarScreenContent: @Composable () -> Unit,
+    timetableScreenContent: @Composable () -> Unit,
+) {
     NavHost(navController, startDestination = BottomNavItem.Statistics.route) {
         composable(BottomNavItem.Statistics.route) {
-            Text("Home")
+            statisticsScreenContent()
         }
         composable(BottomNavItem.Calendar.route) {
-            Text("Search")
+            calendarScreenContent()
         }
         composable(BottomNavItem.Timetable.route) {
-            Text("Day Timetable")
+            timetableScreenContent()
         }
     }
 }
