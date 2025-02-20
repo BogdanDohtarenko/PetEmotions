@@ -70,6 +70,11 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
+    //Room
+    implementation(libs.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
     //tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
