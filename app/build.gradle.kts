@@ -61,6 +61,9 @@ dependencies {
     implementation(libs.ui)
     implementation(libs.androidx.material)
 
+    //Hilt
+
+
     //tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
