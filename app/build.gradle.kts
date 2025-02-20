@@ -1,6 +1,8 @@
 plugins {
+    id("kotlin-kapt")
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -44,6 +46,9 @@ android {
             excludes+="/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
@@ -62,7 +67,8 @@ dependencies {
     implementation(libs.androidx.material)
 
     //Hilt
-
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 
     //tests
     testImplementation(libs.junit)
