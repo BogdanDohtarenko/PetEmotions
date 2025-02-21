@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.CalendarScreen
+import com.ideasapp.petemotions.presentation.ui.screens.screen_containers.MainScreen
 import com.ideasapp.petemotions.presentation.ui.theme.PetEmotionsTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +14,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PetEmotionsTheme {
-                CalendarScreen()
+                MainScreen()
             }
         }
     }

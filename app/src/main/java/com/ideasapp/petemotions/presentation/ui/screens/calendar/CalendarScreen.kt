@@ -15,22 +15,5 @@ import com.ideasapp.petemotions.presentation.ui.reusableElements.NavigationHost
 
 @Composable
 fun CalendarScreen() {
-    val navController = rememberNavController()
-    Scaffold(
-        bottomBar = { BottomNavigationBar(navController) },
-        modifier = Modifier.navigationBarsPadding(),
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            NavigationHost(
-                navController = navController,
-                statisticsScreenContent = { Text("statistics")},
-                calendarScreenContent = { Text("calendar")},
-                timetableScreenContent = { Text("timetable")}
-            )
-        }
-    }
+
 }
