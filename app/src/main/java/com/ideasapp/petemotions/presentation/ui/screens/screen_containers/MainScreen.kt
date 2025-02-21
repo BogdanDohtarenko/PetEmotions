@@ -12,12 +12,15 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.ideasapp.petemotions.presentation.ui.reusableElements.BottomNavigationBar
 import com.ideasapp.petemotions.presentation.ui.reusableElements.NavigationHost
+import com.ideasapp.petemotions.presentation.ui.screens.calendar.CalendarScreen
 
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
     Scaffold(
+        //set bottom nav bar
         bottomBar = { BottomNavigationBar(navController) },
+        //to arrange above system buttons
         modifier = Modifier.navigationBarsPadding(),
     ) { paddingValues ->
         Column(
@@ -25,10 +28,11 @@ fun MainScreen() {
                 .padding(paddingValues),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
+            //Set nav graph
             NavigationHost(
                 navController = navController,
                 statisticsScreenContent = { Text("statistics")},
-                calendarScreenContent = { Text("calendar")},
+                calendarScreenContent = { CalendarScreen() },
                 timetableScreenContent = { Text("timetable")}
             )
         }
