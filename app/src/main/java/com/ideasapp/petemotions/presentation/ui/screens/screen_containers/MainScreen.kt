@@ -9,13 +9,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.ideasapp.petemotions.presentation.ui.reusableElements.BottomNavigationBar
 import com.ideasapp.petemotions.presentation.ui.reusableElements.NavigationHost
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.CalendarScreen
+import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 
 @Composable
-fun MainScreen() {
+fun MainScreen(viewModel: CalendarViewModel) { //TODO delete view model
     val navController = rememberNavController()
     Scaffold(
         //set bottom nav bar
@@ -32,7 +34,7 @@ fun MainScreen() {
             NavigationHost(
                 navController = navController,
                 statisticsScreenContent = { Text("statistics")},
-                calendarScreenContent = { CalendarScreen() },
+                calendarScreenContent = { CalendarScreen(viewModel) },
                 timetableScreenContent = { Text("timetable")}
             )
         }

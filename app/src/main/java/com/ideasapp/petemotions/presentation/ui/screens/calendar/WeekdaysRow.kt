@@ -14,12 +14,12 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun WeekdaysRow() {
     Row(modifier=Modifier.fillMaxWidth().fillMaxHeight(0.1f),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.Center) {
-        Text("mon",Modifier.padding(10.dp))
-        Text("tue",Modifier.padding(10.dp))
-        Text("wed",Modifier.padding(10.dp))
-        Text("thu",Modifier.padding(10.dp))
-        Text("fri",Modifier.padding(10.dp))
-        Text("sat",Modifier.padding(10.dp))
-        Text("sun",Modifier.padding(10.dp))
+        Text("mon",Modifier.padding(12.dp))
+        Text("tue",Modifier.padding(12.dp))
+        Text("wed",Modifier.padding(12.dp))
+        Text("thu",Modifier.padding(12.dp))
+        Text("fri",Modifier.padding(12.dp))
+        Text("sat",Modifier.padding(12.dp))
+        Text("sun",Modifier.padding(12.dp))
     }
 }
