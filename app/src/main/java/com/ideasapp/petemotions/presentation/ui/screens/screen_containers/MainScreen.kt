@@ -1,0 +1,42 @@
+package com.ideasapp.petemotions.presentation.ui.screens.screen_containers
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.rememberNavController
+import com.ideasapp.petemotions.presentation.ui.reusableElements.BottomNavigationBar
+import com.ideasapp.petemotions.presentation.ui.reusableElements.NavigationHost
+import com.ideasapp.petemotions.presentation.ui.screens.calendar.CalendarScreen
+import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
+
+@Composable
+fun MainScreen(viewModel: CalendarViewModel) { //TODO delete view model
+    val navController = rememberNavController()
+    Scaffold(
+        //set bottom nav bar
+        bottomBar = { BottomNavigationBar(navController) },
+        //to arrange above system buttons
+        modifier = Modifier.navigationBarsPadding(),
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .padding(paddingValues),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            //Set nav graph
+            NavigationHost(
+                navController = navController,
+                statisticsScreenContent = { Text("statistics")},
+                calendarScreenContent = { CalendarScreen(viewModel) },
+                timetableScreenContent = { Text("timetable")}
+            )
+        }
+    }
+}
