@@ -52,7 +52,7 @@ fun MainScreen(
                         },
                         onDateClickListener = { selectedDate ->
                             //TODO normal on click
-                            Log.d("Calendar", "Date choose: $selectedDate")
+                            Log.d("Calendar", "Date choose: $selectedDate, day mood: $selectedDate")
                         }
                     )},
                 timetableScreenContent = { Text("timetable")}

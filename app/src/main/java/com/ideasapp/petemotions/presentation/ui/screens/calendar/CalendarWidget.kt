@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ideasapp.petemotions.R
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
+import com.ideasapp.petemotions.domain.entity.calendar.DayInfoItem
 import com.ideasapp.petemotions.presentation.util.getDisplayName
 import java.time.YearMonth
 
@@ -58,7 +59,7 @@ fun CalendarWidget(
         ) //month
         Content(
             dates = dates,
-            onDateClickListener = onDateClickListener
+            onDateClickListener = onDateClickListener,
         ) //cells
     }
 }
@@ -131,7 +132,7 @@ fun Content(
                     ContentItem(
                         date = item,
                         onClickListener = onDateClickListener,
-                        modifier =Modifier
+                        modifier = Modifier
                             .weight(1f)
                             .clip(shape=CircleShape)
                     )
@@ -165,7 +166,7 @@ fun ContentItem(
             modifier = Modifier.align(Alignment.Center),
         ) {
             Text(
-                text = "M", //set mood here
+                text = date.dayInfoItem.mood, //TODO set mood here
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .padding(10.dp)

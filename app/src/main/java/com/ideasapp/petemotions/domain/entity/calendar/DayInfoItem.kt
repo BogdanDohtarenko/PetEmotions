@@ -1,5 +1,7 @@
 package com.ideasapp.petemotions.domain.entity.calendar
 
-class DayInfoItem {
+data class DayInfoItem(
+    val mood: String = "G"
+) {
     //TODO
 }
