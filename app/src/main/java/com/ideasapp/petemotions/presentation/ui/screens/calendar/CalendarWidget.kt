@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.R
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayInfoItem
@@ -126,7 +127,7 @@ fun Content(
         var index = 0
         repeat(6) {
             if (index >= dates.size) return@repeat
-            Row {
+            Row(Modifier.padding(5.dp, 10.dp)) { //to expand rows on all screen
                 repeat(7) {
                     val item = if (index < dates.size) dates[index] else CalendarUiState.Date.Empty
                     ContentItem(
@@ -134,7 +135,7 @@ fun Content(
                         onClickListener = onDateClickListener,
                         modifier = Modifier
                             .weight(1f)
-                            .clip(shape=CircleShape)
+
                     )
                     index++
                 }
@@ -152,12 +153,7 @@ fun ContentItem(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier =modifier
-            .background(color=if(date.isSelected) {
-                MaterialTheme.colorScheme.secondaryContainer
-            } else {
-                Color.Transparent
-            })
+        modifier = modifier
             .clickable {
                 onClickListener(date)
             }
@@ -166,16 +162,23 @@ fun ContentItem(
             modifier = Modifier.align(Alignment.Center),
         ) {
             Text(
-                text = date.dayInfoItem.mood, //TODO set mood here
+                text = date.dayInfoItem.mood, //set mood here
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .padding(10.dp)
             )
             Text(
                 text = date.dayOfMonth,
+                fontSize = 16.sp,
+                color = if(date.isSelected) {
+                    MaterialTheme.colorScheme.secondaryContainer
+                } else {
+                    MaterialTheme.colorScheme.primary
+                },
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
-                    .padding(10.dp)
+                    .padding(2.dp)
+                    .clip(CircleShape)
             )
         }
     }
