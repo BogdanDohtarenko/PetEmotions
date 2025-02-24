@@ -2,6 +2,7 @@ package com.ideasapp.petemotions.presentation.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ideasapp.petemotions.data.repositories_impl.CalendarRepositoryImpl
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.CalendarDataSource
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,8 +14,10 @@ import java.time.YearMonth
 
 class CalendarViewModel : ViewModel() {
 
-    // TODO: Utilize DI (Dagger, Hilt, or whatever)
-    private val dataSource by lazy {CalendarDataSource()}
+    // TODO: Utilize DI (Hilt)
+    private val repository by lazy {
+        CalendarRepositoryImpl
+    }
 
     private val _uiState=MutableStateFlow(CalendarUiState.Init)
     val uiState: StateFlow<CalendarUiState> = _uiState.asStateFlow()
@@ -22,17 +25,18 @@ class CalendarViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             _uiState.update { currentState: CalendarUiState ->
-                currentState.copy(dates = dataSource.getDates(currentState.yearMonth))
+                val currentMonth = currentState.yearMonth
+                currentState.copy(dates = repository.getSystemCalendar(currentMonth))
             }
         }
     }
 
-    fun toNextMonth(nextMonth:YearMonth) {
+    fun toNextMonth( nextMonth:YearMonth ) {
         viewModelScope.launch {
             _uiState.update { currentState: CalendarUiState ->
                 currentState.copy(
                     yearMonth = nextMonth,
-                    dates = dataSource.getDates(nextMonth)
+                    dates = repository.getSystemCalendar(nextMonth)
                 )
             }
         }
@@ -43,7 +47,7 @@ class CalendarViewModel : ViewModel() {
             _uiState.update { currentState: CalendarUiState ->
                 currentState.copy(
                     yearMonth = prevMonth,
-                    dates = dataSource.getDates(prevMonth)
+                    dates = repository.getSystemCalendar(prevMonth)
                 )
             }
         }

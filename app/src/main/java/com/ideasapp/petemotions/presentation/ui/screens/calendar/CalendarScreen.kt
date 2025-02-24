@@ -59,159 +59,17 @@ fun CalendarScreen(viewModel: CalendarViewModel) {
     }
 }
 
-//TODO improve calendar make bigger and circle selection
+
 //TODO throw all this functions to different directories
-@Composable
-fun CalendarWidget(
-    days: Array<String>,
-    yearMonth: YearMonth,
-    dates: List<CalendarUiState.Date>,
-    onPreviousMonthButtonClicked: (YearMonth) -> Unit,
-    onNextMonthButtonClicked: (YearMonth) -> Unit,
-    onDateClickListener: (CalendarUiState.Date) -> Unit,
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Row {
-            repeat(days.size) {
-                val item = days[it]
-                DayItem(item, modifier = Modifier.weight(1f))
-            }
-        }
-        Header(
-            yearMonth = yearMonth,
-            onPreviousMonthButtonClicked = onPreviousMonthButtonClicked,
-            onNextMonthButtonClicked = onNextMonthButtonClicked
-        )
-        Content(
-            dates = dates,
-            onDateClickListener = onDateClickListener
-        )
-    }
-}
 
-@Composable
-fun Header(
-    yearMonth: YearMonth,
-    onPreviousMonthButtonClicked: (YearMonth) -> Unit,
-    onNextMonthButtonClicked: (YearMonth) -> Unit,
-) {
-    Row {
-        IconButton(onClick = {
-            onPreviousMonthButtonClicked.invoke(yearMonth.minusMonths(1))
-        }) {
-            Icon(
-                imageVector = Icons.Filled.KeyboardArrowLeft,
-                contentDescription = stringResource(id = R.string.back)
-            )
-        }
-        Text(
-            text = yearMonth.getDisplayName(),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier
-                .weight(1f)
-                .align(Alignment.CenterVertically)
-        )
-        IconButton(onClick = {
-            onNextMonthButtonClicked.invoke(yearMonth.plusMonths(1))
-        }) {
-            Icon(
-                imageVector = Icons.Filled.KeyboardArrowRight,
-                contentDescription = stringResource(id = R.string.next)
-            )
-        }
-    }
-}
 
-@Composable
-fun DayItem(day: String, modifier: Modifier = Modifier) {
-    Box(modifier = modifier) {
-        Text(
-            text = day,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier
-                .align(Alignment.Center)
-                .padding(10.dp)
-        )
-    }
-}
 
 //Class to get all dates and to set empty previous month
 class CalendarDataSource {
-    fun getDates(yearMonth: YearMonth): List<CalendarUiState.Date> {
-        return yearMonth.getDayOfMonthStartingFromMonday()
-            .map { date ->
-                CalendarUiState.Date(
-                    dayOfMonth = if (date.monthValue == yearMonth.monthValue) {
-                        "${date.dayOfMonth}"
-                    } else {
-                        "" //Fill with empty string for days outside the current month
-                    },
-                    isSelected = date.isEqual(LocalDate.now()) && date.monthValue == yearMonth.monthValue
-                )
-            }
-    }
+
 }
 
-//month field
-@Composable
-fun Content(
-    dates: List<CalendarUiState.Date>,
-    onDateClickListener: (CalendarUiState.Date) -> Unit,
-) {
-    Column {
-        var index = 0
-        repeat(6) {
-            if (index >= dates.size) return@repeat
-            Row {
-                repeat(7) {
-                    val item = if (index < dates.size) dates[index] else CalendarUiState.Date.Empty
-                    ContentItem(
-                        date = item,
-                        onClickListener = onDateClickListener,
-                        modifier = Modifier.weight(1f)
-                    )
-                    index++
-                }
-            }
-        }
-    }
-}
 
-//one day oof month
-@Composable
-fun ContentItem(
-    date: CalendarUiState.Date,
-    onClickListener: (CalendarUiState.Date) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .background(
-                color = if (date.isSelected) {
-                    MaterialTheme.colorScheme.secondaryContainer
-                } else {
-                    Color.Transparent
-                }
-            )
-            .clickable {
-                onClickListener(date)
-            }
-    ) {
-        Text(
-            text = date.dayOfMonth,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier
-                .align(Alignment.Center)
-                .padding(10.dp)
-        )
-    }
-}
 
 
 
