@@ -7,17 +7,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -37,7 +41,7 @@ fun CalendarWidget(
     onDateClickListener: (CalendarUiState.Date) -> Unit,
 ) {
     Column(
-        modifier = Modifier
+        modifier =Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
@@ -46,16 +50,16 @@ fun CalendarWidget(
                 val item = days[it]
                 DayItem(item, modifier = Modifier.weight(1f))
             }
-        }
+        } //weekdays
         Header(
             yearMonth = yearMonth,
             onPreviousMonthButtonClicked = onPreviousMonthButtonClicked,
             onNextMonthButtonClicked = onNextMonthButtonClicked
-        )
+        ) //month
         Content(
             dates = dates,
             onDateClickListener = onDateClickListener
-        )
+        ) //cells
     }
 }
 
@@ -79,7 +83,7 @@ fun Header(
             text = yearMonth.getDisplayName(),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier
+            modifier =Modifier
                 .weight(1f)
                 .align(Alignment.CenterVertically)
         )
@@ -95,6 +99,7 @@ fun Header(
 }
 
 
+//TODO make letter above number
 @Composable
 fun DayItem(day: String, modifier: Modifier = Modifier) {
     Box(modifier = modifier) {
@@ -102,7 +107,7 @@ fun DayItem(day: String, modifier: Modifier = Modifier) {
             text = day,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier
+            modifier =Modifier
                 .align(Alignment.Center)
                 .padding(10.dp)
         )
@@ -110,7 +115,7 @@ fun DayItem(day: String, modifier: Modifier = Modifier) {
 }
 
 
-//month field
+//month field (cells)
 @Composable
 fun Content(
     dates: List<CalendarUiState.Date>,
@@ -126,7 +131,9 @@ fun Content(
                     ContentItem(
                         date = item,
                         onClickListener = onDateClickListener,
-                        modifier = Modifier.weight(1f)
+                        modifier =Modifier
+                            .weight(1f)
+                            .clip(shape=CircleShape)
                     )
                     index++
                 }
@@ -136,7 +143,7 @@ fun Content(
 }
 
 
-//one day oof month
+//one day of month
 @Composable
 fun ContentItem(
     date: CalendarUiState.Date,
@@ -144,24 +151,31 @@ fun ContentItem(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier
-            .background(
-                color = if (date.isSelected) {
-                    MaterialTheme.colorScheme.secondaryContainer
-                } else {
-                    Color.Transparent
-                }
-            )
+        modifier =modifier
+            .background(color=if(date.isSelected) {
+                MaterialTheme.colorScheme.secondaryContainer
+            } else {
+                Color.Transparent
+            })
             .clickable {
                 onClickListener(date)
             }
     ) {
-        Text(
-            text = date.dayOfMonth,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier
-                .align(Alignment.Center)
-                .padding(10.dp)
-        )
+        Column(
+            modifier = Modifier.align(Alignment.Center),
+        ) {
+            Text(
+                text = "M", //set mood here
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier
+                    .padding(10.dp)
+            )
+            Text(
+                text = date.dayOfMonth,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier
+                    .padding(10.dp)
+            )
+        }
     }
 }
