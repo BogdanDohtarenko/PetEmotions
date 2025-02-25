@@ -25,6 +25,7 @@ class CalendarViewModel /*@Inject constructor(repository: CalendarRepositoryImpl
     val uiState: StateFlow<CalendarUiState> = _uiState.asStateFlow()
 
     init {
+        //launch get month with mood in io thread
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.update { currentState: CalendarUiState ->
                 val currentMonth = currentState.yearMonth
