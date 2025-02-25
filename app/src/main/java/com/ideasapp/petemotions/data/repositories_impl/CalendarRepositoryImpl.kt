@@ -38,7 +38,7 @@ object CalendarRepositoryImpl: CalendarRepository {
         //TODO add day info from db
         return mapOf(
             LocalDate.of(2025, 2, 1) to DayInfoItem(DayInfoItem.GOOD_MOOD),
-            LocalDate.of(2025, 2, 14) to DayInfoItem(DayInfoItem.NORMAL_MOOD),
+            LocalDate.of(2025, 2, 15) to DayInfoItem(DayInfoItem.NORMAL_MOOD),
             LocalDate.of(2025, 2, 28) to DayInfoItem(DayInfoItem.BAD_MOOD)
         )
     }

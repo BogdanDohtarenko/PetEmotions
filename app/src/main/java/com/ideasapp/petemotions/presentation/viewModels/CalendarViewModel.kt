@@ -21,7 +21,7 @@ class CalendarViewModel /*@Inject constructor(repository: CalendarRepositoryImpl
     private val repository = CalendarRepositoryImpl
     private val getCalendarWithMood = GetCalendarWithMood(repository)
 
-    private val _uiState=MutableStateFlow(CalendarUiState.Init)
+    private val _uiState = MutableStateFlow(CalendarUiState.Init)
     val uiState: StateFlow<CalendarUiState> = _uiState.asStateFlow()
 
     init {
