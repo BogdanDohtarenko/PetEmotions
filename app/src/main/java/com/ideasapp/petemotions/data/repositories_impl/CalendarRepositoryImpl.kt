@@ -8,13 +8,15 @@ import java.time.LocalDate
 import java.time.YearMonth
 
 object CalendarRepositoryImpl: CalendarRepository {
-    //TODO do this in io thread
 
     override suspend fun getCalendarWithMood(
         yearMonth: YearMonth,
     ): List<CalendarUiState.Date> {
         return yearMonth.getDayOfMonthStartingFromMonday()
             .map { date ->
+                val currDayInfo =
+                    getMoodFromDatabaseByMonth(yearMonth).find {it.date == date}
+                        ?: DayInfoItem(LocalDate.of(2025, 2, 25))
                 val isDateInMonth = date.monthValue == yearMonth.monthValue
                 CalendarUiState.Date(
                     dayOfMonth = if (isDateInMonth) {
@@ -25,22 +27,26 @@ object CalendarRepositoryImpl: CalendarRepository {
                     isSelected = date.isEqual(LocalDate.now()) && isDateInMonth,
                     dayInfoItem = if (isDateInMonth) {
                         //take mood from db
-                        getMoodFromDatabaseByMonth(yearMonth)[date] ?: DayInfoItem()
+                        currDayInfo
                     } else {
-                        DayInfoItem() //Fill with empty string for days outside the current month
+                        //Fill with empty string for days outside the current month
+                        DayInfoItem(LocalDate.of(2025, 2, 25))
                     }
                 )
-            // TODO Get  gray icon if not filled
             }
     }
 
-    private fun getMoodFromDatabaseByMonth(yearMonth: YearMonth): Map<LocalDate, DayInfoItem> {
+    private fun getMoodFromDatabaseByMonth(yearMonth: YearMonth): List<DayInfoItem> {
         //TODO add day info from db
-        return mapOf(
-            LocalDate.of(2025, 2, 1) to DayInfoItem(DayInfoItem.GOOD_MOOD),
-            LocalDate.of(2025, 2, 15) to DayInfoItem(DayInfoItem.NORMAL_MOOD),
-            LocalDate.of(2025, 2, 28) to DayInfoItem(DayInfoItem.BAD_MOOD)
+
+        //TODO END HERE
+        return listOf(
+            DayInfoItem(LocalDate.of(2025, 2, 1), DayInfoItem.GOOD_MOOD),
+            DayInfoItem(LocalDate.of(2025, 2, 2), DayInfoItem.GOOD_MOOD),
+            DayInfoItem(LocalDate.of(2025, 2, 10), DayInfoItem.GOOD_MOOD),
         )
+        //val resultList = dao.getList.map
+        //return resultList
     }
 
 }

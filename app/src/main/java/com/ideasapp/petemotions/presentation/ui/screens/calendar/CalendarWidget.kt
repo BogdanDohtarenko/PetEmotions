@@ -161,6 +161,7 @@ fun ContentItem(
         Column(
             modifier = Modifier.align(Alignment.Center),
         ) {
+            // TODO Get  gray icon if not filled
             Text(
                 text = date.dayInfoItem.mood, //set mood here
                 style = MaterialTheme.typography.bodyMedium,
