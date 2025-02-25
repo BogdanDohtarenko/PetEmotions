@@ -10,24 +10,37 @@ import java.time.YearMonth
 object CalendarRepositoryImpl: CalendarRepository {
     //TODO do this in io thread
 
-    override fun getSystemCalendar(yearMonth:YearMonth): List<CalendarUiState.Date> {
+    override suspend fun getCalendarWithMood(
+        yearMonth: YearMonth,
+    ): List<CalendarUiState.Date> {
         return yearMonth.getDayOfMonthStartingFromMonday()
             .map { date ->
+                val isDateInMonth = date.monthValue == yearMonth.monthValue
                 CalendarUiState.Date(
-                    dayOfMonth = if (date.monthValue == yearMonth.monthValue) {
+                    dayOfMonth = if (isDateInMonth) {
                         "${date.dayOfMonth}"
                     } else {
                         "" //Fill with empty string for days outside the current month
                     },
-                    isSelected = date.isEqual(LocalDate.now()) && date.monthValue == yearMonth.monthValue,
-                    dayInfoItem = if (date.monthValue == yearMonth.monthValue) {
-                        DayInfoItem("G")
+                    isSelected = date.isEqual(LocalDate.now()) && isDateInMonth,
+                    dayInfoItem = if (isDateInMonth) {
+                        //take mood from db
+                        getMoodFromDatabaseByMonth(yearMonth)[date] ?: DayInfoItem()
                     } else {
                         DayInfoItem() //Fill with empty string for days outside the current month
                     }
-                ) //TODO add day info from db
-            // TODO Get  gray info if not filled
+                )
+            // TODO Get  gray icon if not filled
             }
+    }
+
+    private fun getMoodFromDatabaseByMonth(yearMonth: YearMonth): Map<LocalDate, DayInfoItem> {
+        //TODO add day info from db
+        return mapOf(
+            LocalDate.of(2025, 2, 1) to DayInfoItem(DayInfoItem.GOOD_MOOD),
+            LocalDate.of(2025, 2, 14) to DayInfoItem(DayInfoItem.NORMAL_MOOD),
+            LocalDate.of(2025, 2, 28) to DayInfoItem(DayInfoItem.BAD_MOOD)
+        )
     }
 
 }

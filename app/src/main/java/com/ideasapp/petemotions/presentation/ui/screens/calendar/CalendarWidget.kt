@@ -166,6 +166,7 @@ fun ContentItem(
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .padding(10.dp)
+                    .align(Alignment.CenterHorizontally)
             )
             Text(
                 text = date.dayOfMonth,
@@ -179,6 +180,7 @@ fun ContentItem(
                 modifier = Modifier
                     .padding(2.dp)
                     .clip(CircleShape)
+                    .align(Alignment.CenterHorizontally)
             )
         }
     }
