@@ -1,9 +1,9 @@
 package com.ideasapp.petemotions.domain.entity.calendar
 
 import java.time.LocalDate
-import java.util.Date
 
-data class DayInfoItem(
+data class DayItemInfo(
+    val id: Int = -1,
     val date: LocalDate? = null,
     val mood: String = EMPTY
 ){

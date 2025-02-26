@@ -1,5 +1,7 @@
 package com.ideasapp.petemotions.presentation.viewModels
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ideasapp.petemotions.data.repositories_impl.CalendarRepositoryImpl
@@ -15,10 +17,12 @@ import kotlinx.coroutines.launch
 import java.time.YearMonth
 import javax.inject.Inject
 
-class CalendarViewModel /*@Inject constructor(repository: CalendarRepositoryImpl)*/ : ViewModel() {
+class CalendarViewModel(application: Application)
+/*@Inject constructor(repository: CalendarRepositoryImpl)*/
+    : AndroidViewModel(application) {
 
     // TODO: Utilize DI (Hilt)
-    private val repository = CalendarRepositoryImpl
+    private val repository = CalendarRepositoryImpl(application)
     private val getCalendarWithMood = GetCalendarWithMood(repository)
 
     private val _uiState = MutableStateFlow(CalendarUiState.Init)
@@ -35,7 +39,7 @@ class CalendarViewModel /*@Inject constructor(repository: CalendarRepositoryImpl
     }
 
     fun toNextMonth( nextMonth:YearMonth ) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _uiState.update { currentState: CalendarUiState ->
                 currentState.copy(
                     yearMonth = nextMonth,
@@ -46,7 +50,7 @@ class CalendarViewModel /*@Inject constructor(repository: CalendarRepositoryImpl
     }
 
     fun toPreviousMonth(prevMonth: YearMonth) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _uiState.update { currentState: CalendarUiState ->
                 currentState.copy(
                     yearMonth = prevMonth,
@@ -55,4 +59,6 @@ class CalendarViewModel /*@Inject constructor(repository: CalendarRepositoryImpl
             }
         }
     }
+
+    fun addNewItem()
 }

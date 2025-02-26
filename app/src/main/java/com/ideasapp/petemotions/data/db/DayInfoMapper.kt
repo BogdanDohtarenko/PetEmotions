@@ -1,9 +1,9 @@
 package com.ideasapp.petemotions.data.db
 
-import com.ideasapp.petemotions.domain.entity.calendar.DayInfoItem
+import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 
 object DayInfoMapper {
-    fun dbModelToEntity(dbModel:DayItemInfoDbModel): DayInfoItem {
-        return DayInfoItem(dbModel.date, dbModel.mood)
+    fun dbModelToEntity(dbModel:DayItemInfoDbModel): DayItemInfo {
+        return DayItemInfo(date = dbModel.date, mood = dbModel.mood)
     }
 }
