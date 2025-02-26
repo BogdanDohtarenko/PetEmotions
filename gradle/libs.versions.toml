@@ -11,8 +11,8 @@ activityCompose = "1.10.0"
 composeBom = "2024.04.01"
 material = "1.7.8"
 androidxNavigation = "2.7.7"
-roomCompiler = "2.2.5"
-roomRuntimeVersion = "2.2.5"
+roomCompiler = "2.6.1"
+roomRuntimeVersion = "2.6.1"
 ui = "1.7.8"
 
 [libraries]

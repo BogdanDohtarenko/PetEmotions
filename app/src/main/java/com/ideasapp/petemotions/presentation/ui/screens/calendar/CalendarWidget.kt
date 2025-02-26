@@ -1,6 +1,5 @@
 package com.ideasapp.petemotions.presentation.ui.screens.calendar
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,21 +13,17 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.R
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
-import com.ideasapp.petemotions.domain.entity.calendar.DayInfoItem
 import com.ideasapp.petemotions.presentation.util.getDisplayName
 import java.time.YearMonth
 
@@ -161,11 +156,13 @@ fun ContentItem(
         Column(
             modifier = Modifier.align(Alignment.Center),
         ) {
+            // TODO Get  gray icon if not filled
             Text(
                 text = date.dayInfoItem.mood, //set mood here
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .padding(10.dp)
+                    .align(Alignment.CenterHorizontally)
             )
             Text(
                 text = date.dayOfMonth,
@@ -179,6 +176,7 @@ fun ContentItem(
                 modifier = Modifier
                     .padding(2.dp)
                     .clip(CircleShape)
+                    .align(Alignment.CenterHorizontally)
             )
         }
     }

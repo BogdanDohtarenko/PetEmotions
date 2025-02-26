@@ -50,9 +50,12 @@ fun MainScreen(
                         onNextMonthButtonClicked = { nextMonth ->
                             viewModel.toNextMonth(nextMonth)
                         },
-                        onDateClickListener = { selectedDate ->
-                            //TODO normal on click
-                            Log.d("Calendar", "Date choose: $selectedDate, day mood: $selectedDate")
+                        onDateClickListener = { selectedDayInfo ->
+                            viewModel.addNewItem(selectedDayInfo.dayInfoItem)
+                            Log.d(
+                                "Calendar", "Date choose: ${selectedDayInfo.dayInfoItem.date}" +
+                                    " day mood: ${selectedDayInfo.dayInfoItem.mood}"
+                            )
                         }
                     )},
                 timetableScreenContent = { Text("timetable")}
