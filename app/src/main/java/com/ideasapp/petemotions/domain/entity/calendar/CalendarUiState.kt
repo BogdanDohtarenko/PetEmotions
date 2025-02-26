@@ -1,5 +1,6 @@
 package com.ideasapp.petemotions.domain.entity.calendar
 
+import java.time.LocalDate
 import java.time.YearMonth
 
 data class CalendarUiState(
@@ -18,7 +19,7 @@ data class CalendarUiState(
         val dayInfoItem: DayItemInfo
     ) {
         companion object {
-            val Empty = Date("", false, DayItemInfo())
+            val Empty = Date("", false, DayItemInfo(LocalDate.of(2025, 2, 25).toEpochDay()))
         }
     }
 }

@@ -1,4 +1,4 @@
 package com.ideasapp.petemotions.domain.use_case.calendar
 
-class DeleteDayItemUseCase {}
+class EditDayItemUseCase {}
 //TODO delete all unnecessary use cases

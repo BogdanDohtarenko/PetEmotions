@@ -8,7 +8,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import java.time.LocalDate
 
-//TODO end here
 @Dao
 interface CalendarListDao {
 

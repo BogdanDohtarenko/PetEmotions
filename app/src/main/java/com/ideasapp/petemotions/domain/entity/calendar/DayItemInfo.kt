@@ -3,8 +3,7 @@ package com.ideasapp.petemotions.domain.entity.calendar
 import java.time.LocalDate
 
 data class DayItemInfo(
-    val id: Int = -1,
-    val date: LocalDate? = null,
+    val date: Long,
     val mood: String = EMPTY
 ){
     companion object {
@@ -12,5 +11,6 @@ data class DayItemInfo(
         const val GOOD_MOOD = "g"
         const val NORMAL_MOOD = "n"
         const val BAD_MOOD = "b"
+        //TODO Add const date
     }
 }
