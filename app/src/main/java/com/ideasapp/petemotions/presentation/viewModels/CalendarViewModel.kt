@@ -67,9 +67,9 @@ class CalendarViewModel(application: Application)
 
     fun addNewItem(selectedDayInfo: DayItemInfo) {
         viewModelScope.launch(Dispatchers.IO) {
-            //TODO AMEND doesn't work
+            //TODO AMEND
             val newSelectedDayInfo =
-                DayItemInfo(date = LocalDate.of(2025, 2, 25).toEpochDay(), mood = "T")
+                DayItemInfo(date = LocalDate.of(2025, 2, 26).toEpochDay(), mood = "T")
             Log.d("Calendar", "Adding new item: $newSelectedDayInfo")
             addDayItemUseCase(newSelectedDayInfo)
         }
