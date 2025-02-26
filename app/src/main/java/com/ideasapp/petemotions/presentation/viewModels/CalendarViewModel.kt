@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -34,34 +35,44 @@ class CalendarViewModel(application: Application)
     val uiState: StateFlow<CalendarUiState> = _uiState.asStateFlow()
 
     init {
-        //launch get month with mood in io thread
-        viewModelScope.launch(Dispatchers.IO) {
-            _uiState.update { currentState: CalendarUiState ->
-                val currentMonth = currentState.yearMonth
-                currentState.copy(dates = getCalendarWithMood(currentMonth))
-            }
+        viewModelScope.launch {
+            repository.getCalendarWithMood(_uiState.value.yearMonth)
+                .flowOn(Dispatchers.IO)
+                .collect { newDates ->
+                    _uiState.update { currentState ->
+                        currentState.copy(dates = newDates)
+                    }
+                }
         }
     }
 
-    fun toNextMonth( nextMonth:YearMonth ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _uiState.update { currentState: CalendarUiState ->
-                currentState.copy(
-                    yearMonth = nextMonth,
-                    dates = getCalendarWithMood(nextMonth)
-                )
-            }
+    fun toNextMonth( nextMonth: YearMonth ) {
+        viewModelScope.launch {
+            repository.getCalendarWithMood(nextMonth)
+                .flowOn(Dispatchers.IO)
+                .collect { newDates ->
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            yearMonth = nextMonth,
+                            dates = newDates
+                        )
+                    }
+                }
         }
     }
 
     fun toPreviousMonth(prevMonth: YearMonth) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _uiState.update { currentState: CalendarUiState ->
-                currentState.copy(
-                    yearMonth = prevMonth,
-                    dates = getCalendarWithMood(prevMonth)
-                )
-            }
+        viewModelScope.launch {
+            repository.getCalendarWithMood(prevMonth)
+                .flowOn(Dispatchers.IO)
+                .collect { newDates ->
+                    _uiState.update { currentState ->
+                        currentState.copy(
+                            yearMonth = prevMonth,
+                            dates = newDates
+                        )
+                    }
+                }
         }
     }
 
@@ -69,7 +80,7 @@ class CalendarViewModel(application: Application)
         viewModelScope.launch(Dispatchers.IO) {
             //TODO AMEND
             val newSelectedDayInfo =
-                DayItemInfo(date = LocalDate.of(2025, 2, 26).toEpochDay(), mood = "T")
+                DayItemInfo(date = LocalDate.of(2025, 2, 28).toEpochDay(), mood = "T")
             Log.d("Calendar", "Adding new item: $newSelectedDayInfo")
             addDayItemUseCase(newSelectedDayInfo)
         }

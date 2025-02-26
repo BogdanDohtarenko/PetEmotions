@@ -6,13 +6,14 @@ import androidx.room.Entity
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 @Dao
 interface CalendarListDao {
 
     @Query("SELECT * FROM DayInfo")
-    suspend fun getDayInfoList(): List<DayItemInfoDbModel>
+    fun getDayInfoList(): Flow<List<DayItemInfoDbModel>>
 
     @Query("SELECT * FROM DayInfo WHERE date = :id LIMIT 1")
     suspend fun getItemDayInfo(id: Int): DayItemInfoDbModel
