@@ -1,15 +1,10 @@
 package com.ideasapp.petemotions.presentation.viewModels
 
-import android.app.Application
 import android.util.Log
-import android.view.View
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ideasapp.petemotions.data.repositories_impl.CalendarRepositoryImpl
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
-import com.ideasapp.petemotions.domain.repositories.CalendarRepository
 import com.ideasapp.petemotions.domain.use_case.calendar.AddDayItemUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetCalendarWithMood
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +15,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import java.time.YearMonth
 import javax.inject.Inject
 
@@ -75,13 +69,10 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    fun addNewItem(selectedDayInfo: DayItemInfo) {
+    fun addOrEditDayItem(selectedDayInfo: DayItemInfo) {
         viewModelScope.launch(Dispatchers.IO) {
-            //TODO AMEND
-            val newSelectedDayInfo =
-                DayItemInfo(date = LocalDate.of(2025, 2, 28).toEpochDay(), mood = "T")
-            Log.d("Calendar", "Adding new item: $newSelectedDayInfo")
-            addDayItemUseCase(newSelectedDayInfo)
+            Log.d("Calendar", "Adding new item: $selectedDayInfo")
+            addDayItemUseCase(selectedDayInfo)
         }
     }
 }

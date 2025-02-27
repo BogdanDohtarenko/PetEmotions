@@ -11,14 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.ideasapp.petemotions.presentation.ui.reusableElements.BottomNavigationBar
 import com.ideasapp.petemotions.presentation.ui.reusableElements.NavigationHost
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.CalendarScreen
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 
 @Composable
 fun MainScreen(
@@ -50,8 +48,8 @@ fun MainScreen(
                         onNextMonthButtonClicked = { nextMonth ->
                             viewModel.toNextMonth(nextMonth)
                         },
-                        onDateClickListener = { selectedDayInfo ->
-                            viewModel.addNewItem(selectedDayInfo.dayInfoItem)
+                        onSaveDayInfoClick = {selectedDayInfo ->
+                            viewModel.addOrEditDayItem(selectedDayInfo.dayInfoItem)
                             Log.d(
                                 "Calendar", "Date choose: ${selectedDayInfo.dayInfoItem.date}" +
                                     " day mood: ${selectedDayInfo.dayInfoItem.mood}"

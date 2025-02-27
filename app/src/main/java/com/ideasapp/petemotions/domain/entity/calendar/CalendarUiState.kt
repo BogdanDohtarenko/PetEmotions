@@ -19,7 +19,7 @@ data class CalendarUiState(
         val dayInfoItem: DayItemInfo
     ) {
         companion object {
-            val Empty = Date("", false, DayItemInfo(LocalDate.of(2025, 2, 25).toEpochDay()))
+            val Empty = Date("", false, DayItemInfo(0))
         }
     }
 }
