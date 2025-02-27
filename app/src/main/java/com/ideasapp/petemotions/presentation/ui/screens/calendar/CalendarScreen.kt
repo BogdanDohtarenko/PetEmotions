@@ -9,6 +9,7 @@ import java.time.YearMonth
 
 //TODO
 //TODO store data outside to prevent long loading
+//TODO add beautiful animation
 @Composable
 fun CalendarScreen(
     uiState: CalendarUiState,
@@ -16,7 +17,7 @@ fun CalendarScreen(
     onNextMonthButtonClicked: (nextMonth: YearMonth) -> Unit,
     onDateClickListener: (CalendarUiState.Date) -> Unit
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) { //TODO delete viewModel
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
         TopButtonCalendarBar()
         //MonthDropDownMenu() //TODO Delete
         //WeekdaysRow() //TODO Delete

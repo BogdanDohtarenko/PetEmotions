@@ -8,7 +8,6 @@ import java.util.Locale
 
 
 object DateUtil {
-
     val daysOfWeek: Array<String>
         get() {
             val daysOfWeek = Array(7) { "" }

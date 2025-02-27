@@ -2,6 +2,7 @@ package com.ideasapp.petemotions.presentation.viewModels
 
 import android.app.Application
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,6 +12,7 @@ import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.repositories.CalendarRepository
 import com.ideasapp.petemotions.domain.use_case.calendar.AddDayItemUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetCalendarWithMood
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,21 +24,18 @@ import java.time.LocalDate
 import java.time.YearMonth
 import javax.inject.Inject
 
-class CalendarViewModel(application: Application)
-/*@Inject constructor(repository: CalendarRepositoryImpl)*/
-    : AndroidViewModel(application) {
-
-    // TODO: Utilize DI (Hilt)
-    private val repository = CalendarRepositoryImpl(application)
-    private val getCalendarWithMood = GetCalendarWithMood(repository)
-    private val addDayItemUseCase = AddDayItemUseCase(repository)
+@HiltViewModel
+class CalendarViewModel @Inject constructor(
+    private val getCalendarWithMood: GetCalendarWithMood,
+    private val addDayItemUseCase: AddDayItemUseCase
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(CalendarUiState.Init)
     val uiState: StateFlow<CalendarUiState> = _uiState.asStateFlow()
 
     init {
         viewModelScope.launch {
-            repository.getCalendarWithMood(_uiState.value.yearMonth)
+            getCalendarWithMood(_uiState.value.yearMonth)
                 .flowOn(Dispatchers.IO)
                 .collect { newDates ->
                     _uiState.update { currentState ->
@@ -48,7 +47,7 @@ class CalendarViewModel(application: Application)
 
     fun toNextMonth( nextMonth: YearMonth ) {
         viewModelScope.launch {
-            repository.getCalendarWithMood(nextMonth)
+            getCalendarWithMood(nextMonth)
                 .flowOn(Dispatchers.IO)
                 .collect { newDates ->
                     _uiState.update { currentState ->
@@ -63,7 +62,7 @@ class CalendarViewModel(application: Application)
 
     fun toPreviousMonth(prevMonth: YearMonth) {
         viewModelScope.launch {
-            repository.getCalendarWithMood(prevMonth)
+            getCalendarWithMood(prevMonth)
                 .flowOn(Dispatchers.IO)
                 .collect { newDates ->
                     _uiState.update { currentState ->

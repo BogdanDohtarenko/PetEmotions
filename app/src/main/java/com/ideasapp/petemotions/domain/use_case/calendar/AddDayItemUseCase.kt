@@ -4,9 +4,10 @@ import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.repositories.CalendarRepository
 import java.time.YearMonth
+import javax.inject.Inject
 
-class AddDayItemUseCase(
-    private val repository:CalendarRepository ,
+class AddDayItemUseCase  @Inject constructor(
+    private val repository:CalendarRepository,
 ) {
     suspend operator fun invoke(dayItemInfo: DayItemInfo) {
         repository.addDayItemInfo(dayItemInfo)
