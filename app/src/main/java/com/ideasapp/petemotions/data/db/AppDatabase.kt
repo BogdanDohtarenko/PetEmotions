@@ -1,13 +1,14 @@
 package com.ideasapp.petemotions.data.db
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database(entities = [DayItemInfoDbModel::class], version = 1, exportSchema = false)
-@TypeConverters(LocalDateConverter::class)
+@TypeConverters(LocalDateConverter::class) //TODO Delete
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun CalendarListDao(): CalendarListDao
@@ -15,9 +16,9 @@ abstract class AppDatabase: RoomDatabase() {
     companion object {
         private var INSTANCE: AppDatabase? = null
         private val LOCK = Any()
-        const val DATABASE_NAME = "pet_emotions.db"
+        private const val DATABASE_NAME = "pet_emotions.db"
 
-        fun getInstance(application :Application): AppDatabase {
+        fun getInstance(application: Context): AppDatabase {
             INSTANCE?.let {
                 return it
             }

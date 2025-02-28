@@ -27,7 +27,8 @@ import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.presentation.util.getDisplayName
 import java.time.YearMonth
 
-//TODO improve calendar make bigger and circle selection
+//TODO improve calendar
+// circle selection
 @Composable
 fun CalendarWidget(
     days: Array<String>,
@@ -38,7 +39,7 @@ fun CalendarWidget(
     onDateClickListener: (CalendarUiState.Date) -> Unit,
 ) {
     Column(
-        modifier =Modifier
+        modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
@@ -59,58 +60,6 @@ fun CalendarWidget(
         ) //cells
     }
 }
-
-
-@Composable
-fun Header(
-    yearMonth: YearMonth,
-    onPreviousMonthButtonClicked: (YearMonth) -> Unit,
-    onNextMonthButtonClicked: (YearMonth) -> Unit,
-) {
-    Row {
-        IconButton(onClick = {
-            onPreviousMonthButtonClicked.invoke(yearMonth.minusMonths(1))
-        }) {
-            Icon(
-                imageVector = Icons.Filled.KeyboardArrowLeft,
-                contentDescription = stringResource(id = R.string.back)
-            )
-        }
-        Text(
-            text = yearMonth.getDisplayName(),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyLarge,
-            modifier =Modifier
-                .weight(1f)
-                .align(Alignment.CenterVertically)
-        )
-        IconButton(onClick = {
-            onNextMonthButtonClicked.invoke(yearMonth.plusMonths(1))
-        }) {
-            Icon(
-                imageVector = Icons.Filled.KeyboardArrowRight,
-                contentDescription = stringResource(id = R.string.next)
-            )
-        }
-    }
-}
-
-
-//TODO make letter above number
-@Composable
-fun DayItem(day: String, modifier: Modifier = Modifier) {
-    Box(modifier = modifier) {
-        Text(
-            text = day,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.primary,
-            modifier =Modifier
-                .align(Alignment.Center)
-                .padding(10.dp)
-        )
-    }
-}
-
 
 //month field (cells)
 @Composable
@@ -138,7 +87,6 @@ fun Content(
         }
     }
 }
-
 
 //one day of month
 @Composable

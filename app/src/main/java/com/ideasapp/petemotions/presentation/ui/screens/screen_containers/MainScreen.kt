@@ -11,18 +11,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.ideasapp.petemotions.presentation.ui.reusableElements.BottomNavigationBar
 import com.ideasapp.petemotions.presentation.ui.reusableElements.NavigationHost
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.CalendarScreen
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import com.ideasapp.petemotions.presentation.navigation.NavItem
+import com.ideasapp.petemotions.presentation.ui.screens.calendar.DayInfoEdit
+import com.ideasapp.petemotions.presentation.util.toJson
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun MainScreen(
-    viewModel: CalendarViewModel
+    viewModel: CalendarViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val navController = rememberNavController()
@@ -50,14 +52,23 @@ fun MainScreen(
                         onNextMonthButtonClicked = { nextMonth ->
                             viewModel.toNextMonth(nextMonth)
                         },
-                        onDateClickListener = { selectedDayInfo ->
-                            viewModel.addNewItem(selectedDayInfo.dayInfoItem)
-                            Log.d(
-                                "Calendar", "Date choose: ${selectedDayInfo.dayInfoItem.date}" +
-                                    " day mood: ${selectedDayInfo.dayInfoItem.mood}"
-                            )
+                        onEditDayClick = { date ->
+                            //cast CalendarUiState.Date to string
+                            val dateJson = date.toJson()
+                            //Navigate to EditDay
+                            navController.navigate("${NavItem.EditDay.route}/${dateJson}")
                         }
                     )},
+                dayInfoEditContent = { date, onClose ->
+                    //invoke day edit
+                    DayInfoEdit(
+                        date = date,
+                        onSaveDayInfoClick = { newDay ->
+                            viewModel.addOrEditDayItem(newDay.dayInfoItem)
+                        },
+                        exitCallback = onClose
+                    )
+                },
                 timetableScreenContent = { Text("timetable")}
             )
         }
