@@ -37,10 +37,8 @@ fun CalendarScreen(
     uiState: CalendarUiState,
     onPreviousMonthButtonClicked: (prevMonth: YearMonth) -> Unit,
     onNextMonthButtonClicked: (nextMonth: YearMonth) -> Unit,
-    onSaveDayInfoClick: (CalendarUiState.Date) -> Unit
+    onEditDayClick: (CalendarUiState.Date) -> Unit
 ) {
-    var showDayInfoEditWindow by remember { mutableStateOf(false) }
-    var dateClicked by remember { mutableStateOf<CalendarUiState.Date>(CalendarUiState.Date.Empty) }
     Box(modifier = Modifier.fillMaxSize()) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             TopButtonCalendarBar()
@@ -51,54 +49,9 @@ fun CalendarScreen(
                 onPreviousMonthButtonClicked = onPreviousMonthButtonClicked,
                 onNextMonthButtonClicked = onNextMonthButtonClicked,
                 onDateClickListener = { dayClicked ->
-                    Log.d("Calendar", "Day clicked: $dayClicked")
-                    showDayInfoEditWindow = true
-                    dateClicked = dayClicked
+                    onEditDayClick(dayClicked)
                 }
             )
-        }
-
-        if (showDayInfoEditWindow) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .clickable(
-                        interactionSource = MutableInteractionSource(),
-                        indication = null
-                    ) {
-                        // Ничего не делаем, чтобы блокировать клики
-                    }
-            )
-        }
-
-
-        AnimatedVisibility(
-            visible = showDayInfoEditWindow,
-            enter = slideInVertically(
-                initialOffsetY = { it },
-                animationSpec = tween(durationMillis = 500)
-            ) + fadeIn(),
-            exit = slideOutVertically(
-                targetOffsetY = { it },
-                animationSpec = tween(durationMillis = 500)
-            ) + fadeOut()
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
-                    .background(
-                        color = Color.White,
-                        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
-                    )
-                    .padding(16.dp)
-            ) {
-                DayInfoEdit(
-                    onSaveDayInfoClick = onSaveDayInfoClick,
-                    exitCallback = { showDayInfoEditWindow = false },
-                    date = dateClicked
-                )
-            }
         }
     }
 }

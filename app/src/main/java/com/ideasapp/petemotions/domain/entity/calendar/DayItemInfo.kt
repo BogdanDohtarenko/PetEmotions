@@ -1,11 +1,15 @@
 package com.ideasapp.petemotions.domain.entity.calendar
 
+import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 import java.time.LocalDate
 
 data class DayItemInfo(
-    val date: Long,
+    @SerializedName("date")
+    val date: Long = 1,
+    @SerializedName("mood")
     val mood: String = EMPTY
-){
+): Serializable {
     companion object {
         const val EMPTY = ""
         const val GOOD_MOOD = "g"

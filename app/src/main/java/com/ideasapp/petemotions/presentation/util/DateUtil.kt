@@ -1,5 +1,6 @@
 package com.ideasapp.petemotions.presentation.util
 
+import android.util.Log
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -8,6 +9,7 @@ import java.time.format.TextStyle
 import java.util.Locale
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.ideasapp.petemotions.presentation.activity.MainActivity
 
 object DateUtil {
     val daysOfWeek: Array<String>
@@ -43,7 +45,11 @@ fun CalendarUiState.Date.toJson(): String {
     return Gson().toJson(this)
 }
 
-fun String.toCalendarUiStateDate(): CalendarUiState.Date {
-    val type = object : TypeToken<CalendarUiState.Date>() {}.type
-    return Gson().fromJson(this, type)
+fun String.toCalendarUiStateDate(): CalendarUiState.Date? {
+    return try {
+        Gson().fromJson(this, CalendarUiState.Date::class.java)
+    } catch (e: Exception) {
+        Log.d(MainActivity.CALENDAR_LOG_TAG,"Failed to deserialize JSON: ${e.message}")
+        null
+    }
 }
