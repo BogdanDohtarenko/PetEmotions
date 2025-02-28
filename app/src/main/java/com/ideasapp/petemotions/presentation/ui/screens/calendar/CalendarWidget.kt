@@ -27,7 +27,8 @@ import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.presentation.util.getDisplayName
 import java.time.YearMonth
 
-//TODO improve calendar make bigger and circle selection
+//TODO improve calendar
+// circle selection
 @Composable
 fun CalendarWidget(
     days: Array<String>,

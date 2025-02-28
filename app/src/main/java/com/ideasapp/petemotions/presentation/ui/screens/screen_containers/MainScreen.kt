@@ -17,10 +17,12 @@ import com.ideasapp.petemotions.presentation.ui.reusableElements.NavigationHost
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.CalendarScreen
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import androidx.compose.runtime.getValue
+import com.ideasapp.petemotions.presentation.ui.screens.calendar.DayInfoEdit
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun MainScreen(
-    viewModel: CalendarViewModel
+    viewModel: CalendarViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val navController = rememberNavController()
@@ -56,6 +58,15 @@ fun MainScreen(
                             )
                         }
                     )},
+                dayInfoEditContent = { date, onClose ->
+                    DayInfoEdit(
+                        date = date,
+                        onSaveDayInfoClick = {
+                            viewModel.addOrEditDayItem(date)
+                        },
+                        exitCallback = onClose
+                    )
+                },
                 timetableScreenContent = { Text("timetable")}
             )
         }

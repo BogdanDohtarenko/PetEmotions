@@ -1,5 +1,6 @@
 package com.ideasapp.petemotions.presentation.ui.screens.calendar
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -30,8 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 //TODO
-//TODO store data outside to prevent long loading
-//TODO add beautiful animation
+@SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun CalendarScreen(
     uiState: CalendarUiState,
@@ -57,6 +57,20 @@ fun CalendarScreen(
                 }
             )
         }
+
+        if (showDayInfoEditWindow) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clickable(
+                        interactionSource = MutableInteractionSource(),
+                        indication = null
+                    ) {
+                        // Ничего не делаем, чтобы блокировать клики
+                    }
+            )
+        }
+
 
         AnimatedVisibility(
             visible = showDayInfoEditWindow,

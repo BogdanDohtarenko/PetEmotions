@@ -1,11 +1,13 @@
 package com.ideasapp.petemotions.presentation.util
 
+import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
-
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 object DateUtil {
     val daysOfWeek: Array<String>
@@ -34,4 +36,14 @@ fun YearMonth.getDayOfMonthStartingFromMonday(): List<LocalDate> {
 
 fun YearMonth.getDisplayName(): String {
     return "${month.getDisplayName(TextStyle.FULL, Locale.getDefault())} $year"
+}
+
+
+fun CalendarUiState.Date.toJson(): String {
+    return Gson().toJson(this)
+}
+
+fun String.toCalendarUiStateDate(): CalendarUiState.Date {
+    val type = object : TypeToken<CalendarUiState.Date>() {}.type
+    return Gson().fromJson(this, type)
 }
