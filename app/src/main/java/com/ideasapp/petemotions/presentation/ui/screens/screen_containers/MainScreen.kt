@@ -62,7 +62,7 @@ fun MainScreen(
                 dayInfoEditContent = { date, onClose ->
                     //invoke day edit
                     DayInfoEdit(
-                        date = date,
+                        dateItem = date,
                         onSaveDayInfoClick = { newDay ->
                             viewModel.addOrEditDayItem(newDay.dayInfoItem)
                         },
