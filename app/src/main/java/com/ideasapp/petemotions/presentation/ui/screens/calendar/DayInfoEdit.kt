@@ -51,8 +51,12 @@ fun DayInfoEdit(
                 .align(Alignment.TopCenter)
                 .verticalScroll(scrollState),
         ) {
-            HeaderForDay(dateLocalDate, textColor, exitCallback)
+            HeaderForDay(dateLocalDate, textColor, exitCallback) //TODO center
             MoodChooseBox(textColor)
+            //TODO
+            // FOOD
+            // EVENTS
+            // HEALTH
             Spacer(modifier = Modifier.height(8.dp))
         }
     }

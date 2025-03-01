@@ -42,7 +42,7 @@ fun MainScreen(
             //Set nav graph
             NavigationHost(
                 navController = navController,
-                statisticsScreenContent = { Text("statistics")},
+                statisticsScreenContent = { Text("statistics")}, //TODO PERSONAL TIPS
                 calendarScreenContent = {
                     CalendarScreen(
                         uiState = uiState,
