@@ -53,8 +53,11 @@ android {
 
 dependencies {
 
-    //compose
+    //compose nav
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.google.accompanist.navigation.animation)
+
+    //compose
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

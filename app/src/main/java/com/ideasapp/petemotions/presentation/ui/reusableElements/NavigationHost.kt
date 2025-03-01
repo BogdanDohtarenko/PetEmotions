@@ -39,7 +39,8 @@ fun NavigationHost(
             arguments = listOf(navArgument(NavItem.DATE_PARAM) { type = NavType.StringType }) // StringType
         ) { stackEntry ->
             //Get args
-            Log.d(MainActivity.CALENDAR_LOG_TAG, " date got in json: ${stackEntry.arguments?.getString(NavItem.DATE_PARAM)}")
+            Log.d(MainActivity.CALENDAR_LOG_TAG,
+                " date got in json: ${stackEntry.arguments?.getString(NavItem.DATE_PARAM)}")
             val dateJson = stackEntry.arguments?.getString(NavItem.DATE_PARAM)
             //cast to CalendarUiState.Date
             val date = dateJson?.toCalendarUiStateDate()

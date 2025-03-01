@@ -1,5 +1,6 @@
 [versions]
-agp = "8.5.0"
+accompanistNavigationAnimationVersion = "0.32.0"
+agp = "8.5.2"
 gson = "2.10.1"
 hiltAndroid = "2.51.1"
 kotlin = "1.9.0"
@@ -8,10 +9,10 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.10.0"
-composeBom = "2024.04.01"
+activityCompose = "1.10.1"
+composeBom = "2025.02.00"
 material = "1.7.8"
-androidxNavigation = "2.7.7"
+androidxNavigation = "2.8.8"
 roomCompiler = "2.6.1"
 roomRuntimeVersion = "2.6.1"
 ui = "1.7.8"
@@ -22,6 +23,7 @@ androidx-material = { module = "androidx.compose.material:material", version.ref
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomCompiler" }
+google-accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimationVersion" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
