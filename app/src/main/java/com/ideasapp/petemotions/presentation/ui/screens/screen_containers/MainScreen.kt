@@ -66,7 +66,10 @@ fun MainScreen(
                         onSaveDayInfoClick = { newDay ->
                             viewModel.addOrEditDayItem(newDay.dayInfoItem)
                         },
-                        exitCallback = onClose
+                        exitCallback = onClose,
+                        optionalAttributesFood = viewModel.getDayAttributesFood(),
+                        optionalAttributesEvents = viewModel.getDayAttributesEvents(),
+                        optionalAttributesHealth = viewModel.getDayAttributesHealth(),
                     )
                 },
                 timetableScreenContent = { Text("timetable")}

@@ -1,9 +1,12 @@
 package com.ideasapp.petemotions.presentation.viewModels
 
 import android.util.Log
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
+import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.use_case.calendar.AddDayItemUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetCalendarWithMood
@@ -67,6 +70,36 @@ class CalendarViewModel @Inject constructor(
                     }
                 }
         }
+    }
+
+
+    //TODO retrieve data from db
+    fun getDayAttributesFood(): List<DayAttribute> {
+        return listOf(
+            DayAttribute(Icons.AutoMirrored.Default.Send, "food 1"),
+            DayAttribute(Icons.AutoMirrored.Default.Send, "food 2"),
+            DayAttribute(Icons.AutoMirrored.Default.Send, "food 3"),
+            DayAttribute(Icons.AutoMirrored.Default.Send, "food 4"),
+            DayAttribute(Icons.AutoMirrored.Default.Send, "food 5"),
+        )
+    }
+    fun getDayAttributesHealth(): List<DayAttribute> {
+        return listOf(
+            DayAttribute(Icons.AutoMirrored.Default.Send, "health 1"),
+            DayAttribute(Icons.AutoMirrored.Default.Send, "health 2"),
+            DayAttribute(Icons.AutoMirrored.Default.Send, "health 3"),
+            DayAttribute(Icons.AutoMirrored.Default.Send, "health 4"),
+            DayAttribute(Icons.AutoMirrored.Default.Send, "health 5"),
+        )
+    }
+    fun getDayAttributesEvents(): List<DayAttribute> {
+        return listOf(
+            DayAttribute(Icons.AutoMirrored.Default.Send, "events 1"),
+            DayAttribute(Icons.AutoMirrored.Default.Send, "events 2"),
+            DayAttribute(Icons.AutoMirrored.Default.Send, "events 3"),
+            DayAttribute(Icons.AutoMirrored.Default.Send, "events 4"),
+            DayAttribute(Icons.AutoMirrored.Default.Send, "events 5"),
+        )
     }
 
     fun addOrEditDayItem(selectedDayInfo: DayItemInfo) {
