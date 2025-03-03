@@ -41,7 +41,7 @@ fun CalendarScreen(
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            TopButtonCalendarBar()
+            TopButtonCalendarBar() //TODO FILTER
             CalendarWidget(
                 days = DateUtil.daysOfWeek,
                 yearMonth = uiState.yearMonth,

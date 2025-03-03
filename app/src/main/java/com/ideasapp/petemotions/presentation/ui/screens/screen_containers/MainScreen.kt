@@ -42,7 +42,7 @@ fun MainScreen(
             //Set nav graph
             NavigationHost(
                 navController = navController,
-                statisticsScreenContent = { Text("statistics")},
+                statisticsScreenContent = { Text("statistics")}, //TODO PERSONAL TIPS
                 calendarScreenContent = {
                     CalendarScreen(
                         uiState = uiState,
@@ -62,11 +62,14 @@ fun MainScreen(
                 dayInfoEditContent = { date, onClose ->
                     //invoke day edit
                     DayInfoEdit(
-                        date = date,
+                        dateItem = date,
                         onSaveDayInfoClick = { newDay ->
                             viewModel.addOrEditDayItem(newDay.dayInfoItem)
                         },
-                        exitCallback = onClose
+                        exitCallback = onClose,
+                        optionalAttributesFood = viewModel.getDayAttributesFood(),
+                        optionalAttributesEvents = viewModel.getDayAttributesEvents(),
+                        optionalAttributesHealth = viewModel.getDayAttributesHealth(),
                     )
                 },
                 timetableScreenContent = { Text("timetable")}
