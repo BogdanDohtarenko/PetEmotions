@@ -1,13 +1,19 @@
 package com.ideasapp.petemotions.presentation.viewModels
 
-import com.ideasapp.petemotions.presentation.ui.screens.timetable.ListItem
+import androidx.lifecycle.ViewModel
+import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class TimetableViewModel {
+@HiltViewModel
+class TimetableViewModel @Inject constructor(): ViewModel() {
     //TODO
-    val sampleItems = listOf(
-        ListItem(description = "1", time = "12:00"),
-        ListItem(description = "2", time = "12:30"),
-        ListItem(description = "3", time = "13:00"),
-        ListItem(description = "4", time = "13:30")
-    )
+    fun getTimetableList(): List<TimetableItem> {
+        val list = mutableListOf<TimetableItem>()
+        for(i in 1..100) {
+            list.add(TimetableItem(description = "$i"))
+        }
+        return list
+    }
+
 }
