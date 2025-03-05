@@ -57,6 +57,10 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.google.accompanist.navigation.animation)
 
+    //compose paging
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
+
     //compose
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
