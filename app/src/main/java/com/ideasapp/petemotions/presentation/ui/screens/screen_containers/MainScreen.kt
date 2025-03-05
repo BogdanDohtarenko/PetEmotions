@@ -18,7 +18,7 @@ import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import androidx.compose.runtime.getValue
 import com.ideasapp.petemotions.presentation.navigation.NavItem
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.DayInfoEdit
-import com.ideasapp.petemotions.presentation.ui.screens.timetable.FullTimetableList
+import com.ideasapp.petemotions.presentation.ui.screens.timetable.FullTimetableScreen
 import com.ideasapp.petemotions.presentation.util.toJson
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 
@@ -72,7 +72,8 @@ fun MainScreen(
                         optionalAttributesHealth = calendarViewModel.getDayAttributesHealth(),
                     )
                 },
-                timetableScreenContent = { FullTimetableList(timetableViewModel.getTimetableList()) }
+                //TODO remove viewmodel
+                timetableScreenContent = { FullTimetableScreen(timetableViewModel) }
             )
         }
     }

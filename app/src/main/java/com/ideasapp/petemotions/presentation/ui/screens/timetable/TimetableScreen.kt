@@ -2,39 +2,60 @@ package com.ideasapp.petemotions.presentation.ui.screens.timetable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-
+import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 
 @Composable
-fun FullTimetableList(items: List<TimetableItem>) {
-    //var items by remember { mutableStateOf<List<TimetableItem>>(emptyList()) }
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
+fun FullTimetableScreen(viewModel: TimetableViewModel) {
+    val timetableFlow = viewModel.getTimetableFlow().collectAsLazyPagingItems()
+
+    Box(modifier = Modifier.padding(16.dp)) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(items, key = { it.id }) { item -> // Use unique keys
-                ListItem(item)
+            items(timetableFlow) { item ->
+                if (item != null) {
+                    ListItem(item)
+                }
+            }
+
+            // Состояние загрузки и ошибки
+            timetableFlow.apply {
+                when {
+                    loadState.append is androidx.paging.LoadState.Loading -> {
+                        item {
+                            Text(
+                                text = "Loading more items...",
+                                color = Color.Gray,
+                                fontSize = 14.sp,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    }
+                    loadState.refresh is androidx.paging.LoadState.Error -> {
+                        item {
+                            Text(
+                                text = "Error loading data.",
+                                color = Color.Red,
+                                fontSize = 14.sp,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                    }
+                }
             }
         }
     }
@@ -45,13 +66,13 @@ fun ListItem(item: TimetableItem) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = Color.LightGray, shape = RoundedCornerShape(8.dp))
+            .background(color = Color.LightGray, shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
             .padding(8.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
         ) {
             Text(
                 text = item.description,
