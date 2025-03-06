@@ -3,7 +3,11 @@ package com.ideasapp.petemotions.presentation.ui.screens.timetable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,55 +15,53 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
+
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 
 @Composable
-fun FullTimetableScreen(viewModel: TimetableViewModel) {
+fun FullTimetableScreen(viewModel: TimetableViewModel)  {
     val timetableFlow = viewModel.getTimetableFlow().collectAsLazyPagingItems()
-
-    Box(modifier = Modifier.padding(16.dp)) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(timetableFlow) { item ->
-                if (item != null) {
-                    ListItem(item)
-                }
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    //TODO
+                },
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Icon(Icons.Default.Add, contentDescription = "Add")
             }
-
-            // Состояние загрузки и ошибки
-            timetableFlow.apply {
-                when {
-                    loadState.append is androidx.paging.LoadState.Loading -> {
-                        item {
-                            Text(
-                                text = "Loading more items...",
-                                color = Color.Gray,
-                                fontSize = 14.sp,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
+        }
+    ) { innerPadding ->
+        Box(modifier = Modifier.padding(innerPadding)) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(
+                    count = timetableFlow.itemCount,
+                    key = { index ->
+                        val item = timetableFlow[index]
+                        item?.id ?: index
+                    },
+                    contentType = { _ ->
+                        TimetableItem::class //set type to prevent freeze
                     }
-                    loadState.refresh is androidx.paging.LoadState.Error -> {
-                        item {
-                            Text(
-                                text = "Error loading data.",
-                                color = Color.Red,
-                                fontSize = 14.sp,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
+                ) { index ->
+                    val item = timetableFlow[index]
+                    if (item != null) {
+                        ListItem(item = item)
                     }
                 }
             }
         }
     }
 }
+
 
 @Composable
 fun ListItem(item: TimetableItem) {

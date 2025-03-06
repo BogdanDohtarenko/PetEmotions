@@ -21,6 +21,7 @@ class TimetableRepositoryImpl @Inject constructor(
             val pageSize = params.loadSize
             val items = mutableListOf<TimetableItem>()
 
+            //TODO AMEND
             for (i in page * pageSize until (page + 1) * pageSize) {
                 items.add(TimetableItem(id = i, description = "Item $i", dateTime = "2025-03-05"))
             }

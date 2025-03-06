@@ -1,6 +1,7 @@
 package com.ideasapp.petemotions.di
 
 import com.ideasapp.petemotions.data.repositories_impl.CalendarRepositoryImpl
+import com.ideasapp.petemotions.data.repositories_impl.TimetableRepositoryImpl
 import com.ideasapp.petemotions.domain.repositories.CalendarRepository
 import com.ideasapp.petemotions.domain.repositories.TimetableRepository
 import dagger.Binds
@@ -14,5 +15,5 @@ interface DomainModule {
     @Binds
     fun bindCalendarRepository(impl: CalendarRepositoryImpl): CalendarRepository
     @Binds
-    fun bindTimetableRepository(impl: TimetableRepository): TimetableRepository
+    fun bindTimetableRepository(impl: TimetableRepositoryImpl): TimetableRepository
 }
