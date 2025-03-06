@@ -1,6 +1,5 @@
 package com.ideasapp.petemotions.presentation.ui.screens.screen_containers
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -19,14 +18,16 @@ import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import androidx.compose.runtime.getValue
 import com.ideasapp.petemotions.presentation.navigation.NavItem
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.DayInfoEdit
+import com.ideasapp.petemotions.presentation.ui.screens.timetable.FullTimetableScreen
 import com.ideasapp.petemotions.presentation.util.toJson
-import kotlinx.coroutines.CoroutineScope
+import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 
 @Composable
 fun MainScreen(
-    viewModel: CalendarViewModel,
+    calendarViewModel: CalendarViewModel,
+    timetableViewModel: TimetableViewModel,
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by calendarViewModel.uiState.collectAsState()
     val navController = rememberNavController()
     Scaffold(
         //set bottom nav bar
@@ -47,10 +48,10 @@ fun MainScreen(
                     CalendarScreen(
                         uiState = uiState,
                         onPreviousMonthButtonClicked = { prevMonth ->
-                            viewModel.toPreviousMonth(prevMonth)
+                            calendarViewModel.toPreviousMonth(prevMonth)
                         },
                         onNextMonthButtonClicked = { nextMonth ->
-                            viewModel.toNextMonth(nextMonth)
+                            calendarViewModel.toNextMonth(nextMonth)
                         },
                         onEditDayClick = { date ->
                             //cast CalendarUiState.Date to string
@@ -60,19 +61,19 @@ fun MainScreen(
                         }
                     )},
                 dayInfoEditContent = { date, onClose ->
-                    //invoke day edit
                     DayInfoEdit(
                         dateItem = date,
                         onSaveDayInfoClick = { newDay ->
-                            viewModel.addOrEditDayItem(newDay.dayInfoItem)
+                            calendarViewModel.addOrEditDayItem(newDay.dayInfoItem)
                         },
                         exitCallback = onClose,
-                        optionalAttributesFood = viewModel.getDayAttributesFood(),
-                        optionalAttributesEvents = viewModel.getDayAttributesEvents(),
-                        optionalAttributesHealth = viewModel.getDayAttributesHealth(),
+                        optionalAttributesFood = calendarViewModel.getDayAttributesFood(),
+                        optionalAttributesEvents = calendarViewModel.getDayAttributesEvents(),
+                        optionalAttributesHealth = calendarViewModel.getDayAttributesHealth(),
                     )
                 },
-                timetableScreenContent = { Text("timetable")}
+                //TODO remove viewmodel
+                timetableScreenContent = { FullTimetableScreen(timetableViewModel) }
             )
         }
     }
