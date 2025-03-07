@@ -16,6 +16,8 @@ import com.ideasapp.petemotions.presentation.ui.reusableElements.NavigationHost
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.CalendarScreen
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.ideasapp.petemotions.presentation.navigation.NavItem
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.DayInfoEdit
 import com.ideasapp.petemotions.presentation.ui.screens.timetable.FullTimetableScreen
@@ -27,6 +29,7 @@ fun MainScreen(
     calendarViewModel: CalendarViewModel,
     timetableViewModel: TimetableViewModel,
 ) {
+    val timetableFlow = timetableViewModel.getTimetableFlow().collectAsLazyPagingItems()
     val uiState by calendarViewModel.uiState.collectAsState()
     val navController = rememberNavController()
     Scaffold(
@@ -73,7 +76,7 @@ fun MainScreen(
                     )
                 },
                 //TODO remove viewmodel
-                timetableScreenContent = { FullTimetableScreen(timetableViewModel) }
+                timetableScreenContent = { FullTimetableScreen(timetableFlow) }
             )
         }
     }
