@@ -29,5 +29,13 @@ class TimetableViewModel @Inject constructor(
         ).flow.cachedIn(viewModelScope)
     }
 
+    fun addItem(newItem : TimetableItem) {
+        //TODO
+    }
+
+    fun deleteItem(newItem : TimetableItem) {
+        //TODO
+    }
+
 }
 

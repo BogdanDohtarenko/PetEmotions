@@ -26,13 +26,17 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.paging.compose.LazyPagingItems
+import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 
 
 //TODO  add db
 @Composable
-fun FullTimetableScreen(timetableFlow: LazyPagingItems<TimetableItem>) {
+fun FullTimetableScreen(
+    timetableFlow: LazyPagingItems<TimetableItem>,
+    onAddTimetableItem : (TimetableItem) -> Unit,
+) {
 
     var showDialog by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf<TimetableItem?>(null) }

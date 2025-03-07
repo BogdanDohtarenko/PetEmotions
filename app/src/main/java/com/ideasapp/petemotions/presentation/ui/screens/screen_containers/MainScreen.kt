@@ -75,8 +75,7 @@ fun MainScreen(
                         optionalAttributesHealth = calendarViewModel.getDayAttributesHealth(),
                     )
                 },
-                //TODO remove viewmodel
-                timetableScreenContent = { FullTimetableScreen(timetableFlow) }
+                timetableScreenContent = { FullTimetableScreen(timetableFlow, ) }
             )
         }
     }
