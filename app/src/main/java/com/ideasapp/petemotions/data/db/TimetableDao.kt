@@ -12,10 +12,13 @@ interface TimetableDao {
     @Query("SELECT * FROM Timetable")
     fun getTimetableList(): Flow<List<DayItemInfoDbModel>>
 
-    @Query("SELECT * FROM Timetable WHERE date = :id LIMIT 1")
+    @Query("SELECT * FROM Timetable WHERE id = :id LIMIT 1")
     suspend fun getTimetableItem(id: Int): DayItemInfoDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addTimetableItem(ideaItemDbModel : DayItemInfoDbModel)
+
+    @Query("DELETE FROM Timetable WHERE id = :id")
+    suspend fun deleteTimetableItem(id: Int): Int
 
 }

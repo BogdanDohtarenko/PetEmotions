@@ -3,12 +3,14 @@ package com.ideasapp.petemotions.data.repositories_impl
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.ideasapp.petemotions.data.db.CalendarListDao
+import com.ideasapp.petemotions.data.db.TimetableDao
+import com.ideasapp.petemotions.data.db.TimetableItemDbModel
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
 import com.ideasapp.petemotions.domain.repositories.TimetableRepository
 import javax.inject.Inject
 
 class TimetableRepositoryImpl @Inject constructor(
-    private val calendarListDao : CalendarListDao
+    private val timetableDao : TimetableDao
 ): TimetableRepository {
 
     override fun getTimetableList() : PagingSource<Int, TimetableItem> {
@@ -27,11 +29,12 @@ class TimetableRepositoryImpl @Inject constructor(
         override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TimetableItem> {
             val page = params.key ?: 0
             val pageSize = params.loadSize
-            val items = mutableListOf<TimetableItem>()
+            val items = mutableListOf<TimetableItemDbModel>()
+            val dbModelItems =
 
             //TODO AMEND
             for (i in page * pageSize until 10) {
-                items.add(TimetableItem(id = i, description = "Item $i", dateTime = "2025-03-05"))
+                items.add(TimetableItemDbModel(id = i, description = "Item $i", dateTime = "2025-03-05"))
             }
 
             return LoadResult.Page(
@@ -41,7 +44,7 @@ class TimetableRepositoryImpl @Inject constructor(
             )
         }
 
-        override fun getRefreshKey(state: PagingState<Int, TimetableItem>): Int? {
+        override fun getRefreshKey(state: PagingState<Int, TimetableItemDbModel>): Int? {
             return state.anchorPosition?.let { position ->
                 state.closestPageToPosition(position)?.prevKey?.plus(1)
                     ?: state.closestPageToPosition(position)?.nextKey?.minus(1)
