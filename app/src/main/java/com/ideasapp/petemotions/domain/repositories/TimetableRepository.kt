@@ -6,6 +6,6 @@ import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
 
 interface TimetableRepository {
     fun getTimetableList(): PagingSource<Int, TimetableItem>
-    fun addTimetableItem(newItem: TimetableItem)
-    fun deleteTimetableItem(oldItem: TimetableItem)
+    suspend fun addTimetableItem(newItem: TimetableItem)
+    suspend fun deleteTimetableItem(oldItem: TimetableItem)
 }

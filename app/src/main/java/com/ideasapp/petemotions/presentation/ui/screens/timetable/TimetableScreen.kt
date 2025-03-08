@@ -98,11 +98,8 @@ fun FullTimetableScreen(
             item = selectedItem,
             onDismiss = { closeDialog() },
             onSave = { newItem ->
-                if (selectedItem == null) {
-                    Log.d("Timetable", "New item added $newItem ") //TODO
-                } else {
-                    Log.d("Timetable", "New item edited $newItem")
-                }
+                Log.d("Timetable", "New item added ${newItem.toString()} ")
+                onAddTimetableItem(newItem)
                 closeDialog()
             }
         )

@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.Flow
 interface TimetableDao {
 
     @Query("SELECT * FROM Timetable")
-    fun getTimetableList(): Flow<List<DayItemInfoDbModel>>
+    fun getTimetableList(): List<TimetableItemDbModel>
 
     @Query("SELECT * FROM Timetable WHERE id = :id LIMIT 1")
-    suspend fun getTimetableItem(id: Int): DayItemInfoDbModel
+    suspend fun getTimetableItem(id: Int): TimetableItemDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addTimetableItem(ideaItemDbModel : DayItemInfoDbModel)
+    suspend fun addTimetableItem(ideaItemDbModel: TimetableItemDbModel)
 
     @Query("DELETE FROM Timetable WHERE id = :id")
     suspend fun deleteTimetableItem(id: Int): Int

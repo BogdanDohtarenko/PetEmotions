@@ -11,7 +11,9 @@ import com.ideasapp.petemotions.domain.use_case.timetable.AddTimetableItemUseCas
 import com.ideasapp.petemotions.domain.use_case.timetable.DeleteTimetableItemUseCase
 import com.ideasapp.petemotions.domain.use_case.timetable.GetTimetableListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,11 +35,15 @@ class TimetableViewModel @Inject constructor(
     }
 
     fun addItem(newItem : TimetableItem) {
-        addTimetableItemUseCase(newItem)
+        viewModelScope.launch(Dispatchers.IO) {
+            addTimetableItemUseCase(newItem)
+        }
     }
 
     fun deleteItem(oldItem : TimetableItem) {
-        deleteTimetableItemUseCase(oldItem)
+        viewModelScope.launch(Dispatchers.IO) {
+            deleteTimetableItemUseCase(oldItem)
+        }
     }
 
 }

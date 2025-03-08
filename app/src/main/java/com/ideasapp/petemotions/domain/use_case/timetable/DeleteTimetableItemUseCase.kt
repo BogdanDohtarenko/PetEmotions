@@ -7,7 +7,7 @@ import javax.inject.Inject
 class DeleteTimetableItemUseCase @Inject constructor(
     private val repository: TimetableRepository,
 ) {
-    operator fun invoke(oldItem: TimetableItem){
+    suspend operator fun invoke(oldItem: TimetableItem){
         return repository.deleteTimetableItem(oldItem)
     }
 }

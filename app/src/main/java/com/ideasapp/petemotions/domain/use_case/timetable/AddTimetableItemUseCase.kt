@@ -9,7 +9,7 @@ import javax.inject.Inject
 class AddTimetableItemUseCase @Inject constructor(
     private val repository: TimetableRepository,
 ) {
-    operator fun invoke(newItem : TimetableItem) {
+    suspend operator fun invoke(newItem : TimetableItem) {
         return repository.addTimetableItem(newItem)
     }
 }

@@ -51,7 +51,6 @@ fun EditTimetableDialog(
             Button(
                 onClick = {
                     val newItem = TimetableItem(
-                        id = item?.id ?: -1,
                         description = description,
                         dateTime = dateTime
                     )

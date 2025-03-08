@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "Timetable")
 data class TimetableItemDbModel (
-    @PrimaryKey(autoGenerate = false) val id: Int = -1,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "dateTime") val dateTime: String = "12:00, 9 april" //TODO DateTime Format
 ) {}

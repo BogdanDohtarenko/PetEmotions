@@ -12,7 +12,7 @@ import androidx.room.TypeConverters
     TimetableItemDbModel::class],
     version = 1,
     exportSchema = false)
-@TypeConverters(LocalDateConverter::class) //TODO Delete
+@TypeConverters(LocalDateConverter::class)
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun CalendarListDao(): CalendarListDao
