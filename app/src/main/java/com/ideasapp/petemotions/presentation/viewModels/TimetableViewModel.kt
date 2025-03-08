@@ -7,7 +7,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
-import com.ideasapp.petemotions.domain.use_case.calendar.GetCalendarWithMood
+import com.ideasapp.petemotions.domain.use_case.timetable.AddTimetableItemUseCase
+import com.ideasapp.petemotions.domain.use_case.timetable.DeleteTimetableItemUseCase
 import com.ideasapp.petemotions.domain.use_case.timetable.GetTimetableListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TimetableViewModel @Inject constructor(
     private val getTimetableListUseCase : GetTimetableListUseCase,
+    private val addTimetableItemUseCase : AddTimetableItemUseCase,
+    private val deleteTimetableItemUseCase : DeleteTimetableItemUseCase,
 ): ViewModel() {
     //TODO
     //The Paging Library makes it easier for you to load data gradually and gracefully within your app's
@@ -30,11 +33,11 @@ class TimetableViewModel @Inject constructor(
     }
 
     fun addItem(newItem : TimetableItem) {
-        //TODO
+        addTimetableItemUseCase(newItem)
     }
 
-    fun deleteItem(newItem : TimetableItem) {
-        //TODO
+    fun deleteItem(oldItem : TimetableItem) {
+        deleteTimetableItemUseCase(oldItem)
     }
 
 }

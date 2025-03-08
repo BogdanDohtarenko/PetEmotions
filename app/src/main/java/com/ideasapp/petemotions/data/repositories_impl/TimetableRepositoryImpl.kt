@@ -15,6 +15,14 @@ class TimetableRepositoryImpl @Inject constructor(
         return TimetablePagingSource()
     }
 
+    override fun addTimetableItem(newItem : TimetableItem) {
+        TODO("Not yet implemented")
+    }
+
+    override fun deleteTimetableItem(oldItem : TimetableItem) {
+        TODO("Not yet implemented")
+    }
+
     private class TimetablePagingSource : PagingSource<Int, TimetableItem>() {
         override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TimetableItem> {
             val page = params.key ?: 0
@@ -22,7 +30,7 @@ class TimetableRepositoryImpl @Inject constructor(
             val items = mutableListOf<TimetableItem>()
 
             //TODO AMEND
-            for (i in page * pageSize until (page + 1) * pageSize) {
+            for (i in page * pageSize until 10) {
                 items.add(TimetableItem(id = i, description = "Item $i", dateTime = "2025-03-05"))
             }
 

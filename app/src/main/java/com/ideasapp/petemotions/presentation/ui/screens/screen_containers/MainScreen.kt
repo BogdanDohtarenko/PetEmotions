@@ -75,7 +75,12 @@ fun MainScreen(
                         optionalAttributesHealth = calendarViewModel.getDayAttributesHealth(),
                     )
                 },
-                timetableScreenContent = { FullTimetableScreen(timetableFlow, ) }
+                timetableScreenContent = {
+                    FullTimetableScreen(
+                        timetableFlow = timetableFlow,
+                        onAddTimetableItem = { item -> timetableViewModel.addItem(item)}
+                    )
+                }
             )
         }
     }

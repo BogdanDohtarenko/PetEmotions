@@ -16,7 +16,7 @@ interface CalendarListDao {
     fun getDayInfoList(): Flow<List<DayItemInfoDbModel>>
 
     @Query("SELECT * FROM DayInfo WHERE date = :id LIMIT 1")
-    suspend fun getItemDayInfo(id: Int): DayItemInfoDbModel
+    suspend fun getItemDayInfo(id: Long): DayItemInfoDbModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addItemDayInfo(ideaItemDbModel : DayItemInfoDbModel)
