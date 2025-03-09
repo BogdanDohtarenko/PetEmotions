@@ -7,11 +7,16 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [DayItemInfoDbModel::class], version = 1, exportSchema = false)
-@TypeConverters(LocalDateConverter::class) //TODO Delete
+@Database(entities = [
+    DayItemInfoDbModel::class,
+    TimetableItemDbModel::class],
+    version = 1,
+    exportSchema = false)
+@TypeConverters(LocalDateConverter::class)
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun CalendarListDao(): CalendarListDao
+    abstract fun TimetableDao(): TimetableDao
 
     companion object {
         private var INSTANCE: AppDatabase? = null
