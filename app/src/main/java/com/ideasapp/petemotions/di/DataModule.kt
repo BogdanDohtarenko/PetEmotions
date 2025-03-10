@@ -1,10 +1,9 @@
 package com.ideasapp.petemotions.di
 
-import android.app.Application
 import android.content.Context
 import com.ideasapp.petemotions.data.db.AppDatabase
-import com.ideasapp.petemotions.data.db.CalendarListDao
-import com.ideasapp.petemotions.data.db.TimetableDao
+import com.ideasapp.petemotions.data.db.dao.CalendarListDao
+import com.ideasapp.petemotions.data.db.dao.TimetableDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

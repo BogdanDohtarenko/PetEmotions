@@ -50,10 +50,19 @@ fun EditTimetableDialog(
         confirmButton = {
             Button(
                 onClick = {
-                    val newItem = TimetableItem(
-                        description = description,
-                        dateTime = dateTime
-                    )
+                    val newItem = if(item != null) {
+                        TimetableItem(
+                            description = description,
+                            dateTime = dateTime,
+                            id = item.id
+                        )
+                    } else {
+                        TimetableItem(
+                            description = description,
+                            dateTime = dateTime,
+                        )
+                    }
+
                     onSave(newItem)
                 }
             ) {
