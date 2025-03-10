@@ -68,7 +68,7 @@ fun FullTimetableScreen(
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(
+                items( //TODO amend function items (use List<TimetableItem>)
                     count = timetableFlow.itemCount,
                     key = { index ->
                         val item = timetableFlow[index]
