@@ -1,18 +1,13 @@
 package com.ideasapp.petemotions.data.repositories_impl
 
-import android.app.Application
-import android.util.Log
-import com.ideasapp.petemotions.data.db.AppDatabase
-import com.ideasapp.petemotions.data.db.CalendarListDao
-import com.ideasapp.petemotions.data.db.DayInfoMapper
+import com.ideasapp.petemotions.data.db.dao.CalendarListDao
+import com.ideasapp.petemotions.data.db.mappers.DayInfoMapper
 import com.ideasapp.petemotions.data.db.DayItemInfoDbModel
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.repositories.CalendarRepository
 import com.ideasapp.petemotions.presentation.util.getDayOfMonthStartingFromMonday
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import java.time.YearMonth

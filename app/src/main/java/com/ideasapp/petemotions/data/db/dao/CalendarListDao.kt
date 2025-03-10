@@ -1,13 +1,11 @@
-package com.ideasapp.petemotions.data.db
+package com.ideasapp.petemotions.data.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Entity
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.ideasapp.petemotions.data.db.DayItemInfoDbModel
 import kotlinx.coroutines.flow.Flow
-import java.time.LocalDate
 
 @Dao
 interface CalendarListDao {

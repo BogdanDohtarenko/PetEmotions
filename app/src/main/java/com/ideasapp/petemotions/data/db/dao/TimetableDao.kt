@@ -1,13 +1,16 @@
-package com.ideasapp.petemotions.data.db
+package com.ideasapp.petemotions.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
+import com.ideasapp.petemotions.data.db.TimetableItemDbModel
 
 @Dao
 interface TimetableDao {
+
+    @Query("SELECT * FROM Timetable ORDER BY id LIMIT :limit OFFSET :offset")
+    suspend fun getTimetableListPaged(limit: Int, offset: Int): List<TimetableItemDbModel>
 
     @Query("SELECT * FROM Timetable")
     fun getTimetableList(): List<TimetableItemDbModel>

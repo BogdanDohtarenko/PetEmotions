@@ -30,14 +30,12 @@ import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 
-
-//TODO  add db
 @Composable
 fun FullTimetableScreen(
     timetableFlow: LazyPagingItems<TimetableItem>,
     onAddTimetableItem : (TimetableItem) -> Unit,
 ) {
-
+    Log.d("Timetable", "${timetableFlow.itemCount}")
     var showDialog by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf<TimetableItem?>(null) }
 
@@ -98,7 +96,7 @@ fun FullTimetableScreen(
             item = selectedItem,
             onDismiss = { closeDialog() },
             onSave = { newItem ->
-                Log.d("Timetable", "New item added ${newItem.toString()} ")
+                Log.d("Timetable", "New item added ${newItem.description} ")
                 onAddTimetableItem(newItem)
                 closeDialog()
             }
