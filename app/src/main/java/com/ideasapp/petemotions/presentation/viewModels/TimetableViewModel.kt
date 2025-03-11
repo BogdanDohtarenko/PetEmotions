@@ -26,9 +26,6 @@ class TimetableViewModel @Inject constructor(
     private val deleteTimetableItemUseCase: DeleteTimetableItemUseCase,
 ) : ViewModel() {
 
-    //2025-03-11 23:13:14.256  8083-8083  AndroidRuntime          com.ideasapp.petemotions             E  FATAL EXCEPTION: main
-    //                                                                                                    Process: com.ideasapp.petemotions, PID: 8083
-    //                                                                                                    java.lang.IllegalStateException: Attempt to collect twice from pageEventFlow, which is an illegal operation. Did you forget to call Flow<PagingData<*>>.cachedIn(coroutineScope)?
     private val _timetableItems = MutableStateFlow<PagingData<TimetableItem>>(PagingData.empty())
     val timetableFlow: StateFlow<PagingData<TimetableItem>> = _timetableItems.asStateFlow()
 
@@ -38,7 +35,7 @@ class TimetableViewModel @Inject constructor(
 
     private fun loadTimetableItems() {
         viewModelScope.launch {
-            getTimetableListUseCase().collect { pagingData ->
+            getTimetableListUseCase().cachedIn(viewModelScope).collect { pagingData ->
                 _timetableItems.value = pagingData
             }
         }
