@@ -75,7 +75,8 @@ fun FullTimetableScreen(
                     if (item != null) {
                         ListItem(
                             item = item,
-                            onClick = { openDialog(item) }
+                            onClick = { openDialog(item) },
+                            onLongClick = { onDeleteTimetableItem(item) },
                         )
                     }
                 }
