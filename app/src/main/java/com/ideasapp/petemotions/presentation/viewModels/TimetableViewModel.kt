@@ -13,38 +13,47 @@ import com.ideasapp.petemotions.domain.use_case.timetable.GetTimetableListUseCas
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TimetableViewModel @Inject constructor(
-    private val getTimetableListUseCase : GetTimetableListUseCase,
-    private val addTimetableItemUseCase : AddTimetableItemUseCase,
-    private val deleteTimetableItemUseCase : DeleteTimetableItemUseCase,
-): ViewModel() {
-    //TODO
-    //The Paging Library makes it easier for you to load data gradually and gracefully within your app's
-    fun getTimetableFlow(): Flow<PagingData<TimetableItem>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = 20,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = { getTimetableListUseCase() }
-        ).flow.cachedIn(viewModelScope)
+    private val getTimetableListUseCase: GetTimetableListUseCase,
+    private val addTimetableItemUseCase: AddTimetableItemUseCase,
+    private val deleteTimetableItemUseCase: DeleteTimetableItemUseCase,
+) : ViewModel() {
+
+    //
+    private val _timetableItems = MutableStateFlow<PagingData<TimetableItem>>(PagingData.empty())
+    val timetableFlow: StateFlow<PagingData<TimetableItem>> = _timetableItems.asStateFlow()
+
+    init {
+        loadTimetableItems()
     }
 
-    fun addItem(newItem : TimetableItem) {
+    private fun loadTimetableItems() {
+        viewModelScope.launch {
+            getTimetableListUseCase().collect { pagingData ->
+                _timetableItems.value = pagingData
+            }
+        }
+    }
+
+    fun addItem(newItem: TimetableItem) {
         viewModelScope.launch(Dispatchers.IO) {
             addTimetableItemUseCase(newItem)
+            loadTimetableItems()
         }
     }
 
-    fun deleteItem(oldItem : TimetableItem) {
+    fun deleteItem(oldItem: TimetableItem) {
         viewModelScope.launch(Dispatchers.IO) {
             deleteTimetableItemUseCase(oldItem)
+            loadTimetableItems()
         }
     }
-
 }
 

@@ -1,5 +1,6 @@
 package com.ideasapp.petemotions.domain.use_case.timetable
 
+import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
@@ -12,7 +13,7 @@ import javax.inject.Inject
 class GetTimetableListUseCase @Inject constructor(
     private val repository: TimetableRepository,
 ) {
-    operator fun invoke(): PagingSource<Int, TimetableItem> {
+    operator fun invoke(): Flow<PagingData<TimetableItem>> {
         return repository.getTimetableList()
     }
 }

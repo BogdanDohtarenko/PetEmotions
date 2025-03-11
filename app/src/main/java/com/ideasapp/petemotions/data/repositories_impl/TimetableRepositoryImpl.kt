@@ -1,12 +1,16 @@
 package com.ideasapp.petemotions.data.repositories_impl
 
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.ideasapp.petemotions.data.db.dao.TimetableDao
 import com.ideasapp.petemotions.data.db.mappers.TimetableMapper
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
 import com.ideasapp.petemotions.domain.repositories.TimetableRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,8 +19,8 @@ class TimetableRepositoryImpl @Inject constructor(
     private val timetableDao: TimetableDao
 ) : TimetableRepository {
 
-    override fun getTimetableList(): PagingSource<Int, TimetableItem> {
-        return TimetablePagingSource(timetableDao)
+    override fun getTimetableList(): Flow<PagingData<TimetableItem>> {
+        return getTimetableFlow()
     }
 
     override suspend fun addTimetableItem(newItem: TimetableItem) {
@@ -33,6 +37,18 @@ class TimetableRepositoryImpl @Inject constructor(
         val dbModel = TimetableMapper.entityToDbModel(oldItem)
         timetableDao.deleteTimetableItem(dbModel.id)
     }
+
+    //provide Flow
+    private fun getTimetableFlow(pageSize: Int = 20): Flow<PagingData<TimetableItem>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = pageSize,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { TimetablePagingSource(timetableDao) }
+        ).flow
+    }
+
     class TimetablePagingSource @Inject constructor(
         private val timetableDao: TimetableDao
     ) : PagingSource<Int, TimetableItem>() {

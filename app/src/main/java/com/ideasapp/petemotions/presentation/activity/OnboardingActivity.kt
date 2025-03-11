@@ -22,7 +22,6 @@ class OnboardingActivity: ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PetEmotionsTheme {
-
             }
         }
     }
