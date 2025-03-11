@@ -8,10 +8,9 @@ import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.Locale
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.ideasapp.petemotions.presentation.activity.MainActivity
 
-object DateUtil {
+object CalendarDateUtil {
     val daysOfWeek: Array<String>
         get() {
             val daysOfWeek = Array(7) { "" }

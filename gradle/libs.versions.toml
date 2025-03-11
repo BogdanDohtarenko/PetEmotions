@@ -19,6 +19,7 @@ pagingRuntimeVersion = "3.3.6"
 roomCompiler = "2.6.1"
 roomRuntimeVersion = "2.6.1"
 ui = "1.7.8"
+tvMaterialVersion = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -49,6 +50,7 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntimeVersion" }
 ui = { module = "androidx.compose.ui:ui", version.ref = "ui" }
+androidx-tv-material = { group = "androidx.tv", name = "tv-material", version.ref = "tvMaterialVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

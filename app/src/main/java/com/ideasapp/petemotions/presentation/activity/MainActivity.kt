@@ -13,6 +13,9 @@ import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+//TODO
+// 1.custom theme
+// 2.notifications with timetable
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 

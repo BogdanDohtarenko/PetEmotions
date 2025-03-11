@@ -2,6 +2,7 @@ package com.ideasapp.petemotions.presentation.ui.screens.timetable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -11,19 +12,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
 
 @Composable
-fun ListItem(item: TimetableItem, onClick: () -> Unit) {
+fun ListItem(item: TimetableItem, onClick: () -> Unit, onLongClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .background(color = Color.LightGray, shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
             .padding(8.dp)
             .clickable { onClick() }
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onLongPress = { onLongClick() },
+                )
+            }
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

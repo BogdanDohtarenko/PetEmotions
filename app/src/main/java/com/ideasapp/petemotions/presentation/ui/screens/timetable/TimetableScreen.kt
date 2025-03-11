@@ -1,43 +1,43 @@
 package com.ideasapp.petemotions.presentation.ui.screens.timetable
 
 import android.util.Log
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.paging.compose.LazyPagingItems
-import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
+import androidx.compose.ui.Alignment
+import androidx.paging.LoadState
+import androidx.paging.PagingData
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
-import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
+import kotlinx.coroutines.flow.Flow
+
 
 @Composable
 fun FullTimetableScreen(
-    timetableFlow: LazyPagingItems<TimetableItem>,
+    timetableFlow: Flow<PagingData<TimetableItem>>,
     onAddTimetableItem : (TimetableItem) -> Unit,
+    onDeleteTimetableItem : (TimetableItem) -> Unit,
 ) {
-    Log.d("Timetable", "${timetableFlow.itemCount}")
     var showDialog by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf<TimetableItem?>(null) }
+
+    val lazyTimetableItems = timetableFlow.collectAsLazyPagingItems()
 
     fun openDialog(item: TimetableItem?) {
         selectedItem = item
@@ -52,9 +52,7 @@ fun FullTimetableScreen(
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {
-                    openDialog(null)
-                },
+                onClick = { openDialog(null) },
                 modifier = Modifier.padding(16.dp)
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Add")
@@ -68,39 +66,67 @@ fun FullTimetableScreen(
                     .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items( //TODO amend function items (use List<TimetableItem>)
-                    count = timetableFlow.itemCount,
-                    key = { index ->
-                        val item = timetableFlow[index]
-                        item?.id ?: index
-                    },
-                    contentType = { _ ->
-                        TimetableItem::class
-                    }
+                items(
+                    count = lazyTimetableItems.itemCount,
+                    key = lazyTimetableItems.itemKey {it.id},
+                    contentType = lazyTimetableItems.itemContentType { "TimetableItem" }
                 ) { index ->
-                    val item = timetableFlow[index]
+                    val item = lazyTimetableItems[index]
                     if (item != null) {
                         ListItem(
                             item = item,
-                            onClick = { openDialog(item) }
+                            onClick = { openDialog(item) },
+                            onLongClick = { onDeleteTimetableItem(item) },
                         )
+                    }
+                }
+                lazyTimetableItems.apply {
+                    when {
+                        loadState.refresh is LoadState.Loading -> {
+                            item {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp)
+                                        .wrapContentWidth(Alignment.CenterHorizontally)
+                                )
+                            }
+                        }
+                        loadState.append is LoadState.Loading -> {
+                            item {
+                                CircularProgressIndicator(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp)
+                                        .wrapContentWidth(Alignment.CenterHorizontally)
+                                )
+                            }
+                        }
+                        loadState.refresh is LoadState.Error -> {
+                            val e = loadState.refresh as LoadState.Error
+                            item {
+                                Text(
+                                    text = "Error: ${e.error.localizedMessage}",
+                                    color = MaterialTheme.colorScheme.error,
+                                    modifier = Modifier.padding(16.dp)
+                                )
+                            }
+                        }
                     }
                 }
             }
         }
     }
 
-
     if (showDialog) {
         EditTimetableDialog(
             item = selectedItem,
             onDismiss = { closeDialog() },
             onSave = { newItem ->
-                Log.d("Timetable", "New item added ${newItem.description} ")
+                Log.d("Timetable", "New item added: ${newItem.description}")
                 onAddTimetableItem(newItem)
                 closeDialog()
             }
         )
     }
 }
-

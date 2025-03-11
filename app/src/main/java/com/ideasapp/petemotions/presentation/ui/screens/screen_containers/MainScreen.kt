@@ -29,7 +29,7 @@ fun MainScreen(
     calendarViewModel: CalendarViewModel,
     timetableViewModel: TimetableViewModel,
 ) {
-    val timetableFlow = timetableViewModel.getTimetableFlow().collectAsLazyPagingItems()
+    val timetableFlow = timetableViewModel.timetableFlow
     val uiState by calendarViewModel.uiState.collectAsState()
     val navController = rememberNavController()
     Scaffold(
@@ -78,7 +78,8 @@ fun MainScreen(
                 timetableScreenContent = {
                     FullTimetableScreen(
                         timetableFlow = timetableFlow,
-                        onAddTimetableItem = { item -> timetableViewModel.addItem(item)}
+                        onAddTimetableItem = { item -> timetableViewModel.addItem(item)},
+                        onDeleteTimetableItem = { item -> timetableViewModel.deleteItem(item)}
                     )
                 }
             )
