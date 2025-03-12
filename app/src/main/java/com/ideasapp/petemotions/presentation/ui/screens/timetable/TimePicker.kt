@@ -99,7 +99,6 @@ internal fun TimePicker(
         }
     }
 
-    // Обновление выбранного времени
     LaunchedEffect(hoursState.firstVisibleItemIndex, minutesState.firstVisibleItemIndex) {
         if (hoursState.firstVisibleItemIndex != selectedHour || minutesState.firstVisibleItemIndex != selectedMinute) {
             selectedHour = hoursState.firstVisibleItemIndex

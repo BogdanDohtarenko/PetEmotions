@@ -81,7 +81,7 @@ fun DatePickerExample() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Selected Date: ${selectedDate}",
+            text = "$selectedDate, $selectedHour:$selectedMinute",
             style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.padding(16.dp)
         )
@@ -95,7 +95,6 @@ fun DatePickerExample() {
                 onDateChange = { newDate -> selectedDate = newDate },
                 modifier = Modifier.weight(1f)
             )
-
             TimePicker(
                 initialHour = selectedHour,
                 initialMinute = selectedMinute,
