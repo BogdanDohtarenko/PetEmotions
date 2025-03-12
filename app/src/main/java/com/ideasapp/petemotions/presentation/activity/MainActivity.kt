@@ -36,6 +36,7 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         const val CALENDAR_LOG_TAG = "Calendar"
+        const val TIMETABLE_LOG_TAG = "Timetable"
     }
 }
 
