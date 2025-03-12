@@ -5,23 +5,21 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
+import com.ideasapp.petemotions.presentation.navigation.NavItem
 import com.ideasapp.petemotions.presentation.ui.reusableElements.BottomNavigationBar
 import com.ideasapp.petemotions.presentation.ui.reusableElements.NavigationHost
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.CalendarScreen
-import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
-import androidx.compose.runtime.getValue
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.paging.compose.collectAsLazyPagingItems
-import com.ideasapp.petemotions.presentation.navigation.NavItem
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.DayInfoEdit
+import com.ideasapp.petemotions.presentation.ui.screens.statistics.StatisticsScreen
 import com.ideasapp.petemotions.presentation.ui.screens.timetable.FullTimetableScreen
 import com.ideasapp.petemotions.presentation.util.toJson
+import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 
 @Composable
@@ -46,7 +44,9 @@ fun MainScreen(
             //Set nav graph
             NavigationHost(
                 navController = navController,
-                statisticsScreenContent = { Text("statistics")}, //TODO PERSONAL TIPS
+                statisticsScreenContent = {
+                    StatisticsScreen()
+                },
                 calendarScreenContent = {
                     CalendarScreen(
                         uiState = uiState,

@@ -56,18 +56,19 @@ fun EditTimetableDialog(
                     dateTime = dateTime,
                 )
             }
-
             onSave(newItem)
-        }) {
-            Text("Save")
+            })  {
+                Text("Save")
+            }
+        },
+        dismissButton = {
+            Button(onClick = onDismiss) {
+                Text("Cancel")
+            }
         }
-    }, dismissButton = {
-        Button(onClick = onDismiss) {
-            Text("Cancel")
-        }
-    })
-
+    )
 }
+
 @Composable
 fun DatePickerExample() {
     var selectedDate by remember { mutableStateOf(LocalDate.now()) }

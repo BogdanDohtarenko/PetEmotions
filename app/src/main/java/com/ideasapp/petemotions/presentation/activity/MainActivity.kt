@@ -16,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 //TODO
 // 1.custom theme
 // 2.notifications with timetable
+// 3.PERSONAL TIPS
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
