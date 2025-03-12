@@ -16,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 //TODO
 // 1.custom theme
 // 2.notifications with timetable
+// 3.PERSONAL TIPS
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -36,6 +37,7 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         const val CALENDAR_LOG_TAG = "Calendar"
+        const val TIMETABLE_LOG_TAG = "Timetable"
     }
 }
 

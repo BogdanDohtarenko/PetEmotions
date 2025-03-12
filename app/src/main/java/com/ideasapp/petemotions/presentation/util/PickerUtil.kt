@@ -1,6 +1,10 @@
 package com.ideasapp.petemotions.presentation.util
 
+import android.content.Context
 import androidx.compose.foundation.lazy.LazyListState
+import java.time.LocalDate
+import java.time.format.TextStyle
+import java.util.Locale
 import kotlin.math.abs
 
 object PickerUtil {
@@ -11,6 +15,25 @@ object PickerUtil {
     internal const val ITEM_HEIGHT = 35f
 
     internal const val LIST_HEIGHT = COUNT_OF_VISIBLE_ITEMS * ITEM_HEIGHT
+
+    fun Int.pixelsToDp(context: Context): Float {
+        val densityDpi = context.resources.displayMetrics.densityDpi
+        return this / (densityDpi / 160f)
+    }
+
+    internal fun LazyListState.itemForScrollTo(context: Context): Int {
+        val offset = firstVisibleItemScrollOffset.pixelsToDp(context)
+        return when {
+            offset == 0f -> firstVisibleItemIndex
+            offset % ITEM_HEIGHT >= ITEM_HEIGHT / 2 -> firstVisibleItemIndex + 1
+            else -> firstVisibleItemIndex
+        }
+    }
+
+    fun LocalDate.getDateStringWithWeekOfDay(context: Context): String {
+        val dayOfWeek = this.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.getDefault())
+        return "${this.dayOfMonth} ${this.month.getDisplayName(TextStyle.SHORT, Locale.getDefault())} ($dayOfWeek)"
+    }
 
     internal fun calculateScaleX(listState: LazyListState, index: Int): Float {
         // Получаем информацию о текущем состоянии компоновки списка

@@ -26,7 +26,6 @@ class TimetableViewModel @Inject constructor(
     private val deleteTimetableItemUseCase: DeleteTimetableItemUseCase,
 ) : ViewModel() {
 
-    //
     private val _timetableItems = MutableStateFlow<PagingData<TimetableItem>>(PagingData.empty())
     val timetableFlow: StateFlow<PagingData<TimetableItem>> = _timetableItems.asStateFlow()
 
@@ -36,7 +35,7 @@ class TimetableViewModel @Inject constructor(
 
     private fun loadTimetableItems() {
         viewModelScope.launch {
-            getTimetableListUseCase().collect { pagingData ->
+            getTimetableListUseCase().cachedIn(viewModelScope).collect { pagingData ->
                 _timetableItems.value = pagingData
             }
         }
