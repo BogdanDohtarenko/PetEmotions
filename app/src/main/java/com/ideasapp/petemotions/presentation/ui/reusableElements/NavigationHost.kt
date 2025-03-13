@@ -7,8 +7,10 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.background
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -19,6 +21,7 @@ import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.presentation.activity.MainActivity
 import com.ideasapp.petemotions.presentation.navigation.BottomNavItem
 import com.ideasapp.petemotions.presentation.navigation.NavItem
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.util.toCalendarUiStateDate
 
 
@@ -32,7 +35,11 @@ fun NavigationHost(
     dayInfoEditContent: @Composable (CalendarUiState.Date?,  () -> Unit) -> Unit,
 ) {
     //TODO amend animations
-    NavHost(navController, startDestination = BottomNavItem.Calendar.route) {
+    NavHost(
+        navController,
+        startDestination = BottomNavItem.Calendar.route,
+        modifier = Modifier.background(MainTheme.colors.buttonColor)
+    ) {
         //STATISTIC
         composable(
             BottomNavItem.Statistics.route,

@@ -8,13 +8,14 @@ import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.CalendarScreen
 import com.ideasapp.petemotions.presentation.ui.screens.screen_containers.MainScreen
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.ui.theme.PetEmotionsTheme
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 //TODO
-// 1.custom theme !
+// 1. amend/use custom theme
 // 2.notifications with timetable !
 // 3.PERSONAL TIPS !
 // 4.moods on calendar !
@@ -31,7 +32,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            PetEmotionsTheme {
+            MainTheme {
                 MainScreen(calendarViewModel, timetableViewModel)
             }
         }

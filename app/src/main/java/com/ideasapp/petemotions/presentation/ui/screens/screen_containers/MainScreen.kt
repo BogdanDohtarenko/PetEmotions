@@ -1,5 +1,6 @@
 package com.ideasapp.petemotions.presentation.ui.screens.screen_containers
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -18,6 +19,7 @@ import com.ideasapp.petemotions.presentation.ui.screens.calendar.CalendarScreen
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.DayInfoEdit
 import com.ideasapp.petemotions.presentation.ui.screens.statistics.StatisticsScreen
 import com.ideasapp.petemotions.presentation.ui.screens.timetable.FullTimetableScreen
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.util.toJson
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
