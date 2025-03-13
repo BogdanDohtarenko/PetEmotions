@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.R
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.util.getDisplayName
 import java.time.YearMonth
 
@@ -108,6 +109,7 @@ fun ContentItem(
             Text(
                 text = date.dayInfoItem.mood, //set mood here
                 style = MaterialTheme.typography.bodyMedium,
+                color = MainTheme.colors.mainColor,
                 modifier = Modifier
                     .padding(10.dp)
                     .align(Alignment.CenterHorizontally)
@@ -116,9 +118,9 @@ fun ContentItem(
                 text = date.dayOfMonth,
                 fontSize = 16.sp,
                 color = if(date.isSelected) {
-                    MaterialTheme.colorScheme.secondaryContainer
+                    MainTheme.colors.oppositeTheme
                 } else {
-                    MaterialTheme.colorScheme.primary
+                    MainTheme.colors.mainColor
                 },
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier

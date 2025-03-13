@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.ideasapp.petemotions.presentation.navigation.NavItem
@@ -32,15 +33,19 @@ fun MainScreen(
     val timetableFlow = timetableViewModel.timetableFlow
     val uiState by calendarViewModel.uiState.collectAsState()
     val navController = rememberNavController()
+    /*val systemUiController = rememberSystemUiController()
+    systemUiController.setStatusBarColor(black)*/ //TODO setStatusBarColor
     Scaffold(
         //set bottom nav bar
         bottomBar = { BottomNavigationBar(navController) },
         //to arrange above system buttons
-        modifier = Modifier.navigationBarsPadding(),
+        modifier = Modifier.navigationBarsPadding().background(MainTheme.colors.singleTheme),
+
     ) { paddingValues ->
         Column(
             modifier = Modifier
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .background(MainTheme.colors.singleTheme),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             //Set nav graph

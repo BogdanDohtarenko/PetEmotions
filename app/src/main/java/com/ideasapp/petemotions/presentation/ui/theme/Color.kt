@@ -11,14 +11,19 @@ val Purple40=Color(0xFF6650a4)
 val PurpleGrey40=Color(0xFF625b71)
 val Pink40=Color(0xFF7D5260)
 
+
+val orange: Color = Color(0xFFf5a627)
+val yellow: Color = Color(0xFFfff263)
+val green: Color = Color(0xFF67fc03)
+
 val baseLightPalette = ColorPalette(
-    mainColor = Pink40,
+    mainColor = yellow,
     singleTheme = Color.White,
     oppositeTheme = Color.Black,
     buttonColor = Color(0xFFEFEEEE)
 )
 val baseDarkPalette = baseLightPalette.copy(
-    mainColor = Pink80,
+    mainColor = orange,
     singleTheme = Color.Black,
     oppositeTheme = Color.White,
     buttonColor = Color(0xFF2D2D31)

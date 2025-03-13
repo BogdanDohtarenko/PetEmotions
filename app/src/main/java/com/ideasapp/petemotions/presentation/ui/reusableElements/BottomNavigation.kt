@@ -1,13 +1,16 @@
 package com.ideasapp.petemotions.presentation.ui.reusableElements
 
+import android.content.res.Resources.Theme
 import androidx.compose.foundation.background
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ideasapp.petemotions.presentation.navigation.BottomNavItem
@@ -16,7 +19,7 @@ import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 //TODO add beautiful animations
 @Composable
 fun BottomNavigationBar(navController:NavController) {
-    BottomNavigation(modifier = Modifier.background(MainTheme.colors.buttonColor)) {
+    BottomNavigation(backgroundColor = MainTheme.colors.mainColor) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
         BottomNavigationItem(

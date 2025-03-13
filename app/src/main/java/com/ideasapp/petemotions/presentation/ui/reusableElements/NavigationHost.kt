@@ -21,7 +21,6 @@ import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.presentation.activity.MainActivity
 import com.ideasapp.petemotions.presentation.navigation.BottomNavItem
 import com.ideasapp.petemotions.presentation.navigation.NavItem
-import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.util.toCalendarUiStateDate
 
 
@@ -38,7 +37,6 @@ fun NavigationHost(
     NavHost(
         navController,
         startDestination = BottomNavItem.Calendar.route,
-        modifier = Modifier.background(MainTheme.colors.buttonColor)
     ) {
         //STATISTIC
         composable(

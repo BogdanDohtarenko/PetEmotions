@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 
 @Composable
 fun DayItem(day: String, modifier: Modifier = Modifier) {
@@ -15,7 +16,7 @@ fun DayItem(day: String, modifier: Modifier = Modifier) {
         Text(
             text = day,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.primary,
+            color = MainTheme.colors.mainColor,
             modifier = Modifier
                 .align(Alignment.Center)
                 .padding(10.dp)
