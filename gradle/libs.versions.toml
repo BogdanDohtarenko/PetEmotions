@@ -1,5 +1,6 @@
 [versions]
 accompanistNavigationAnimationVersion = "0.32.0"
+accompanistSystemuicontrollerVersion = "0.30.1"
 agp = "8.5.2"
 gson = "2.10.1"
 hiltAndroid = "2.51.1"
@@ -22,6 +23,7 @@ ui = "1.7.8"
 tvMaterialVersion = "1.0.0"
 
 [libraries]
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontrollerVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-material = { module = "androidx.compose.material:material", version.ref = "material" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }

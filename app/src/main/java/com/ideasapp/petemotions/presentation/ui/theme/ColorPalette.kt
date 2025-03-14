@@ -7,4 +7,6 @@ data class ColorPalette(
     val singleTheme: Color,
     val oppositeTheme: Color,
     val buttonColor: Color,
+    val navigationBarColor: Color,
+    val statusBarColor: Color
 )
