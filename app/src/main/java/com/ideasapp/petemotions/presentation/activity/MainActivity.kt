@@ -24,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 6.autoFilling of days
 // 8.top bar (filters, ...)
 // 9.color scheme for light theme
+// 11. change timetable to local date format
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 

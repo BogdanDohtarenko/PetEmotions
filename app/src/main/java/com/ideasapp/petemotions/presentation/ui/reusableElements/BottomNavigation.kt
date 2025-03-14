@@ -25,9 +25,11 @@ fun BottomNavigationBar(navController:NavController) {
         BottomNavigationItem(
             selected = currentRoute == BottomNavItem.Statistics.route,
             onClick = {
-                navController.navigate(BottomNavItem.Statistics.route) {
-                    popUpTo(navController.graph.startDestinationId)
-                    launchSingleTop = true
+                if (currentRoute != BottomNavItem.Statistics.route) {
+                    navController.navigate(BottomNavItem.Statistics.route) {
+                        popUpTo(navController.graph.startDestinationId)
+                        launchSingleTop = true
+                    }
                 }
             },
             icon = { Icon(BottomNavItem.Statistics.icon, contentDescription = null) },
@@ -36,9 +38,11 @@ fun BottomNavigationBar(navController:NavController) {
         BottomNavigationItem(
             selected = currentRoute == BottomNavItem.Calendar.route,
             onClick = {
-                navController.navigate(BottomNavItem.Calendar.route) {
-                    popUpTo(navController.graph.startDestinationId)
-                    launchSingleTop = true
+                if (currentRoute != BottomNavItem.Calendar.route) {
+                    navController.navigate(BottomNavItem.Calendar.route) {
+                        popUpTo(navController.graph.startDestinationId)
+                        launchSingleTop = true
+                    }
                 }
             },
             icon = { Icon(BottomNavItem.Calendar.icon, contentDescription = null) },
@@ -47,9 +51,11 @@ fun BottomNavigationBar(navController:NavController) {
         BottomNavigationItem(
             selected = currentRoute == BottomNavItem.Timetable.route,
             onClick = {
-                navController.navigate(BottomNavItem.Timetable.route) {
-                    popUpTo(navController.graph.startDestinationId)
-                    launchSingleTop = true
+                if (currentRoute != BottomNavItem.Timetable.route) {
+                    navController.navigate(BottomNavItem.Timetable.route) {
+                        popUpTo(navController.graph.startDestinationId)
+                        launchSingleTop = true
+                    }
                 }
             },
             icon = { Icon(BottomNavItem.Timetable.icon, contentDescription = null) },
