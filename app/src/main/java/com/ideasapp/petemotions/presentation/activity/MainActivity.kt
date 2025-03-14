@@ -24,7 +24,10 @@ import dagger.hilt.android.AndroidEntryPoint
 // 6.autoFilling of days
 // 8.top bar (filters, ...)
 // 9.color scheme for light theme
-// 11. change timetable to local date format
+// 12. mood plot
+// 13. time in timetable isn't correct when we set it
+// 14. we cant scroll more than 21 in timetable dialog
+// 15. monday display problem in timetable dialog
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 

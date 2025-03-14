@@ -18,9 +18,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
+import com.ideasapp.petemotions.presentation.util.millisToLocalDateAndTime
+import com.ideasapp.petemotions.presentation.util.toDateTimeString
+import java.time.LocalTime
 
 @Composable
 fun ListItem(item: TimetableItem, onClick: () -> Unit, onLongClick: () -> Unit) {
+    val localDateTime = millisToLocalDateAndTime(item.dateTime).toDateTimeString()
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -46,7 +50,7 @@ fun ListItem(item: TimetableItem, onClick: () -> Unit, onLongClick: () -> Unit) 
                 modifier = Modifier.weight(1f)
             )
             Text(
-                text = item.dateTime,
+                text = localDateTime,
                 fontSize = 14.sp,
                 color = Color.Gray,
                 modifier = Modifier.padding(start = 8.dp)
