@@ -22,8 +22,8 @@ import dagger.hilt.android.AndroidEntryPoint
 // 4.moods on calendar !
 // 5.normal day notes design !
 // 6.autoFilling of days
-// 8. top bar (filters, ...)
-// 9. color scheme for light theme
+// 8.top bar (filters, ...)
+// 9.color scheme for light theme
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 

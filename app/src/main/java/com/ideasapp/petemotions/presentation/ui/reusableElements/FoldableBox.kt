@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 
 @Composable
 fun FoldableBox(
@@ -34,7 +35,8 @@ fun FoldableBox(
 
     Box(
         modifier = Modifier
-            .background(Color.LightGray)
+            .background(MainTheme.colors.spareContentColor)
+            .padding(10.dp)
     ) {
         Column(modifier = Modifier
             .fillMaxWidth()

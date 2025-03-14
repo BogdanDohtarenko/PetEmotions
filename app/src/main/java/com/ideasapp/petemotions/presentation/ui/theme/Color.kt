@@ -14,7 +14,7 @@ val Pink40=Color(0xFF7D5260)
 
 val orange: Color = Color(0xFFf7b843)
 val yellow: Color = Color(0xFFfff263)
-val green: Color = Color(0xFF67fc03)
+val green: Color = Color(0xFF47bf67)
 
 val baseLightPalette = ColorPalette(
     mainColor = yellow,
@@ -22,7 +22,8 @@ val baseLightPalette = ColorPalette(
     oppositeTheme = Color.Black,
     buttonColor = Color(0xFFEFEEEE),
     navigationBarColor = Color.White,
-    statusBarColor = Color.Transparent
+    statusBarColor = Color.Transparent,
+    spareContentColor = green
 )
 val baseDarkPalette = baseLightPalette.copy(
     mainColor = orange,
@@ -30,7 +31,8 @@ val baseDarkPalette = baseLightPalette.copy(
     oppositeTheme = Color.White,
     buttonColor = Color(0xFF2D2D31),
     navigationBarColor = Color.Black,
-    statusBarColor = Color.Transparent
+    statusBarColor = Color.Transparent,
+    spareContentColor = green
 )
 val LocalColors = staticCompositionLocalOf<ColorPalette> {
     error("Colors composition error")
