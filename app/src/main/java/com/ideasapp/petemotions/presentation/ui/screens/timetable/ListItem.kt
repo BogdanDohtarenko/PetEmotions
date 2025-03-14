@@ -17,13 +17,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 
 @Composable
 fun ListItem(item: TimetableItem, onClick: () -> Unit, onLongClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = Color.LightGray, shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
+            .background(color = MainTheme.colors.mainColor, shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
             .padding(8.dp)
             .clickable { onClick() }
             .pointerInput(Unit) {

@@ -61,6 +61,9 @@ dependencies {
     implementation(libs.androidx.paging.runtime.v320)
     implementation(libs.androidx.paging.compose.v100alpha20)
 
+    //accompanist
+    implementation(libs.accompanist.systemuicontroller)
+
     //compose
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

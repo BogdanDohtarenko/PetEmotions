@@ -1,6 +1,7 @@
 package com.ideasapp.petemotions.presentation.ui.screens.timetable
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -25,6 +26,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import kotlinx.coroutines.flow.Flow
 
 
@@ -53,13 +55,14 @@ fun FullTimetableScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { openDialog(null) },
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp).background(MainTheme.colors.singleTheme),
+                containerColor = MainTheme.colors.mainColor
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Add")
             }
         }
     ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
+        Box(modifier = Modifier.padding(innerPadding).background(MainTheme.colors.singleTheme)) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()

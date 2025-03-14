@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
@@ -59,7 +60,7 @@ fun DayInfoEdit(
 
     val scrollState = rememberScrollState()
     Box(modifier = Modifier
-        .background(MaterialTheme.colorScheme.background)
+        .background(MainTheme.colors.singleTheme)
         .fillMaxSize()) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

@@ -34,6 +34,7 @@ import com.ideasapp.petemotions.presentation.util.PickerUtil.itemForScrollTo
 import com.ideasapp.petemotions.presentation.util.PickerUtil.pixelsToDp
 
 //TODO bug: cant scroll more than 21
+//TODO add sounds and vibration
 @Composable
 internal fun TimePicker(
     initialHour: Int,
