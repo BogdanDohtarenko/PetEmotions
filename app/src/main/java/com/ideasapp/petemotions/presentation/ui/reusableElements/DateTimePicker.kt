@@ -23,6 +23,7 @@ import com.ideasapp.petemotions.presentation.activity.MainActivity.Companion.TIM
 import com.ideasapp.petemotions.presentation.ui.screens.timetable.DatePicker
 import com.ideasapp.petemotions.presentation.ui.screens.timetable.HourPicker
 import com.ideasapp.petemotions.presentation.ui.screens.timetable.MinutePicker
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import java.time.LocalDate
 import java.time.ZoneId
 
@@ -58,6 +59,7 @@ fun DateTimePicker(
         Text(
             text = "$selectedDate, $selectedHour:$selectedMinute",
             style = MaterialTheme.typography.headlineSmall,
+            color = MainTheme.colors.singleTheme,
             modifier = Modifier.padding(16.dp)
         )
         Row(

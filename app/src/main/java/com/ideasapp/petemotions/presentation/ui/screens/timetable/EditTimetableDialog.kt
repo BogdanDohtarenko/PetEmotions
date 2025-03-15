@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -17,6 +18,7 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -49,13 +51,29 @@ fun EditTimetableDialog(
         onDismissRequest = onDismiss,
         title = { Text(text = if (item == null) "Add" else "Edit") },
         text = {
-            Column {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp)
+            ) {
                 TextField(
-                    value = description, onValueChange = {description = it},
+                    value = description,
+                    onValueChange = {description = it},
                     label = {Text("Description")},
+                    colors = TextFieldDefaults.colors(
+                        unfocusedContainerColor = MainTheme.colors.mainColor,
+                        unfocusedTextColor = MainTheme.colors.singleTheme,
+                        focusedContainerColor = MainTheme.colors.mainColor,
+                        focusedTextColor = MainTheme.colors.singleTheme,
+                        cursorColor = MainTheme.colors.singleTheme,
+                        focusedIndicatorColor = MainTheme.colors.singleTheme,
+                        unfocusedIndicatorColor = MainTheme.colors.singleTheme.copy(alpha = 0.5f),
+                        focusedLabelColor = MainTheme.colors.singleTheme,
+                        unfocusedLabelColor = MainTheme.colors.singleTheme.copy(alpha = 0.5f)
+                    ),
                     modifier = Modifier.fillMaxWidth()
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer( modifier = Modifier.height(8.dp) )
                 DateTimePicker { dateTimeInMillis -> dateTime = dateTimeInMillis}
             }
         },
@@ -102,6 +120,5 @@ fun EditTimetableDialog(
             }
         },
         containerColor = MainTheme.colors.mainColor,
-        //modifier = Modifier.fillMaxWidth().fillMaxHeight(0.6f)
     )
 }

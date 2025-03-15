@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.presentation.ui.reusableElements.Border
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.util.PickerUtil.COUNT_OF_VISIBLE_ITEMS
 import com.ideasapp.petemotions.presentation.util.PickerUtil.ITEM_HEIGHT
 import com.ideasapp.petemotions.presentation.util.PickerUtil.LIST_HEIGHT
@@ -60,6 +61,7 @@ fun HourPicker(
                     Text(
                         text = item,
                         fontSize = 19.sp,
+                        color = MainTheme.colors.singleTheme
                     )
                 }
             }
@@ -119,6 +121,7 @@ fun MinutePicker(
                     Text(
                         text = item,
                         fontSize = 19.sp,
+                        color = MainTheme.colors.singleTheme
                     )
                 }
             }

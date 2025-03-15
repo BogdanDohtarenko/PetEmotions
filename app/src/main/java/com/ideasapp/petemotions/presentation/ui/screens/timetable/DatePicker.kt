@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.presentation.ui.reusableElements.Border
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.util.PickerUtil.COUNT_OF_VISIBLE_ITEMS
 import com.ideasapp.petemotions.presentation.util.PickerUtil.ITEM_HEIGHT
 import com.ideasapp.petemotions.presentation.util.PickerUtil.LIST_HEIGHT
@@ -67,6 +68,7 @@ fun DatePicker(
                     Text(
                         text = it,
                         fontSize = 19.sp,
+                        color = MainTheme.colors.singleTheme
                     )
                 }
             }
@@ -82,8 +84,8 @@ fun DatePicker(
     val offset by remember { derivedStateOf { listState.firstVisibleItemScrollOffset } }
     LaunchedEffect(offset) {
         val newValueIndex = listState.firstVisibleItemIndex + COUNT_OF_VISIBLE_ITEMS / 2
-        if (newValueIndex in 0 until list.size) {
-            val newDate = dateToday.plusDays(newValueIndex.toLong())
+        if (newValueIndex in 0..list.size) {
+            val newDate = dateToday.plusDays(newValueIndex.toLong() - 1)
             if (newDate != selectedDate) {
                 onDateChange(newDate)
                 selectedDate = newDate
