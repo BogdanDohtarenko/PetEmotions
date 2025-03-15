@@ -28,10 +28,8 @@ import dagger.hilt.android.AndroidEntryPoint
 // 15. monday display problem in timetable dialog
 // 16. amend some stateful composable functions
 // 17. snack bars
-// 20. size of edit timetable dialog
-// 21. colors of edit timetable dialog
-// 22. date displaying
-// 23.
+// 24. vibration while scrolling dates in picker
+// 25. error: cant edit timetable items !!!
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 

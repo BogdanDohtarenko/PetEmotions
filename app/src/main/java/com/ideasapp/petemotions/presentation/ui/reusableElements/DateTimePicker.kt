@@ -20,9 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ideasapp.petemotions.presentation.activity.MainActivity.Companion.TIMETABLE_LOG_TAG
-import com.ideasapp.petemotions.presentation.ui.screens.timetable.DatePicker
-import com.ideasapp.petemotions.presentation.ui.screens.timetable.HourPicker
-import com.ideasapp.petemotions.presentation.ui.screens.timetable.MinutePicker
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import java.time.LocalDate
 import java.time.ZoneId

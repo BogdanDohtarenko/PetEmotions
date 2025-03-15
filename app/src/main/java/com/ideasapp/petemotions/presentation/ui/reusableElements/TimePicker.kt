@@ -1,4 +1,4 @@
-package com.ideasapp.petemotions.presentation.ui.screens.timetable
+package com.ideasapp.petemotions.presentation.ui.reusableElements
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ideasapp.petemotions.presentation.ui.reusableElements.Border
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.util.PickerUtil.COUNT_OF_VISIBLE_ITEMS
 import com.ideasapp.petemotions.presentation.util.PickerUtil.ITEM_HEIGHT
