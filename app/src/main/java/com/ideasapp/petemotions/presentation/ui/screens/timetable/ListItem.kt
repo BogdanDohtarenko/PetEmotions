@@ -52,7 +52,7 @@ fun ListItem(item: TimetableItem, onClick: () -> Unit, onLongClick: () -> Unit) 
             Text(
                 text = localDateTime,
                 fontSize = 14.sp,
-                color = Color.Gray,
+                color = Color.Black,
                 modifier = Modifier.padding(start = 8.dp)
             )
         }

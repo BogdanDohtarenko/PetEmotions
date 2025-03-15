@@ -30,7 +30,6 @@ import dagger.hilt.android.AndroidEntryPoint
 // 15. monday display problem in timetable dialog
 // 16. amend some stateful composable functions
 // 17. snack bars
-// 18. color of dattime in timetable
 // 20.
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
