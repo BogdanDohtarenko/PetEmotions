@@ -28,6 +28,10 @@ import dagger.hilt.android.AndroidEntryPoint
 // 13. time in timetable isn't correct when we set it
 // 14. we cant scroll more than 21 in timetable dialog
 // 15. monday display problem in timetable dialog
+// 16. amend some stateful composable functions
+// 17. snack bars
+// 18. color of dattime in timetable
+// 20.
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
