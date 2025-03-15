@@ -83,6 +83,7 @@ fun FullTimetableScreen(
                         )
                     }
                 }
+                // paging settings
                 lazyTimetableItems.apply {
                     when {
                         loadState.refresh is LoadState.Loading -> {

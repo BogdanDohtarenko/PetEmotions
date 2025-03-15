@@ -10,7 +10,7 @@ import kotlin.math.abs
 object PickerUtil {
     fun Int.getTimeDefaultStr(): String =  "${if (this <= 9) "0" else ""}$this"
 
-    internal const val COUNT_OF_VISIBLE_ITEMS = 5
+    internal const val COUNT_OF_VISIBLE_ITEMS = 3
 
     internal const val ITEM_HEIGHT = 35f
 

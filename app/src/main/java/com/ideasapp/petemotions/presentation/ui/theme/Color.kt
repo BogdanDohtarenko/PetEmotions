@@ -23,7 +23,7 @@ val baseLightPalette = ColorPalette(
     buttonColor = Color(0xFFEFEEEE),
     navigationBarColor = Color.White,
     statusBarColor = Color.Transparent,
-    spareContentColor = green
+    spareContentColor = yellow.copy(alpha = 0.8f)
 )
 val baseDarkPalette = baseLightPalette.copy(
     mainColor = orange,
@@ -32,7 +32,7 @@ val baseDarkPalette = baseLightPalette.copy(
     buttonColor = Color(0xFF2D2D31),
     navigationBarColor = Color.Black,
     statusBarColor = Color.Transparent,
-    spareContentColor = green
+    spareContentColor = orange.copy(alpha = 0.8f)
 )
 val LocalColors = staticCompositionLocalOf<ColorPalette> {
     error("Colors composition error")
