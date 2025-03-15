@@ -1,4 +1,4 @@
-package com.ideasapp.petemotions.presentation.util
+package com.ideasapp.petemotions.presentation.ui.screens.statistics
 
 import java.time.Instant
 import java.time.LocalDate

@@ -18,9 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
-import com.ideasapp.petemotions.presentation.util.millisToLocalDateAndTime
-import com.ideasapp.petemotions.presentation.util.toDateTimeString
-import java.time.LocalTime
+import com.ideasapp.petemotions.presentation.ui.screens.statistics.millisToLocalDateAndTime
+import com.ideasapp.petemotions.presentation.ui.screens.statistics.toDateTimeString
 
 @Composable
 fun ListItem(item: TimetableItem, onClick: () -> Unit, onLongClick: () -> Unit) {

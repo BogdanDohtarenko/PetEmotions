@@ -1,11 +1,8 @@
 package com.ideasapp.petemotions.presentation.ui.screens.timetable
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -21,8 +18,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.presentation.ui.reusableElements.Border
@@ -30,82 +25,121 @@ import com.ideasapp.petemotions.presentation.util.PickerUtil.COUNT_OF_VISIBLE_IT
 import com.ideasapp.petemotions.presentation.util.PickerUtil.ITEM_HEIGHT
 import com.ideasapp.petemotions.presentation.util.PickerUtil.LIST_HEIGHT
 import com.ideasapp.petemotions.presentation.util.PickerUtil.getTimeDefaultStr
-import com.ideasapp.petemotions.presentation.util.PickerUtil.itemForScrollTo
-import com.ideasapp.petemotions.presentation.util.PickerUtil.pixelsToDp
 
-//TODO bug: cant scroll more than 21
-//TODO add sounds and vibration
 @Composable
-internal fun TimePicker(
-    initialHour: Int,
-    initialMinute: Int,
-    onTimeChange: (Int, Int) -> Unit,
+fun HourPicker(
+    initial: Int,
+    onTimeChange: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val hoursState = rememberLazyListState(initialFirstVisibleItemIndex = initialHour)
-    val minutesState = rememberLazyListState(initialFirstVisibleItemIndex = initialMinute)
+    var selectedHour by remember { mutableIntStateOf(initial) }
+    val listState = rememberLazyListState(initialFirstVisibleItemIndex = initial)
 
-    var selectedHour by remember { mutableStateOf(initialHour) }
-    var selectedMinute by remember { mutableStateOf(initialMinute) }
-
-    Row(
-        modifier = modifier.height(LIST_HEIGHT.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
-    ) {
-        // Hours Picker
-        Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-            Border(itemHeight = ITEM_HEIGHT.dp, color = Color.Gray)
-
-            LazyColumn(state = hoursState, modifier = Modifier.fillMaxSize()) {
-                itemsIndexed((0..23).toList()) { _, hour ->
-                    Box(
-                        modifier = Modifier.fillParentMaxHeight(1f / COUNT_OF_VISIBLE_ITEMS),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = hour.getTimeDefaultStr(),
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
-                }
+    val list by remember {
+        mutableStateOf(mutableListOf<String>().apply {
+            repeat(COUNT_OF_VISIBLE_ITEMS / 2) { add("") }
+            for (hour in 0..23) {
+                add(hour.getTimeDefaultStr())
             }
-        }
+            repeat(COUNT_OF_VISIBLE_ITEMS / 2) { add("") }
+        })
+    }
 
-        Text(
-            text = ":",
-            fontSize = 16.sp,
-            modifier = Modifier.padding(horizontal = 4.dp)
-        )
+    Box(
+        modifier = modifier.height(LIST_HEIGHT.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Border(itemHeight = ITEM_HEIGHT.dp, color = Color.Black)
 
-        // Minutes Picker
-        Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-            Border(itemHeight = ITEM_HEIGHT.dp, color = Color.Gray)
-
-            LazyColumn(state = minutesState, modifier = Modifier.fillMaxSize()) {
-                itemsIndexed((0..59).toList()) { _, minute ->
-                    Box(
-                        modifier = Modifier.fillParentMaxHeight(1f / COUNT_OF_VISIBLE_ITEMS),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = minute.getTimeDefaultStr(),
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Medium
-                        )
-                    }
+        LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
+            itemsIndexed(list) { _, item ->
+                Box(
+                    modifier = Modifier.fillParentMaxHeight(1f / COUNT_OF_VISIBLE_ITEMS),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = item,
+                        fontSize = 19.sp,
+                    )
                 }
             }
         }
     }
 
-    LaunchedEffect(hoursState.firstVisibleItemIndex, minutesState.firstVisibleItemIndex) {
-        if (hoursState.firstVisibleItemIndex != selectedHour || minutesState.firstVisibleItemIndex != selectedMinute) {
-            selectedHour = hoursState.firstVisibleItemIndex
-            selectedMinute = minutesState.firstVisibleItemIndex
-            onTimeChange(selectedHour, selectedMinute)
+    LaunchedEffect(listState.isScrollInProgress) {
+        if (!listState.isScrollInProgress && listState.firstVisibleItemScrollOffset != 0) {
+            val targetIndex = listState.firstVisibleItemIndex
+            listState.animateScrollToItem(targetIndex)
+        }
+    }
+
+    val offset by remember { derivedStateOf { listState.firstVisibleItemScrollOffset } }
+    LaunchedEffect(offset) {
+        val newHourIndex = listState.firstVisibleItemIndex + COUNT_OF_VISIBLE_ITEMS / 2
+        if (newHourIndex in 0..24) {
+            if (newHourIndex != selectedHour) {
+                onTimeChange(newHourIndex - 1)
+                selectedHour = newHourIndex
+            }
         }
     }
 }
 
+@Composable
+fun MinutePicker(
+    initial: Int,
+    onTimeChange: (Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var selectedMinute by remember { mutableIntStateOf(initial) }
+    val listState = rememberLazyListState(initialFirstVisibleItemIndex = initial)
+
+    val list by remember {
+        mutableStateOf(mutableListOf<String>().apply {
+            repeat(COUNT_OF_VISIBLE_ITEMS / 2) { add("") }
+            for (minute in 0..59) {
+                add(minute.getTimeDefaultStr())
+            }
+            repeat(COUNT_OF_VISIBLE_ITEMS / 2) { add("") }
+        })
+    }
+
+    Box(
+        modifier = modifier.height(LIST_HEIGHT.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Border(itemHeight = ITEM_HEIGHT.dp, color = Color.Black)
+
+        LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
+            itemsIndexed(list) { _, item ->
+                Box(
+                    modifier = Modifier.fillParentMaxHeight(1f / COUNT_OF_VISIBLE_ITEMS),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = item,
+                        fontSize = 19.sp,
+                    )
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(listState.isScrollInProgress) {
+        if (!listState.isScrollInProgress && listState.firstVisibleItemScrollOffset != 0) {
+            val targetIndex = listState.firstVisibleItemIndex
+            listState.animateScrollToItem(targetIndex)
+        }
+    }
+
+    val offset by remember { derivedStateOf { listState.firstVisibleItemScrollOffset } }
+    LaunchedEffect(offset) {
+        val newIndex = listState.firstVisibleItemIndex + COUNT_OF_VISIBLE_ITEMS / 2
+        if (newIndex in 0..60) {
+            if (newIndex != selectedMinute) {
+                onTimeChange(newIndex - 1)
+                selectedMinute = newIndex
+            }
+        }
+    }
+}

@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,7 +28,6 @@ import com.ideasapp.petemotions.presentation.util.PickerUtil.LIST_HEIGHT
 import com.ideasapp.petemotions.presentation.util.PickerUtil.getDateStringWithWeekOfDay
 import java.time.LocalDate
 
-//TODO resolve article
 @Composable
 fun DatePicker(
     initialDate: LocalDate,
@@ -38,9 +38,9 @@ fun DatePicker(
     val dateToday = remember { LocalDate.now() }
     var selectedDate by remember { mutableStateOf(initialDate) }
     val initialDaysIndexItem = remember {
-        mutableStateOf((initialDate.toEpochDay() - dateToday.toEpochDay()).toInt())
+        mutableIntStateOf((initialDate.toEpochDay() - dateToday.toEpochDay()).toInt())
     }
-    val listState = rememberLazyListState(initialFirstVisibleItemIndex = initialDaysIndexItem.value)
+    val listState = rememberLazyListState(initialFirstVisibleItemIndex = initialDaysIndexItem.intValue)
 
     val list by remember {
         mutableStateOf(mutableListOf<String>().apply {
@@ -56,10 +56,10 @@ fun DatePicker(
         modifier = modifier.height(LIST_HEIGHT.dp),
         contentAlignment = Alignment.Center
     ) {
-        Border(itemHeight = ITEM_HEIGHT.dp, color = Color.Gray)
+        Border(itemHeight = ITEM_HEIGHT.dp, color = Color.Black)
 
         LazyColumn(state = listState, modifier = Modifier.fillMaxSize()) {
-            itemsIndexed(list) { index, it ->
+            itemsIndexed(list) {_, it ->
                 Box(
                     modifier = Modifier.fillParentMaxHeight(1f / COUNT_OF_VISIBLE_ITEMS),
                     contentAlignment = Alignment.Center

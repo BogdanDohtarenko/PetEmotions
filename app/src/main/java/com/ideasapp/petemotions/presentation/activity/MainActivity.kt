@@ -17,16 +17,14 @@ import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 //TODO
-// 2.notifications with timetable !
-// 3.PERSONAL TIPS !
-// 4.moods on calendar !
-// 5.normal day notes design !
-// 6.autoFilling of days
-// 8.top bar (filters, ...)
-// 9.color scheme for light theme
+// 2. notifications with timetable !
+// 3. PERSONAL TIPS !
+// 4. moods on calendar !
+// 5. normal day notes design !
+// 6. autoFilling of days
+// 8. top bar (filters, ...)
+// 9. color scheme for light theme
 // 12. mood plot
-// 13. time in timetable isn't correct when we set it
-// 14. we cant scroll more than 21 in timetable dialog
 // 15. monday display problem in timetable dialog
 // 16. amend some stateful composable functions
 // 17. snack bars
