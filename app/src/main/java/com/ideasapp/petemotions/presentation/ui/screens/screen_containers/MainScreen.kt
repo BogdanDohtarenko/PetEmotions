@@ -69,6 +69,7 @@ fun MainScreen(
                 calendarScreenContent = {
                     CalendarScreen(
                         uiState = uiState,
+                        petsList = calendarViewModel.getPetsList(),
                         onPreviousMonthButtonClicked = { prevMonth ->
                             calendarViewModel.toPreviousMonth(prevMonth)
                         },

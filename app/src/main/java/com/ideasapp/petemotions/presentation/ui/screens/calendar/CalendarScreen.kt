@@ -11,13 +11,14 @@ import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.presentation.util.CalendarDateUtil
 import java.time.YearMonth
 import androidx.compose.ui.Modifier
+import com.ideasapp.petemotions.domain.entity.calendar.Pet
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 
-//TODO
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun CalendarScreen(
     uiState: CalendarUiState,
+    petsList: List<Pet>,
     onPreviousMonthButtonClicked: (prevMonth: YearMonth) -> Unit,
     onNextMonthButtonClicked: (nextMonth: YearMonth) -> Unit,
     onEditDayClick: (CalendarUiState.Date) -> Unit
@@ -30,7 +31,9 @@ fun CalendarScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.background(MainTheme.colors.singleTheme)
         ) {
-            TopButtonCalendarBar() //TODO FILTER
+            TopButtonCalendarBar(
+                pets = petsList
+            ) //TODO FILTER
             CalendarWidget(
                 days = CalendarDateUtil.daysOfWeek,
                 yearMonth = uiState.yearMonth,

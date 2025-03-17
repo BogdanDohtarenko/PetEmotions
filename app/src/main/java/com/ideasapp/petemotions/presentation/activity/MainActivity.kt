@@ -20,20 +20,20 @@ import dagger.hilt.android.AndroidEntryPoint
 // 2. notifications with timetable !
 // 3. PERSONAL TIPS !
 // 4. moods on calendar !
-// 5. normal day notes design !
-// 6. autoFilling of days
+// 5. normal day notes design !!
+// 6. autoFilling of days !
 // 8. top bar (filters, ...)
 // 9. color scheme for light theme
-// 12. mood plot
+// 12. mood plot  !!
 // 15. monday display problem in timetable dialog
 // 16. amend some stateful composable functions
-// 17. snack bars
+// 17. snack bars for all use case actions
 // 24. vibration while scrolling dates in picker
 // 26. achievements
 // 27. icons for nav bar
 // 28. switch between screens by swipe
-// 30. error: cant edit timetable description!!
-// 31.
+// 31. profile screen
+// 33. happy birthday to every pet
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 

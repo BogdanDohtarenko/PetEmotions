@@ -14,7 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,8 +31,8 @@ fun EditTimetableDialog(
     onDismiss: () -> Unit,
     onSave: (TimetableItem) -> Unit
 ) {
-    val description by remember {mutableStateOf(item?.description ?: "")}
     // without by to avoid unnecessary recompositions
+    val description = remember {mutableStateOf(item?.description ?: "")}
     val dateTime = remember {mutableLongStateOf(item?.dateTime ?: System.currentTimeMillis())}
 
     AlertDialog(
@@ -52,7 +52,7 @@ fun EditTimetableDialog(
             }
         },
         confirmButton = {
-            CanselSaveButtons(onDismiss, item, description, dateTime.longValue, onSave)
+            CanselSaveButtons(onDismiss, item, description.value, dateTime.longValue, onSave)
         },
         containerColor = MainTheme.colors.mainColor,
     )
@@ -64,9 +64,24 @@ private fun AddEditTitle(item : TimetableItem?) {
 }
 
 @Composable
-private fun CustomTextField(description : String) {
-    var description1 = description
-    TextField(value = description1, onValueChange = {description1 = it}, label = {Text("Description")}, colors = TextFieldDefaults.colors(unfocusedContainerColor = MainTheme.colors.mainColor, unfocusedTextColor = MainTheme.colors.singleTheme, focusedContainerColor = MainTheme.colors.mainColor, focusedTextColor = MainTheme.colors.singleTheme, cursorColor = MainTheme.colors.singleTheme, focusedIndicatorColor = MainTheme.colors.singleTheme, unfocusedIndicatorColor = MainTheme.colors.singleTheme.copy(alpha = 0.5f), focusedLabelColor = MainTheme.colors.singleTheme, unfocusedLabelColor = MainTheme.colors.singleTheme.copy(alpha = 0.5f)), modifier = Modifier.fillMaxWidth())
+fun CustomTextField(description: MutableState<String>) {
+    TextField(
+        value = description.value,
+        onValueChange = { description.value = it },
+        label = { Text("Description") },
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = MainTheme.colors.mainColor,
+            unfocusedTextColor = MainTheme.colors.singleTheme,
+            focusedContainerColor = MainTheme.colors.mainColor,
+            focusedTextColor = MainTheme.colors.singleTheme,
+            cursorColor = MainTheme.colors.singleTheme,
+            focusedIndicatorColor = MainTheme.colors.singleTheme,
+            unfocusedIndicatorColor = MainTheme.colors.singleTheme.copy(alpha = 0.5f),
+            focusedLabelColor = MainTheme.colors.singleTheme,
+            unfocusedLabelColor = MainTheme.colors.singleTheme.copy(alpha = 0.5f)
+        ),
+        modifier = Modifier.fillMaxWidth()
+    )
 }
 
 @Composable

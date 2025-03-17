@@ -8,8 +8,10 @@ import androidx.lifecycle.viewModelScope
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
+import com.ideasapp.petemotions.domain.entity.calendar.Pet
 import com.ideasapp.petemotions.domain.use_case.calendar.AddDayItemUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetCalendarWithMood
+import com.ideasapp.petemotions.presentation.activity.MainActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -72,6 +74,13 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
+    //TODO store data in shared pref
+    fun getPetsList(): List<Pet> {
+        return listOf(
+            Pet(1,"Ellie"),
+            Pet(2,"Hina"),
+        )
+    }
 
     //TODO retrieve data from db
     fun getDayAttributesFood(): List<DayAttribute> {
@@ -104,7 +113,7 @@ class CalendarViewModel @Inject constructor(
 
     fun addOrEditDayItem(selectedDayInfo: DayItemInfo) {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("Calendar", "Adding new item: $selectedDayInfo")
+            Log.d(MainActivity.CALENDAR_LOG_TAG, "Adding new item: $selectedDayInfo")
             addDayItemUseCase(selectedDayInfo)
         }
     }
