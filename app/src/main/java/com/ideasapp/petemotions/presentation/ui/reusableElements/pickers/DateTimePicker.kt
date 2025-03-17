@@ -1,4 +1,4 @@
-package com.ideasapp.petemotions.presentation.ui.reusableElements
+package com.ideasapp.petemotions.presentation.ui.reusableElements.pickers
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -27,11 +27,19 @@ import java.time.ZoneId
 
 @Composable
 fun DateTimePicker(
+    dateTime: Long,
     onValueChange: (Long) -> Unit
 ) {
-    var selectedDate by remember { mutableStateOf(LocalDate.now()) }
-    var selectedHour by remember { mutableIntStateOf(12) }
-    var selectedMinute by remember { mutableIntStateOf(30) }
+    //from millis to LocalDateTime by Instant
+    val initialDateTime = remember(dateTime) {
+        val instant = java.time.Instant.ofEpochMilli(dateTime)
+        val zoneId = java.time.ZoneId.systemDefault()
+        java.time.LocalDateTime.ofInstant(instant, zoneId)
+    }
+
+    var selectedDate by remember { mutableStateOf(initialDateTime.toLocalDate()) }
+    var selectedHour by remember { mutableIntStateOf(initialDateTime.hour) }
+    var selectedMinute by remember { mutableIntStateOf(initialDateTime.minute) }
 
     //convert selected date and time to milliseconds
     val dateTimeInMillis = remember(selectedDate, selectedHour, selectedMinute) {
@@ -54,7 +62,8 @@ fun DateTimePicker(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "$selectedDate, $selectedHour:$selectedMinute",
+            text = "${"%02d".format(selectedDate.dayOfMonth)}.${"%02d".format(selectedDate.monthValue)}.${selectedDate.year}, " +
+        "${"%02d".format(selectedHour)}:${"%02d".format(selectedMinute)}",
             style = MaterialTheme.typography.headlineSmall,
             color = MainTheme.colors.singleTheme,
             modifier = Modifier.padding(16.dp)
