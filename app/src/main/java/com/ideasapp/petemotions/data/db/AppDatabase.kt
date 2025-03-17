@@ -7,6 +7,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.ideasapp.petemotions.data.db.dao.CalendarListDao
 import com.ideasapp.petemotions.data.db.dao.TimetableDao
+import com.ideasapp.petemotions.data.db.dbModels.DayItemInfoDbModel
+import com.ideasapp.petemotions.data.db.dbModels.TimetableItemDbModel
 
 @Database(entities = [
     DayItemInfoDbModel::class,

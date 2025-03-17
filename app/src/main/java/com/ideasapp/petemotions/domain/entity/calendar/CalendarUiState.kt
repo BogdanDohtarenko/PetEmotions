@@ -18,11 +18,11 @@ data class CalendarUiState(
         @SerializedName("isSelected")
         val isSelected: Boolean = false,
         @SerializedName("dayInfoItem")
-        val dayInfoItem: DayItemInfo = DayItemInfo(0)
+        val dayInfoItem: DayItemInfo = DayItemInfo(0, -1)
     ): Serializable {
 
         companion object {
-            val Empty = Date("", false, DayItemInfo(0))
+            val Empty = Date("", false, DayItemInfo(0, petId = -1))
         }
 
     }

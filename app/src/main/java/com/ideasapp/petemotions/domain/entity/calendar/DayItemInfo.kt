@@ -7,8 +7,10 @@ import java.time.LocalDate
 data class DayItemInfo(
     @SerializedName("date")
     val date: Long = 1,
+    @SerializedName("petId")
+    val petId: Int,
     @SerializedName("mood")
-    val mood: String = EMPTY
+    val mood: String = EMPTY,
 ): Serializable {
     companion object {
         const val EMPTY = ""

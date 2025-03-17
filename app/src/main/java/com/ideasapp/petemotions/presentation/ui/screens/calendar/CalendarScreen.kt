@@ -21,7 +21,8 @@ fun CalendarScreen(
     petsList: List<Pet>,
     onPreviousMonthButtonClicked: (prevMonth: YearMonth) -> Unit,
     onNextMonthButtonClicked: (nextMonth: YearMonth) -> Unit,
-    onEditDayClick: (CalendarUiState.Date) -> Unit
+    onEditDayClick: (CalendarUiState.Date) -> Unit,
+    onPetClick: (Int) -> Unit
 ) {
     Box(modifier = Modifier
         .fillMaxSize()
@@ -32,7 +33,8 @@ fun CalendarScreen(
             modifier = Modifier.background(MainTheme.colors.singleTheme)
         ) {
             TopButtonCalendarBar(
-                pets = petsList
+                pets = petsList,
+                onPetClick = onPetClick
             ) //TODO FILTER
             CalendarWidget(
                 days = CalendarDateUtil.daysOfWeek,

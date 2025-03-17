@@ -4,8 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.ideasapp.petemotions.data.db.TimetableItemDbModel
-import kotlinx.coroutines.flow.Flow
+import com.ideasapp.petemotions.data.db.dbModels.TimetableItemDbModel
 
 @Dao
 interface TimetableDao {

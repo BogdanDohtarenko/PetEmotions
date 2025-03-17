@@ -34,6 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 28. switch between screens by swipe
 // 31. profile screen
 // 33. happy birthday to every pet
+// 37. error fetching Map from db !!!!!!!!!!!!!!!!
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 

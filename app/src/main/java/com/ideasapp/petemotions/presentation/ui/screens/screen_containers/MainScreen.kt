@@ -81,7 +81,8 @@ fun MainScreen(
                             val dateJson = date.toJson()
                             //Navigate to EditDay
                             navController.navigate("${NavItem.EditDay.route}/${dateJson}")
-                        }
+                        },
+                        onPetClick = { petId -> calendarViewModel.onChangePet(petId) }
                     )},
                 dayInfoEditContent = { date, onClose ->
                     DayInfoEdit(
