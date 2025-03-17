@@ -29,7 +29,11 @@ import dagger.hilt.android.AndroidEntryPoint
 // 16. amend some stateful composable functions
 // 17. snack bars
 // 24. vibration while scrolling dates in picker
-// 25. error: cant edit timetable items !!!
+// 26. achievements
+// 27. icons for nav bar
+// 28. switch between screens by swipe
+// 30. error: cant edit timetable description!!
+// 31.
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 

@@ -1,4 +1,4 @@
-package com.ideasapp.petemotions.presentation.ui.reusableElements
+package com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth

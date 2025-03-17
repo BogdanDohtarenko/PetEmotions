@@ -18,14 +18,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
-import com.ideasapp.petemotions.presentation.ui.reusableElements.DateTimePicker
+import com.ideasapp.petemotions.presentation.ui.reusableElements.pickers.DateTimePicker
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
-
 
 @Composable
 fun EditTimetableDialog(
@@ -34,7 +32,8 @@ fun EditTimetableDialog(
     onSave: (TimetableItem) -> Unit
 ) {
     val description by remember {mutableStateOf(item?.description ?: "")}
-    var dateTime by remember {mutableLongStateOf(item?.dateTime ?: System.currentTimeMillis())}
+    // without by to avoid unnecessary recompositions
+    val dateTime = remember {mutableLongStateOf(item?.dateTime ?: System.currentTimeMillis())}
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -48,12 +47,12 @@ fun EditTimetableDialog(
                     .height(300.dp)
             ) {
                 CustomTextField(description)
-                Spacer( modifier = Modifier.height(8.dp) )
-                DateTimePicker { dateTimeInMillis -> dateTime = dateTimeInMillis}
+                Spacer(modifier = Modifier.height(8.dp))
+                DateTimePicker(dateTime.longValue) { dateTimeInMillis -> dateTime.longValue = dateTimeInMillis}
             }
         },
         confirmButton = {
-            CanselSaveButtons(onDismiss, item, description, dateTime, onSave)
+            CanselSaveButtons(onDismiss, item, description, dateTime.longValue, onSave)
         },
         containerColor = MainTheme.colors.mainColor,
     )
@@ -71,14 +70,37 @@ private fun CustomTextField(description : String) {
 }
 
 @Composable
-private fun CanselSaveButtons(onDismiss : ()->Unit, item : TimetableItem?, description : String, dateTime : Long, onSave : (TimetableItem)->Unit) {
-    Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp), horizontalArrangement = Arrangement.SpaceBetween) {
-        Button(onClick = onDismiss, colors = ButtonDefaults.buttonColors(containerColor = MainTheme.colors.buttonColor, contentColor = MainTheme.colors.oppositeTheme, disabledContentColor = MainTheme.colors.oppositeTheme, disabledContainerColor = MainTheme.colors.buttonColor.copy(alpha = 0.5f))) {
+private fun CanselSaveButtons(
+    onDismiss : ()->Unit,
+    item : TimetableItem?,
+    description : String,
+    dateTime : Long,
+    onSave : (TimetableItem)->Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Button(
+            onClick = onDismiss,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MainTheme.colors.buttonColor,
+                contentColor = MainTheme.colors.oppositeTheme,
+                disabledContentColor = MainTheme.colors.oppositeTheme,
+                disabledContainerColor = MainTheme.colors.buttonColor.copy(alpha = 0.5f)
+            )
+        ) {
             Text("Cancel")
         }
         Button(onClick = {
             val newItem = if (item != null) {
-                TimetableItem(description = description, dateTime = dateTime, id = item.id)
+                TimetableItem(
+                    description = description,
+                    dateTime = dateTime,
+                    id = item.id
+                )
             } else {
                 TimetableItem(
                     description = description,
