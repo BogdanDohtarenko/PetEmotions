@@ -3,15 +3,20 @@ package com.ideasapp.petemotions.presentation.viewModels
 import android.util.Log
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
+import com.ideasapp.petemotions.domain.entity.calendar.Pet
 import com.ideasapp.petemotions.domain.use_case.calendar.AddDayItemUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetCalendarWithMood
+import com.ideasapp.petemotions.presentation.activity.MainActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,16 +30,21 @@ import javax.inject.Inject
 class CalendarViewModel @Inject constructor(
     private val getCalendarWithMood: GetCalendarWithMood,
     private val addDayItemUseCase: AddDayItemUseCase
-) : ViewModel() {
+)  : ViewModel() {
 
     private val _uiState = MutableStateFlow(CalendarUiState.Init)
     val uiState: StateFlow<CalendarUiState> = _uiState.asStateFlow()
 
+    private var petDataFlowMap: Map<Int, Flow<List<CalendarUiState.Date>>>? = null
+    private var currentPetList = petDataFlowMap?.get(0)
+
+
     init {
         viewModelScope.launch {
-            getCalendarWithMood(_uiState.value.yearMonth)
-                .flowOn(Dispatchers.IO)
-                .collect { newDates ->
+            petDataFlowMap = getCalendarWithMood(_uiState.value.yearMonth)
+            currentPetList
+                ?.flowOn(Dispatchers.IO)
+                ?.collect { newDates ->
                     _uiState.update { currentState ->
                         currentState.copy(dates = newDates)
                     }
@@ -44,9 +54,9 @@ class CalendarViewModel @Inject constructor(
 
     fun toNextMonth( nextMonth: YearMonth ) {
         viewModelScope.launch {
-            getCalendarWithMood(nextMonth)
-                .flowOn(Dispatchers.IO)
-                .collect { newDates ->
+            currentPetList
+                ?.flowOn(Dispatchers.IO)
+                ?.collect { newDates ->
                     _uiState.update { currentState ->
                         currentState.copy(
                             yearMonth = nextMonth,
@@ -59,9 +69,9 @@ class CalendarViewModel @Inject constructor(
 
     fun toPreviousMonth(prevMonth: YearMonth) {
         viewModelScope.launch {
-            getCalendarWithMood(prevMonth)
-                .flowOn(Dispatchers.IO)
-                .collect { newDates ->
+            currentPetList
+                ?.flowOn(Dispatchers.IO)
+                ?.collect { newDates ->
                     _uiState.update { currentState ->
                         currentState.copy(
                             yearMonth = prevMonth,
@@ -72,6 +82,17 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
+    fun onChangePet(petId: Int) {
+        currentPetList = petDataFlowMap?.get(petId)
+    }
+
+    //TODO store data in shared pref
+    fun getPetsList(): List<Pet> {
+        return listOf(
+            Pet(0,"Ellie"),
+            Pet(1,"Hina"),
+        )
+    }
 
     //TODO retrieve data from db
     fun getDayAttributesFood(): List<DayAttribute> {
@@ -104,7 +125,7 @@ class CalendarViewModel @Inject constructor(
 
     fun addOrEditDayItem(selectedDayInfo: DayItemInfo) {
         viewModelScope.launch(Dispatchers.IO) {
-            Log.d("Calendar", "Adding new item: $selectedDayInfo")
+            Log.d(MainActivity.CALENDAR_LOG_TAG, "Adding new item: $selectedDayInfo")
             addDayItemUseCase(selectedDayInfo)
         }
     }

@@ -1,4 +1,4 @@
-package com.ideasapp.petemotions.data.db
+package com.ideasapp.petemotions.data.db.dbModels
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

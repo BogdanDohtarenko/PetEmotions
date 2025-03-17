@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.R
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
+import com.ideasapp.petemotions.domain.entity.calendar.Pet
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.util.getDisplayName
 import java.time.YearMonth

@@ -1,6 +1,6 @@
 package com.ideasapp.petemotions.data.db.mappers
 
-import com.ideasapp.petemotions.data.db.TimetableItemDbModel
+import com.ideasapp.petemotions.data.db.dbModels.TimetableItemDbModel
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
 
 object TimetableMapper {
