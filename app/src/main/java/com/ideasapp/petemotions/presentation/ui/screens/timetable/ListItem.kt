@@ -29,10 +29,10 @@ fun ListItem(item: TimetableItem, onClick: () -> Unit, onLongClick: () -> Unit) 
             .fillMaxWidth()
             .background(color = MainTheme.colors.mainColor, shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
             .padding(8.dp)
-            .clickable { onClick() }
             .pointerInput(Unit) {
                 detectTapGestures(
-                    onLongPress = { onLongClick() },
+                    onTap = {onClick()},
+                    onLongPress = {onLongClick()},
                 )
             }
     ) {
