@@ -3,9 +3,9 @@ package com.ideasapp.petemotions.presentation.viewModels
 import android.util.Log
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -32,6 +33,8 @@ class CalendarViewModel @Inject constructor(
     private val addDayItemUseCase: AddDayItemUseCase
 )  : ViewModel() {
 
+    private val petIdLD: MutableLiveData<Int> = MutableLiveData(0)
+
     private val _uiState = MutableStateFlow(CalendarUiState.Init)
     val uiState: StateFlow<CalendarUiState> = _uiState.asStateFlow()
 
@@ -41,10 +44,16 @@ class CalendarViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            Log.d(MainActivity.CALENDAR_LOG_TAG, "Before calling getCalendarWithMood")
             petDataFlowMap = getCalendarWithMood(_uiState.value.yearMonth)
+            Log.d(MainActivity.CALENDAR_LOG_TAG, "After calling getCalendarWithMood: $petDataFlowMap")
+            if (currentPetList == null) {
+                Log.e(MainActivity.CALENDAR_LOG_TAG, "currentPetList is null")
+            }
             currentPetList
                 ?.flowOn(Dispatchers.IO)
                 ?.collect { newDates ->
+                    Log.d(MainActivity.CALENDAR_LOG_TAG, "Collected dates: $newDates")
                     _uiState.update { currentState ->
                         currentState.copy(dates = newDates)
                     }
@@ -52,38 +61,38 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    fun toNextMonth( nextMonth: YearMonth ) {
+    fun toNextMonth(nextMonth: YearMonth) {
         viewModelScope.launch {
-            currentPetList
-                ?.flowOn(Dispatchers.IO)
-                ?.collect { newDates ->
-                    _uiState.update { currentState ->
-                        currentState.copy(
-                            yearMonth = nextMonth,
-                            dates = newDates
-                        )
-                    }
+            petDataFlowMap = getCalendarWithMood(nextMonth)
+            currentPetList = petDataFlowMap?.get(petIdLD.value)
+            currentPetList?.collect { newDates ->
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        yearMonth = nextMonth,
+                        dates = newDates
+                    )
                 }
+            }
         }
     }
 
     fun toPreviousMonth(prevMonth: YearMonth) {
         viewModelScope.launch {
-            currentPetList
-                ?.flowOn(Dispatchers.IO)
-                ?.collect { newDates ->
-                    _uiState.update { currentState ->
-                        currentState.copy(
-                            yearMonth = prevMonth,
-                            dates = newDates
-                        )
-                    }
+            petDataFlowMap = getCalendarWithMood(prevMonth)
+            currentPetList = petDataFlowMap?.get(petIdLD.value)
+            currentPetList?.collect { newDates ->
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        yearMonth = prevMonth,
+                        dates = newDates
+                    )
                 }
+            }
         }
     }
 
     fun onChangePet(petId: Int) {
-        currentPetList = petDataFlowMap?.get(petId)
+        petIdLD.value = petId
     }
 
     //TODO store data in shared pref

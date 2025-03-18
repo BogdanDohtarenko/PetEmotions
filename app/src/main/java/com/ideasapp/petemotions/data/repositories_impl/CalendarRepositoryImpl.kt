@@ -1,11 +1,13 @@
 package com.ideasapp.petemotions.data.repositories_impl
 
+import android.util.Log
 import com.ideasapp.petemotions.data.db.dao.CalendarListDao
 import com.ideasapp.petemotions.data.db.mappers.DayInfoMapper
 import com.ideasapp.petemotions.data.db.dbModels.DayItemInfoDbModel
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.repositories.CalendarRepository
+import com.ideasapp.petemotions.presentation.activity.MainActivity
 import com.ideasapp.petemotions.presentation.util.getDayOfMonthStartingFromMonday
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -23,21 +25,32 @@ class CalendarRepositoryImpl @Inject constructor(
     override suspend fun getCalendarWithMood(
         yearMonth: YearMonth
     ): Map<Int, Flow<List<CalendarUiState.Date>>> {
+        Log.d(MainActivity.CALENDAR_LOG_TAG, "getCalendarWithMood called with yearMonth: $yearMonth")
+
         val moodDataFlow = calendarListDao.getDayInfoList()
         val petDataMap = mutableMapOf<Int, MutableList<DayItemInfoDbModel>>()
 
-        moodDataFlow.collect { allMoodData ->
-            allMoodData.forEach { moodData ->
-                petDataMap.getOrPut(moodData.petId) { mutableListOf() }.add(moodData)
+        try {
+            moodDataFlow.collect { allMoodData ->
+                Log.d(MainActivity.CALENDAR_LOG_TAG, "Collected allMoodData: $allMoodData")
+                allMoodData.forEach { moodData ->
+                    petDataMap.getOrPut(moodData.petId) { mutableListOf() }.add(moodData)
+                }
             }
+        } catch (e: Exception) {
+            Log.e(MainActivity.CALENDAR_LOG_TAG, "Error in moodDataFlow.collect: ${e.message}")
         }
+
+        Log.d(MainActivity.CALENDAR_LOG_TAG, "Pet data map after collect: $petDataMap")
+
         return petDataMap.mapValues { (petId, moodList) ->
             flow {
+                Log.d(MainActivity.CALENDAR_LOG_TAG, "Processing data for petId=$petId")
                 val filteredData = dayItemInfoDbModels(moodList, yearMonth)
-
                 val dates = yearMonth.getDayOfMonthStartingFromMonday().map { date ->
                     val currDayInfo = filteredData.find { it.date == date.toEpochDay() }
-                        ?.let { DayInfoMapper.dbModelToEntity(it) } ?: DayItemInfo(date = date.toEpochDay(), petId = -1)
+                        ?.let { DayInfoMapper.dbModelToEntity(it) }
+                        ?: DayItemInfo(date = date.toEpochDay(), petId = -1)
                     val isDateInMonth = date.monthValue == yearMonth.monthValue
 
                     CalendarUiState.Date(
@@ -50,6 +63,7 @@ class CalendarRepositoryImpl @Inject constructor(
             }.flowOn(Dispatchers.IO)
         }.toMap()
     }
+
     private fun dayItemInfoDbModels(allMoodData: List<DayItemInfoDbModel>, yearMonth: YearMonth): List<DayItemInfoDbModel> {
         return allMoodData.filter { item ->
             val date = LocalDate.ofEpochDay(item.date)
