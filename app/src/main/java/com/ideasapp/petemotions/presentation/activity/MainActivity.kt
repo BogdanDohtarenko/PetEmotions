@@ -25,7 +25,6 @@ import dagger.hilt.android.AndroidEntryPoint
 // 8. top bar (filters, ...)
 // 9. color scheme for light theme
 // 12. mood plot  !!
-// 17. snack bars for all use case actions
 // 24. vibration while scrolling dates in picker
 // 26. achievements
 // 27. icons for nav bar
@@ -34,7 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 33. happy birthday to every pet
 // 42. REFACTOR CalendarViewModel !!!!!!!!!
 // 45. clean all files
-// 46.
+// 46. block all days that haven't arrived yet
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
