@@ -10,7 +10,7 @@ data class DayItemInfo(
     @SerializedName("petId")
     val petId: Int = 0,
     @SerializedName("mood")
-    val mood: Int = EMPTY,
+    val mood: Int? = null,
 ): Serializable {
     companion object {
         const val EMPTY = 0

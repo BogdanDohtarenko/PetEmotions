@@ -1,5 +1,6 @@
 package com.ideasapp.petemotions.presentation.ui.screens.calendar
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,7 +29,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +39,7 @@ import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.presentation.activity.MainActivity
+import com.ideasapp.petemotions.presentation.activity.MainActivity.Companion.CALENDAR_LOG_TAG
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import java.time.LocalDate
 import java.time.format.TextStyle
@@ -58,7 +59,6 @@ fun DayInfoEdit(
     if (petId == null) throw RuntimeException("petId = null")
 
     val moodState = remember { mutableIntStateOf(MainActivity.MOOD_STATE_NORMAL) }
-    val newDayInfo = remember { mutableStateOf(DayItemInfo(date = dateItem.dayInfoItem.date, petId = petId, mood = moodState.intValue)) }
 
     val textColor =  MaterialTheme.colorScheme.onBackground
     val dateLocalDate = LocalDate.ofEpochDay(dateItem.dayInfoItem.date)
@@ -110,8 +110,10 @@ fun DayInfoEdit(
             Spacer(modifier = Modifier.height(8.dp))
             Button(
                 onClick = {
-                    onSaveDayInfoClick(newDayInfo.value)
+                    val newDayInfo = DayItemInfo(date = dateItem.dayInfoItem.date, petId = petId, mood = moodState.intValue)
+                    onSaveDayInfoClick(newDayInfo)
                     exitCallback()
+                    Log.d(CALENDAR_LOG_TAG, "item saved: $newDayInfo")
                 },
                 colors = ButtonColors(
                     containerColor = MainTheme.colors.mainColor,
@@ -126,6 +128,7 @@ fun DayInfoEdit(
     }
 }
 
+//TODO divide into different files
 @Composable
 private fun ChooseDayAttributesBox(
     textColor: Color,

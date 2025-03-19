@@ -17,7 +17,7 @@ import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 //TODO
-// 2. notifications with timetable !
+// 2. notifications with timetable
 // 3. PERSONAL TIPS !
 // 4. moods on calendar !
 // 5. normal day notes design !!
@@ -25,8 +25,6 @@ import dagger.hilt.android.AndroidEntryPoint
 // 8. top bar (filters, ...)
 // 9. color scheme for light theme
 // 12. mood plot  !!
-// 15. monday display problem in timetable dialog
-// 16. amend some stateful composable functions
 // 17. snack bars for all use case actions
 // 24. vibration while scrolling dates in picker
 // 26. achievements
@@ -34,8 +32,8 @@ import dagger.hilt.android.AndroidEntryPoint
 // 28. switch between screens by swipe
 // 31. profile screen
 // 33. happy birthday to every pet
-// 38. add day info
-// 39. show different day info for different pet
+// 42. REFACTOR CalendarViewModel !!!!!!!!!
+// 43. error:  when we return from edit day pet id died
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 

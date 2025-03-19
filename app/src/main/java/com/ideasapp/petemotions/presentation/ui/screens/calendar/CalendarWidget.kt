@@ -87,6 +87,10 @@ fun ContentItem(
     onClickListener: (CalendarUiState.Date) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val color = if (date.dayInfoItem.mood == null)
+        MainTheme.colors.singleTheme.copy(alpha = 1f)
+        else
+        MainTheme.colors.mainColor
     Box(
         modifier = modifier
             .clickable {
@@ -98,9 +102,9 @@ fun ContentItem(
         ) {
             // TODO Get gray icon if not filled
             Text(
-                text = date.dayInfoItem.mood.toString(), //set mood here
+                text = date.dayInfoItem.mood?.toString() ?: "0", //set mood here
                 style = MaterialTheme.typography.bodyMedium,
-                color = MainTheme.colors.mainColor,
+                color = color,
                 modifier = Modifier
                     .padding(10.dp)
                     .align(Alignment.CenterHorizontally)

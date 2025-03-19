@@ -37,6 +37,8 @@ class CalendarViewModel @Inject constructor(
     private val addDayItemUseCase: AddDayItemUseCase
 )  : ViewModel() {
 
+    //TODO REFACTOR DELETE UNNECESSARY
+
     private val petIdLD: MutableLiveData<Int> = MutableLiveData(0)
 
     private val _allDatesState = MutableStateFlow<List<CalendarUiState.Date>>(emptyList())
@@ -67,6 +69,9 @@ class CalendarViewModel @Inject constructor(
             .flowOn(Dispatchers.IO)
             .onEach { petDates ->
                 _petDatesState.value = petDates
+                _uiState.update { currentState ->
+                    currentState.copy(dates = petDates)
+                }
             }
             .launchIn(viewModelScope)
     }

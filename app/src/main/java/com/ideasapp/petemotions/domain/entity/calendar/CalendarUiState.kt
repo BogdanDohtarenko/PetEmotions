@@ -24,7 +24,7 @@ data class CalendarUiState(
     ): Serializable {
 
         companion object {
-            val Empty = Date("", false, DayItemInfo(0, petId = -1))
+            val Empty = Date("", false, DayItemInfo(0))
         }
 
     }
