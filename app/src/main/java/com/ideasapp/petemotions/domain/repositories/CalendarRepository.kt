@@ -7,9 +7,14 @@ import kotlinx.coroutines.flow.Flow
 import java.time.YearMonth
 
 interface CalendarRepository {
-    suspend fun getCalendarWithMood(
-        yearMonth: YearMonth
-    ): Map<Int, Flow<List<CalendarUiState.Date>>>
+    suspend fun getCalendar(
+        yearMonth: YearMonth,
+    ): Flow<List<CalendarUiState.Date>>
+
+    suspend fun getMoodForPet(
+        yearMonth : YearMonth,
+        petId: Int
+    ): Flow<List<CalendarUiState.Date>>
 
     suspend fun addDayItemInfo(
         dayItemInfo:DayItemInfo

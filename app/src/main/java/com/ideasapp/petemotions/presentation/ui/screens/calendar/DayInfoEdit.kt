@@ -1,9 +1,9 @@
 package com.ideasapp.petemotions.presentation.ui.screens.calendar
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -20,11 +19,17 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableIntState
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +37,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
+import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
+import com.ideasapp.petemotions.presentation.activity.MainActivity
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import java.time.LocalDate
 import java.time.format.TextStyle
@@ -39,25 +46,28 @@ import java.util.Locale
 
 @Composable
 fun DayInfoEdit(
-    onSaveDayInfoClick: (CalendarUiState.Date) -> Unit,
+    onSaveDayInfoClick: (DayItemInfo) -> Unit,
     exitCallback: () -> Unit,
     dateItem: CalendarUiState.Date?,
+    petId: Int?,
     optionalAttributesFood: List<DayAttribute>?,
     optionalAttributesHealth: List<DayAttribute>?,
     optionalAttributesEvents: List<DayAttribute>?,
 ) {
     if (dateItem == null) throw RuntimeException("Date to DayInfoEdit = null")
+    if (petId == null) throw RuntimeException("petId = null")
+
+    val moodState = remember { mutableIntStateOf(MainActivity.MOOD_STATE_NORMAL) }
+    val newDayInfo = remember { mutableStateOf(DayItemInfo(date = dateItem.dayInfoItem.date, petId = petId, mood = moodState.intValue)) }
 
     val textColor =  MaterialTheme.colorScheme.onBackground
     val dateLocalDate = LocalDate.ofEpochDay(dateItem.dayInfoItem.date)
-
     val attributesFood = listOf(
         DayAttribute(Icons.AutoMirrored.Default.Send, "opt 1"),
         DayAttribute(Icons.AutoMirrored.Default.Send, "opt 2"),
         DayAttribute(Icons.AutoMirrored.Default.Send, "opt 3"),
         DayAttribute(Icons.AutoMirrored.Default.Send, "opt 4"),
     )
-
     val scrollState = rememberScrollState()
     Box(modifier = Modifier
         .background(MainTheme.colors.singleTheme)
@@ -69,13 +79,20 @@ fun DayInfoEdit(
                 .fillMaxWidth()
                 .verticalScroll(scrollState),
         ) {
-            HeaderForDay(dateLocalDate, textColor, exitCallback)
-            MoodChooseBox(textColor)
+            HeaderForDay(
+                dateLocalDate = dateLocalDate,
+                exitCallback =  exitCallback
+            )
+            ChooseMoodBox(
+                onClick = { moodState.intValue = it },
+                moodState = moodState
+            )
+            //TODO add attribute choosing
             ChooseDayAttributesBox(
                 textColor = textColor,
                 titleOfBox = "Health",
                 dayAttributesForFirstRow = attributesFood,
-                dayAttributesOptional = optionalAttributesFood) // Health
+                dayAttributesOptional = optionalAttributesHealth) // Health
             ChooseDayAttributesBox(
                 textColor = textColor,
                 titleOfBox = "Food",
@@ -85,12 +102,26 @@ fun DayInfoEdit(
                 textColor = textColor,
                 titleOfBox = "Events",
                 dayAttributesForFirstRow = attributesFood,
-                dayAttributesOptional = optionalAttributesFood) // Events
+                dayAttributesOptional = optionalAttributesEvents) // Events
             //TODO
             // FOOD
             // EVENTS
             // HEALTH
             Spacer(modifier = Modifier.height(8.dp))
+            Button(
+                onClick = {
+                    onSaveDayInfoClick(newDayInfo.value)
+                    exitCallback()
+                },
+                colors = ButtonColors(
+                    containerColor = MainTheme.colors.mainColor,
+                    contentColor = MainTheme.colors.singleTheme,
+                    disabledContentColor = MainTheme.colors.singleTheme,
+                    disabledContainerColor = MainTheme.colors.mainColor
+                )
+            ) {
+                Text(text = "save")
+            }
         }
     }
 }
@@ -170,27 +201,67 @@ private fun ChooseDayAttributesBox(
 }
 
 @Composable
-private fun MoodChooseBox(textColor : Color) {
+private fun ChooseMoodBox(
+    onClick: (Int) -> Unit,
+    moodState: MutableIntState
+) {
+    val moodStateValue = moodState.intValue
+    val selectedColor = MainTheme.colors.mainColor
+    val unselectedColor = MainTheme.colors.singleTheme
     Box(modifier = Modifier
         .fillMaxWidth(0.7f)
         .padding(vertical = 8.dp)
-        .background(Color.Gray)) {
-        Row(modifier = Modifier.align(Alignment.Center)) {
-            Text("B", color = textColor, modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .padding(20.dp, 8.dp))
-            Text("N", color = textColor, modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .padding(20.dp, 8.dp))
-            Text("G", color = textColor, modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .padding(20.dp, 8.dp))
+        .background(MainTheme.colors.singleTheme)
+    ) {
+        Row(
+            modifier = Modifier.align(Alignment.Center)
+        ) {
+            //Change to images
+            Text(
+                "B",
+                color = if (moodStateValue == MainActivity.MOOD_STATE_BAD)
+                        unselectedColor
+                    else
+                        selectedColor,
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .padding(20.dp, 8.dp)
+                    .background(if (moodStateValue == MainActivity.MOOD_STATE_BAD) selectedColor
+                    else unselectedColor)
+                    .clickable {onClick(MainActivity.MOOD_STATE_BAD)}
+            )
+            Text(
+                "N",
+                color = if (moodStateValue == MainActivity.MOOD_STATE_NORMAL)
+                        unselectedColor
+                    else
+                        selectedColor,
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .padding(20.dp, 8.dp)
+                    .background(if (moodStateValue == MainActivity.MOOD_STATE_NORMAL) selectedColor
+                    else unselectedColor)
+                    .clickable {onClick(MainActivity.MOOD_STATE_NORMAL)}
+            )
+            Text(
+                "G",
+                color = if (moodStateValue == MainActivity.MOOD_STATE_GOOD)
+                    unselectedColor
+                else
+                    selectedColor,
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .padding(20.dp, 8.dp)
+                    .background(if (moodStateValue == MainActivity.MOOD_STATE_GOOD) selectedColor
+                    else unselectedColor)
+                    .clickable {onClick(MainActivity.MOOD_STATE_GOOD)}
+            )
         }
     }
 }
 
 @Composable
-private fun HeaderForDay(dateLocalDate : LocalDate, textColor : Color,  exitCallback: () -> Unit) {
+private fun HeaderForDay(dateLocalDate : LocalDate,  exitCallback: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -201,12 +272,12 @@ private fun HeaderForDay(dateLocalDate : LocalDate, textColor : Color,  exitCall
             Icon(
                 imageVector = Icons.AutoMirrored.Default.ArrowBack,
                 contentDescription = "Back",
-                tint = textColor
+                tint = MainTheme.colors.mainColor
             )
         }
         Text(
             "${dateLocalDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())},"+" ${dateLocalDate.dayOfMonth}"+" ${dateLocalDate.month.getDisplayName(TextStyle.FULL, Locale.getDefault())}",
-            color = textColor,
+            color = MainTheme.colors.mainColor,
             style = MaterialTheme.typography.titleMedium,
             modifier = Modifier
                 .weight(8f)

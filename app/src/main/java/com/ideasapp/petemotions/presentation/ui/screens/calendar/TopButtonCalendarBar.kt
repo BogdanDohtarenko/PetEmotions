@@ -18,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -36,10 +37,9 @@ import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 @Composable
 fun TopButtonCalendarBar(
     pets: List<Pet>,
-    onPetClick: (Int) -> Unit
+    onPetClick: (Int) -> Unit,
+    petId: MutableIntState
 ) {
-    var petSelected by remember { mutableIntStateOf(0) }
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -74,18 +74,18 @@ fun TopButtonCalendarBar(
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                         .background(
                             color =
-                                if (petSelected == pet.id) MainTheme.colors.mainColor
+                                if (petId.intValue == pet.id) MainTheme.colors.mainColor
                                 else MainTheme.colors.singleTheme,
                             shape = RoundedCornerShape(8.dp)
                         )
                         .padding(8.dp)
                         .clickable {
                             Log.d(CALENDAR_LOG_TAG, "pet: ${pet.id} clicked")
-                            petSelected = pet.id
+                            petId.intValue = pet.id
                             onPetClick(pet.id)
                         },
                     color =
-                        if (petSelected == pet.id) MainTheme.colors.singleTheme
+                        if (petId.intValue == pet.id) MainTheme.colors.singleTheme
                         else MainTheme.colors.mainColor
                 )
             }

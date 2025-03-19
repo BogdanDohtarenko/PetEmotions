@@ -34,7 +34,8 @@ import dagger.hilt.android.AndroidEntryPoint
 // 28. switch between screens by swipe
 // 31. profile screen
 // 33. happy birthday to every pet
-// 37. error fetching Map from db !!!!!!!!!!!!!!!!
+// 38. add day info
+// 39. show different day info for different pet
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -66,6 +67,10 @@ class MainActivity : ComponentActivity() {
     companion object {
         const val CALENDAR_LOG_TAG = "Calendar"
         const val TIMETABLE_LOG_TAG = "Timetable"
+
+        const val MOOD_STATE_GOOD = 3
+        const val MOOD_STATE_NORMAL = 2
+        const val MOOD_STATE_BAD = 1
     }
 }
 

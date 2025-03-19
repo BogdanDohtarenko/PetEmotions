@@ -31,7 +31,7 @@ fun NavigationHost(
     statisticsScreenContent: @Composable () -> Unit,
     calendarScreenContent: @Composable () -> Unit,
     timetableScreenContent: @Composable () -> Unit,
-    dayInfoEditContent: @Composable (CalendarUiState.Date?,  () -> Unit) -> Unit,
+    dayInfoEditContent: @Composable (CalendarUiState.Date?,  () -> Unit, Int?) -> Unit,
 ) {
     //TODO amend animations
     NavHost(
@@ -70,8 +70,11 @@ fun NavigationHost(
         }
         //EDIT DAY
         composable(
-            route = NavItem.EditDay.route + "/{${NavItem.DATE_PARAM}}",
-            arguments = listOf(navArgument(NavItem.DATE_PARAM) { type = NavType.StringType }), // StringType
+            route = NavItem.EditDay.route + "/{${NavItem.DATE_PARAM}}" + "/{${NavItem.PET_PARAM}}",
+            arguments = listOf(
+                navArgument(NavItem.DATE_PARAM) { type = NavType.StringType },
+                navArgument(NavItem.PET_PARAM) { type = NavType.IntType }
+            ), // StringType
             enterTransition = { slideInHorizontally(initialOffsetX = { 100 }) + fadeIn() },
             exitTransition = { slideOutHorizontally(targetOffsetX = { -100 }) + fadeOut() },
             popEnterTransition = { slideInHorizontally(initialOffsetX = { -100 }) + fadeIn() },
@@ -81,10 +84,12 @@ fun NavigationHost(
             Log.d(MainActivity.CALENDAR_LOG_TAG,
                 " date got in json: ${stackEntry.arguments?.getString(NavItem.DATE_PARAM)}")
             val dateJson = stackEntry.arguments?.getString(NavItem.DATE_PARAM)
+            val petIdJson = stackEntry.arguments?.getInt(NavItem.PET_PARAM)
             //cast to CalendarUiState.Date
             val date = dateJson?.toCalendarUiStateDate()
+            val petId = petIdJson?.toInt()
 
-            dayInfoEditContent(date, { navController.popBackStack() })
+            dayInfoEditContent(date, { navController.popBackStack() }, petIdJson)
         }
     }
 }
