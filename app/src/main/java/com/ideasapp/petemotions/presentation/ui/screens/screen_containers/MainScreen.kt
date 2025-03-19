@@ -11,17 +11,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.ideasapp.petemotions.presentation.navigation.NavItem
 import com.ideasapp.petemotions.presentation.ui.reusableElements.BottomNavigationBar
 import com.ideasapp.petemotions.presentation.ui.reusableElements.NavigationHost
+import com.ideasapp.petemotions.presentation.ui.reusableElements.showToast
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.CalendarScreen
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.DayInfoEdit
 import com.ideasapp.petemotions.presentation.ui.screens.statistics.StatisticsScreen
@@ -37,6 +38,7 @@ fun MainScreen(
     calendarViewModel: CalendarViewModel,
     timetableViewModel: TimetableViewModel,
 ) {
+    val petIdGlobal = remember { mutableIntStateOf(0) }
     val timetableFlow = timetableViewModel.timetableFlow
     val uiState by calendarViewModel.uiState.collectAsState()
     val navController = rememberNavController()
@@ -69,6 +71,7 @@ fun MainScreen(
                     CalendarScreen(
                         uiState = uiState,
                         petsList = calendarViewModel.getPetsList(),
+                        petId = petIdGlobal,
                         onPreviousMonthButtonClicked = { prevMonth ->
                             calendarViewModel.toPreviousMonth(prevMonth)
                         },
@@ -81,13 +84,17 @@ fun MainScreen(
                             //Navigate to EditDay
                             navController.navigate("${NavItem.EditDay.route}/${dateJson}/${petId}")
                         },
-                        onPetClick = { petId -> calendarViewModel.onChangePet(petId) }
+                        onPetClick = { petId ->
+                            petIdGlobal.intValue = petId
+                            calendarViewModel.onChangePet(petId)
+                        }
                     )},
                 dayInfoEditContent = { date, onClose, petId ->
                     DayInfoEdit(
                         dateItem = date,
                         onSaveDayInfoClick = { newDayInfo ->
                             calendarViewModel.addOrEditDayItem(newDayInfo)
+                            showToast(context, "day saved")
                         },
                         exitCallback = onClose,
                         petId = petId,
@@ -99,8 +106,14 @@ fun MainScreen(
                 timetableScreenContent = {
                     FullTimetableScreen(
                         timetableFlow = timetableFlow,
-                        onAddTimetableItem = { item -> timetableViewModel.addItem(item)},
-                        onDeleteTimetableItem = { item -> timetableViewModel.deleteItem(item)}
+                        onAddTimetableItem = { item ->
+                            timetableViewModel.addItem(item)
+                            showToast(context, "item added")
+                        },
+                        onDeleteTimetableItem = { item ->
+                            timetableViewModel.deleteItem(item)
+                            showToast(context, "item deleted")
+                        }
                     )
                 }
             )
