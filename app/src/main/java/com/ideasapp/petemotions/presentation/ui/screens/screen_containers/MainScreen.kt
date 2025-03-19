@@ -41,9 +41,8 @@ fun MainScreen(
     val uiState by calendarViewModel.uiState.collectAsState()
     val navController = rememberNavController()
     val context = LocalContext.current as ComponentActivity
-    /*val systemUiController = rememberSystemUiController()
-    systemUiController.setStatusBarColor(black)*/ //TODO setStatusBarColor
     context.enableEdgeToEdge()
+
     Scaffold(
         //set bottom nav bar
         bottomBar = { BottomNavigationBar(navController) },
