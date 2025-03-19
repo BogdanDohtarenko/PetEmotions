@@ -6,8 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.MutableIntState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
@@ -20,14 +19,13 @@ import java.time.YearMonth
 @Composable
 fun CalendarScreen(
     uiState: CalendarUiState,
+    petId: MutableIntState,
     petsList: List<Pet>,
     onPreviousMonthButtonClicked: (prevMonth: YearMonth) -> Unit,
     onNextMonthButtonClicked: (nextMonth: YearMonth) -> Unit,
     onEditDayClick: (CalendarUiState.Date, Int) -> Unit,
     onPetClick: (Int) -> Unit
 ) {
-    val petSelected = remember { mutableIntStateOf(0) }
-
     Box(modifier = Modifier
         .fillMaxSize()
         .background(MainTheme.colors.singleTheme)
@@ -39,7 +37,7 @@ fun CalendarScreen(
             TopButtonCalendarBar(
                 pets = petsList,
                 onPetClick = onPetClick,
-                petId = petSelected
+                petId = petId
             ) //TODO FILTER
             CalendarWidget(
                 days = CalendarDateUtil.daysOfWeek,
@@ -48,7 +46,7 @@ fun CalendarScreen(
                 onPreviousMonthButtonClicked = onPreviousMonthButtonClicked,
                 onNextMonthButtonClicked = onNextMonthButtonClicked,
                 onDateClickListener = { dayClicked ->
-                    onEditDayClick(dayClicked, petSelected.intValue)
+                    onEditDayClick(dayClicked, petId.intValue)
                 }
             )
         }

@@ -33,7 +33,8 @@ import dagger.hilt.android.AndroidEntryPoint
 // 31. profile screen
 // 33. happy birthday to every pet
 // 42. REFACTOR CalendarViewModel !!!!!!!!!
-// 43. error:  when we return from edit day pet id died
+// 44. composite key for day item
+// 45.
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
