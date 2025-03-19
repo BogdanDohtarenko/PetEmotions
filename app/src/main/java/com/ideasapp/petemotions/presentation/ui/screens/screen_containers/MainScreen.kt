@@ -75,21 +75,22 @@ fun MainScreen(
                         onNextMonthButtonClicked = { nextMonth ->
                             calendarViewModel.toNextMonth(nextMonth)
                         },
-                        onEditDayClick = { date ->
+                        onEditDayClick = { date,  petId ->
                             //cast CalendarUiState.Date to string
                             val dateJson = date.toJson()
                             //Navigate to EditDay
-                            navController.navigate("${NavItem.EditDay.route}/${dateJson}")
+                            navController.navigate("${NavItem.EditDay.route}/${dateJson}/${petId}")
                         },
                         onPetClick = { petId -> calendarViewModel.onChangePet(petId) }
                     )},
-                dayInfoEditContent = { date, onClose ->
+                dayInfoEditContent = { date, onClose, petId ->
                     DayInfoEdit(
                         dateItem = date,
-                        onSaveDayInfoClick = { newDay ->
-                            calendarViewModel.addOrEditDayItem(newDay.dayInfoItem)
+                        onSaveDayInfoClick = { newDayInfo ->
+                            calendarViewModel.addOrEditDayItem(newDayInfo)
                         },
                         exitCallback = onClose,
+                        petId = petId,
                         optionalAttributesFood = calendarViewModel.getDayAttributesFood(),
                         optionalAttributesEvents = calendarViewModel.getDayAttributesEvents(),
                         optionalAttributesHealth = calendarViewModel.getDayAttributesHealth(),

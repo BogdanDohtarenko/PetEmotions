@@ -10,13 +10,12 @@ data class DayItemInfo(
     @SerializedName("petId")
     val petId: Int = 0,
     @SerializedName("mood")
-    val mood: String = EMPTY,
+    val mood: Int = EMPTY,
 ): Serializable {
     companion object {
-        const val EMPTY = ""
-        const val GOOD_MOOD = "g"
-        const val NORMAL_MOOD = "n"
-        const val BAD_MOOD = "b"
-        //TODO Add const date
+        const val EMPTY = 0
+        const val GOOD_MOOD = 3
+        const val NORMAL_MOOD = 2
+        const val BAD_MOOD = 1
     }
 }
