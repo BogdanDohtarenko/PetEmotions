@@ -33,7 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 33. happy birthday to every pet
 // 42. REFACTOR CalendarViewModel !!!!!!!!!
 // 45. clean all files
-// 46. block all days that haven't arrived yet
+// 47. error with displaying moods when to previous/to next clicked
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 

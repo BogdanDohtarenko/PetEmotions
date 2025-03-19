@@ -72,6 +72,10 @@ fun MainScreen(
                         uiState = uiState,
                         petsList = calendarViewModel.getPetsList(),
                         petId = petIdGlobal,
+                        onPetClick = { petId ->
+                            petIdGlobal.intValue = petId
+                            calendarViewModel.onChangePet(petId)
+                        },
                         onPreviousMonthButtonClicked = { prevMonth ->
                             calendarViewModel.toPreviousMonth(prevMonth)
                         },
@@ -84,10 +88,6 @@ fun MainScreen(
                             //Navigate to EditDay
                             navController.navigate("${NavItem.EditDay.route}/${dateJson}/${petId}")
                         },
-                        onPetClick = { petId ->
-                            petIdGlobal.intValue = petId
-                            calendarViewModel.onChangePet(petId)
-                        }
                     )},
                 dayInfoEditContent = { date, onClose, petId ->
                     DayInfoEdit(
