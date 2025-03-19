@@ -58,7 +58,7 @@ fun DayInfoEdit(
     if (dateItem == null) throw RuntimeException("Date to DayInfoEdit = null")
     if (petId == null) throw RuntimeException("petId = null")
 
-    val moodState = remember { mutableIntStateOf(MainActivity.MOOD_STATE_NORMAL) }
+    val moodState = remember { mutableIntStateOf(dateItem.dayInfoItem.mood ?: MainActivity.MOOD_STATE_NORMAL) }
 
     val textColor =  MaterialTheme.colorScheme.onBackground
     val dateLocalDate = LocalDate.ofEpochDay(dateItem.dayInfoItem.date)

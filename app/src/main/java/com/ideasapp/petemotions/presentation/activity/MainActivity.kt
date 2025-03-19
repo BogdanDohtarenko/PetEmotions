@@ -33,8 +33,8 @@ import dagger.hilt.android.AndroidEntryPoint
 // 31. profile screen
 // 33. happy birthday to every pet
 // 42. REFACTOR CalendarViewModel !!!!!!!!!
-// 44. composite key for day item
-// 45.
+// 45. clean all files
+// 46.
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
