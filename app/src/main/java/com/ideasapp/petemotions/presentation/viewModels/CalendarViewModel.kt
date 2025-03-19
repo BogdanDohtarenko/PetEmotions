@@ -76,34 +76,40 @@ class CalendarViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun toNextMonth(nextMonth: YearMonth) {
+    private fun updateDatesForMonth(yearMonth: YearMonth) {
         viewModelScope.launch {
-            getCalendar(nextMonth)
+            getCalendar(yearMonth)
                 .collect { newDates ->
                     _allDatesState.value = newDates
                     _uiState.update { currentState ->
                         currentState.copy(
-                            yearMonth = nextMonth,
+                            yearMonth = yearMonth,
                             dates = newDates
                         )
                     }
+                    petIdLD.asFlow()
+                        .distinctUntilChanged()
+                        .flatMapLatest { petId ->
+                            getMoodForPet(_uiState.value.yearMonth, petId)
+                        }
+                        .flowOn(Dispatchers.IO)
+                        .onEach { petDates ->
+                            _petDatesState.value = petDates
+                            _uiState.update { currentState ->
+                                currentState.copy(dates = petDates)
+                            }
+                        }
+                        .launchIn(viewModelScope)
                 }
         }
     }
 
+    fun toNextMonth(nextMonth: YearMonth) {
+        updateDatesForMonth(nextMonth)
+    }
+
     fun toPreviousMonth(prevMonth: YearMonth) {
-        viewModelScope.launch {
-            getCalendar(prevMonth)
-                .collect { newDates ->
-                    _allDatesState.value = newDates
-                    _uiState.update { currentState ->
-                        currentState.copy(
-                            yearMonth = prevMonth,
-                            dates = newDates
-                        )
-                    }
-                }
-        }
+        updateDatesForMonth(prevMonth)
     }
 
     fun onChangePet(petId: Int) {

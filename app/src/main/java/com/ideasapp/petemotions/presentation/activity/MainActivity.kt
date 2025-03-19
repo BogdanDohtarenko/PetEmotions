@@ -31,9 +31,10 @@ import dagger.hilt.android.AndroidEntryPoint
 // 28. switch between screens by swipe
 // 31. profile screen
 // 33. happy birthday to every pet
-// 42. REFACTOR CalendarViewModel !!!!!!!!!
+// 42. REFACTOR CalendarViewModel when it will be done
 // 45. clean all files
-// 47. error with displaying moods when to previous/to next clicked
+// 48. change to previous/to next clicked images color
+// 49.
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 

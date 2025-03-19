@@ -45,6 +45,7 @@ fun MainScreen(
     val context = LocalContext.current as ComponentActivity
     context.enableEdgeToEdge()
 
+
     Scaffold(
         //set bottom nav bar
         bottomBar = { BottomNavigationBar(navController) },
