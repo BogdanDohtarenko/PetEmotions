@@ -1,6 +1,7 @@
 package com.ideasapp.petemotions.presentation.ui.screens.calendar
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,8 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.Pet
+import com.ideasapp.petemotions.presentation.activity.MainActivity
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.util.CalendarDateUtil
+import java.time.LocalDate
 import java.time.YearMonth
 
 @SuppressLint("UnrememberedMutableInteractionSource")
@@ -46,7 +49,10 @@ fun CalendarScreen(
                 onPreviousMonthButtonClicked = onPreviousMonthButtonClicked,
                 onNextMonthButtonClicked = onNextMonthButtonClicked,
                 onDateClickListener = { dayClicked ->
-                    onEditDayClick(dayClicked, petId.intValue)
+                    if (dayClicked.dayInfoItem.date <= LocalDate.now().toEpochDay())
+                        onEditDayClick(dayClicked, petId.intValue)
+                    else
+                        Log.d(MainActivity.CALENDAR_LOG_TAG, "this day haven't arrived yet")
                 }
             )
         }

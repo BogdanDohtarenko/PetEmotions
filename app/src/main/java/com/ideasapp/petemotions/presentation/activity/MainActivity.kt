@@ -8,32 +8,43 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
-import com.ideasapp.petemotions.R
 import com.ideasapp.petemotions.presentation.ui.screens.screen_containers.MainScreen
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-//TODO
-// 2. notifications with timetable
-// 3. PERSONAL TIPS !
-// 4. moods on calendar !
+//TODO (important)
 // 5. normal day notes design !!
 // 6. autoFilling of days !
-// 8. top bar (filters, ...)
-// 9. color scheme for light theme
+// 8. top bar (filters)
 // 12. mood plot  !!
-// 24. vibration while scrolling dates in picker
-// 26. achievements
-// 27. icons for nav bar
 // 28. switch between screens by swipe
 // 31. profile screen
-// 33. happy birthday to every pet
-// 42. REFACTOR CalendarViewModel !!!!!!!!!
+// 42. REFACTOR CalendarViewModel when it ready + by sumin flow
 // 45. clean all files
-// 46. block all days that haven't arrived yet
+// 49. reform ui directories (by sumin)
+// 50. add custom day info attributes
+// 51. pass dynamic quantity of day info attributes
+// 52. make day info edit all clickable (add map) !!!
+// 57. shared pref for pets
+// 58. shared pref for pets
+
+//TODO (design)
+// 4. moods on calendar !
+// 9. color scheme for light theme
+// 24. vibration while scrolling dates in picker
+// 27. icons for nav bar
+// 55. russian language !!!
+// 56. change spare color
+// 59. draw all necessary icons !!!
+
+//TODO (for future)
+// 2. notifications with timetable
+// 3. PERSONAL TIPS !
+// 26. achievements
+// 33. happy birthday to every pet
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 

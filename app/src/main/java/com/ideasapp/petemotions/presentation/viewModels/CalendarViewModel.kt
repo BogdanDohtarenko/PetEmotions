@@ -76,34 +76,40 @@ class CalendarViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
-    fun toNextMonth(nextMonth: YearMonth) {
+    private fun updateDatesForMonth(yearMonth: YearMonth) {
         viewModelScope.launch {
-            getCalendar(nextMonth)
+            getCalendar(yearMonth)
                 .collect { newDates ->
                     _allDatesState.value = newDates
                     _uiState.update { currentState ->
                         currentState.copy(
-                            yearMonth = nextMonth,
+                            yearMonth = yearMonth,
                             dates = newDates
                         )
                     }
+                    petIdLD.asFlow()
+                        .distinctUntilChanged()
+                        .flatMapLatest { petId ->
+                            getMoodForPet(_uiState.value.yearMonth, petId)
+                        }
+                        .flowOn(Dispatchers.IO)
+                        .onEach { petDates ->
+                            _petDatesState.value = petDates
+                            _uiState.update { currentState ->
+                                currentState.copy(dates = petDates)
+                            }
+                        }
+                        .launchIn(viewModelScope)
                 }
         }
     }
 
+    fun toNextMonth(nextMonth: YearMonth) {
+        updateDatesForMonth(nextMonth)
+    }
+
     fun toPreviousMonth(prevMonth: YearMonth) {
-        viewModelScope.launch {
-            getCalendar(prevMonth)
-                .collect { newDates ->
-                    _allDatesState.value = newDates
-                    _uiState.update { currentState ->
-                        currentState.copy(
-                            yearMonth = prevMonth,
-                            dates = newDates
-                        )
-                    }
-                }
-        }
+        updateDatesForMonth(prevMonth)
     }
 
     fun onChangePet(petId: Int) {
@@ -120,31 +126,13 @@ class CalendarViewModel @Inject constructor(
 
     //TODO retrieve data from db
     fun getDayAttributesFood(): List<DayAttribute> {
-        return listOf(
-            DayAttribute(Icons.AutoMirrored.Default.Send, "food 1"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "food 2"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "food 3"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "food 4"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "food 5"),
-        )
+        return listOf()
     }
     fun getDayAttributesHealth(): List<DayAttribute> {
-        return listOf(
-            DayAttribute(Icons.AutoMirrored.Default.Send, "health 1"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "health 2"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "health 3"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "health 4"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "health 5"),
-        )
+        return listOf()
     }
     fun getDayAttributesEvents(): List<DayAttribute> {
-        return listOf(
-            DayAttribute(Icons.AutoMirrored.Default.Send, "events 1"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "events 2"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "events 3"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "events 4"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "events 5"),
-        )
+        return listOf()
     }
 
     fun addOrEditDayItem(selectedDayInfo: DayItemInfo) {

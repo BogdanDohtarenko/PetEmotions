@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
@@ -40,11 +41,13 @@ import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.presentation.activity.MainActivity
 import com.ideasapp.petemotions.presentation.activity.MainActivity.Companion.CALENDAR_LOG_TAG
+import com.ideasapp.petemotions.presentation.ui.reusableElements.FoldableBox
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
 
+//TODO divide into different files
 @Composable
 fun DayInfoEdit(
     onSaveDayInfoClick: (DayItemInfo) -> Unit,
@@ -69,45 +72,66 @@ fun DayInfoEdit(
         DayAttribute(Icons.AutoMirrored.Default.Send, "opt 4"),
     )
     val scrollState = rememberScrollState()
-    Box(modifier = Modifier
-        .background(MainTheme.colors.singleTheme)
-        .fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .background(MainTheme.colors.singleTheme)
+            .fillMaxSize()
+    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .fillMaxWidth()
-                .verticalScroll(scrollState),
+                .verticalScroll(scrollState)
+                .padding(18.dp),
         ) {
             HeaderForDay(
                 dateLocalDate = dateLocalDate,
                 exitCallback =  exitCallback
             )
+            Spacer(modifier = Modifier.height(18.dp))
             ChooseMoodBox(
                 onClick = { moodState.intValue = it },
                 moodState = moodState
             )
             //TODO add attribute choosing
-            ChooseDayAttributesBox(
-                textColor = textColor,
-                titleOfBox = "Health",
-                dayAttributesForFirstRow = attributesFood,
-                dayAttributesOptional = optionalAttributesHealth) // Health
-            ChooseDayAttributesBox(
-                textColor = textColor,
-                titleOfBox = "Food",
-                dayAttributesForFirstRow = attributesFood,
-                dayAttributesOptional = optionalAttributesFood) // Food
-            ChooseDayAttributesBox(
-                textColor = textColor,
-                titleOfBox = "Events",
-                dayAttributesForFirstRow = attributesFood,
-                dayAttributesOptional = optionalAttributesEvents) // Events
-            //TODO
-            // FOOD
-            // EVENTS
-            // HEALTH
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(18.dp))
+            //Health
+            FoldableBox(
+                titleText = "Health",
+                isExpandedByDefault = true
+            ) {
+                ChooseDayAttributesBox(
+                    textColor = textColor,
+                    dayAttributesForFirstRow = attributesFood,
+                    dayAttributesOptional = optionalAttributesHealth
+                )
+            }
+            Spacer(modifier = Modifier.height(18.dp))
+            // Food
+            FoldableBox(
+                titleText = "Food",
+                isExpandedByDefault = true
+            ) {
+                ChooseDayAttributesBox (
+                    textColor = textColor,
+                    dayAttributesForFirstRow = attributesFood,
+                    dayAttributesOptional = optionalAttributesFood
+                )
+            }
+            Spacer(modifier = Modifier.height(18.dp))
+            //Events
+            FoldableBox(
+                titleText = "Events",
+                isExpandedByDefault = true
+            ) {
+                ChooseDayAttributesBox(
+                    textColor = textColor,
+                    dayAttributesForFirstRow = attributesFood,
+                    dayAttributesOptional = optionalAttributesEvents
+                )
+            }
+            Spacer(modifier = Modifier.height(18.dp))
             Button(
                 onClick = {
                     val newDayInfo = DayItemInfo(date = dateItem.dayInfoItem.date, petId = petId, mood = moodState.intValue)
@@ -122,32 +146,26 @@ fun DayInfoEdit(
                     disabledContainerColor = MainTheme.colors.mainColor
                 )
             ) {
-                Text(text = "save")
+                Text(text = "Save")
             }
         }
     }
 }
 
-//TODO divide into different files
+
 @Composable
 private fun ChooseDayAttributesBox(
     textColor: Color,
-    titleOfBox: String,
     dayAttributesForFirstRow: List<DayAttribute>,
     dayAttributesOptional : List<DayAttribute>?,
 ) {
     Box(
+        contentAlignment = Alignment.Center,
         modifier = Modifier
-            .fillMaxWidth(0.9f)
+            .fillMaxWidth()
             .padding(vertical = 14.dp)
-            .background(Color.Gray)
     ) {
-        Column(modifier = Modifier.align(Alignment.Center)) {
-            Text(
-                text = titleOfBox,
-                color = textColor,
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp)
-            )
+        Column(modifier = Modifier.align(Alignment.Center), verticalArrangement = Arrangement.Center) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -192,10 +210,11 @@ private fun ChooseDayAttributesBox(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
+                    //TODO amend add button
                     AttributeItem(
-                        imageVector = Icons.AutoMirrored.Default.List,
+                        imageVector = Icons.Default.Add,
                         textColor = textColor,
-                        title = "opt+"
+                        title = "_____"
                     )
                 }
             }
@@ -285,7 +304,7 @@ private fun HeaderForDay(dateLocalDate : LocalDate,  exitCallback: () -> Unit) {
             modifier = Modifier
                 .weight(8f)
                 .align(Alignment.CenterVertically)
-                .padding(80.dp, 10.dp)
+                .padding(10.dp)
         )
     }
 }
