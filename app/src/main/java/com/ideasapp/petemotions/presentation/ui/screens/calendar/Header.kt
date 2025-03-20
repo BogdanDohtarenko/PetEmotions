@@ -3,6 +3,8 @@ package com.ideasapp.petemotions.presentation.ui.screens.calendar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
@@ -31,7 +33,8 @@ fun Header(
             Modifier.background(color = MainTheme.colors.singleTheme)
             ) {
             Icon(
-                imageVector = Icons.Filled.KeyboardArrowLeft,
+                imageVector = Icons.AutoMirrored.Default.KeyboardArrowLeft,
+                tint = MainTheme.colors.mainColor,
                 contentDescription = stringResource(id = R.string.back)
             )
         }
@@ -48,7 +51,8 @@ fun Header(
             onNextMonthButtonClicked.invoke(yearMonth.plusMonths(1))
         }) {
             Icon(
-                imageVector = Icons.Filled.KeyboardArrowRight,
+                imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
+                tint = MainTheme.colors.mainColor,
                 contentDescription = stringResource(id = R.string.next)
             )
         }
