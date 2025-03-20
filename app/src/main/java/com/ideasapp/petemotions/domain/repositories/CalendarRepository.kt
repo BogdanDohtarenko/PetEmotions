@@ -19,4 +19,8 @@ interface CalendarRepository {
     suspend fun addDayItemInfo(
         dayItemInfo:DayItemInfo
     )
+
+    suspend fun getPetsList(): Flow<List<Pet>>
+
+    suspend fun addPet(pets: List<Pet>)
 }

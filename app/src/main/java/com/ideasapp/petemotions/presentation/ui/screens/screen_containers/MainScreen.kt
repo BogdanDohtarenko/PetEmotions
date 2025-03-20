@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -39,6 +40,7 @@ fun MainScreen(
     timetableViewModel: TimetableViewModel,
 ) {
     val petIdGlobal = remember { mutableIntStateOf(0) }
+    val petsList by calendarViewModel.petsList.collectAsState(initial = emptyList())
     val timetableFlow = timetableViewModel.timetableFlow
     val uiState by calendarViewModel.uiState.collectAsState()
     val navController = rememberNavController()
@@ -71,7 +73,7 @@ fun MainScreen(
                 calendarScreenContent = {
                     CalendarScreen(
                         uiState = uiState,
-                        petsList = calendarViewModel.getPetsList(),
+                        petsList = petsList,
                         petId = petIdGlobal,
                         onPetClick = { petId ->
                             petIdGlobal.intValue = petId
