@@ -126,31 +126,13 @@ class CalendarViewModel @Inject constructor(
 
     //TODO retrieve data from db
     fun getDayAttributesFood(): List<DayAttribute> {
-        return listOf(
-            DayAttribute(Icons.AutoMirrored.Default.Send, "food 1"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "food 2"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "food 3"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "food 4"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "food 5"),
-        )
+        return listOf()
     }
     fun getDayAttributesHealth(): List<DayAttribute> {
-        return listOf(
-            DayAttribute(Icons.AutoMirrored.Default.Send, "health 1"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "health 2"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "health 3"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "health 4"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "health 5"),
-        )
+        return listOf()
     }
     fun getDayAttributesEvents(): List<DayAttribute> {
-        return listOf(
-            DayAttribute(Icons.AutoMirrored.Default.Send, "events 1"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "events 2"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "events 3"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "events 4"),
-            DayAttribute(Icons.AutoMirrored.Default.Send, "events 5"),
-        )
+        return listOf()
     }
 
     fun addOrEditDayItem(selectedDayInfo: DayItemInfo) {

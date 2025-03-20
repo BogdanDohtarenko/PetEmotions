@@ -8,8 +8,6 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
-import com.ideasapp.petemotions.R
 import com.ideasapp.petemotions.presentation.ui.screens.screen_containers.MainScreen
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
@@ -31,10 +29,16 @@ import dagger.hilt.android.AndroidEntryPoint
 // 28. switch between screens by swipe
 // 31. profile screen
 // 33. happy birthday to every pet
-// 42. REFACTOR CalendarViewModel when it will be done
+// 42. REFACTOR CalendarViewModel when it ready + by sumin flow
 // 45. clean all files
 // 48. change to previous/to next clicked images color
-// 49.
+// 49. reform ui directories (by sumin)
+// 50. add custom day info attributes
+// 51. pass dynamic quantity of day info attributes
+// 52. make day info edit all clickable
+// 53. make day info edit all designed
+// 54. refresh foldable box
+// 55. russian language !!!
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 

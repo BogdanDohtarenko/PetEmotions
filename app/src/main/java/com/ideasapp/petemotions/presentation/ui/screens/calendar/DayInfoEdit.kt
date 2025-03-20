@@ -40,6 +40,7 @@ import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.presentation.activity.MainActivity
 import com.ideasapp.petemotions.presentation.activity.MainActivity.Companion.CALENDAR_LOG_TAG
+import com.ideasapp.petemotions.presentation.ui.reusableElements.FoldableBox
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import java.time.LocalDate
 import java.time.format.TextStyle
@@ -88,25 +89,42 @@ fun DayInfoEdit(
                 moodState = moodState
             )
             //TODO add attribute choosing
-            ChooseDayAttributesBox(
-                textColor = textColor,
-                titleOfBox = "Health",
-                dayAttributesForFirstRow = attributesFood,
-                dayAttributesOptional = optionalAttributesHealth) // Health
-            ChooseDayAttributesBox(
-                textColor = textColor,
-                titleOfBox = "Food",
-                dayAttributesForFirstRow = attributesFood,
-                dayAttributesOptional = optionalAttributesFood) // Food
-            ChooseDayAttributesBox(
-                textColor = textColor,
-                titleOfBox = "Events",
-                dayAttributesForFirstRow = attributesFood,
-                dayAttributesOptional = optionalAttributesEvents) // Events
-            //TODO
-            // FOOD
-            // EVENTS
-            // HEALTH
+            //Health
+            FoldableBox(
+                titleText = "Health",
+                modifier = Modifier
+                    .padding(vertical = 14.dp)
+            ) {
+                ChooseDayAttributesBox(
+                    textColor = textColor,
+                    dayAttributesForFirstRow = attributesFood,
+                    dayAttributesOptional = optionalAttributesHealth
+                )
+            }
+            // Food
+            FoldableBox(
+                titleText = "Food",
+                modifier = Modifier
+                    .padding(vertical = 14.dp)
+            ) {
+                ChooseDayAttributesBox (
+                    textColor = textColor,
+                    dayAttributesForFirstRow = attributesFood,
+                    dayAttributesOptional = optionalAttributesFood
+                )
+            }
+            //Events
+            FoldableBox(
+                titleText = "Events",
+                modifier = Modifier
+                    .padding(vertical = 14.dp)
+            ) {
+                ChooseDayAttributesBox(
+                    textColor = textColor,
+                    dayAttributesForFirstRow = attributesFood,
+                    dayAttributesOptional = optionalAttributesEvents
+                )
+            }
             Spacer(modifier = Modifier.height(8.dp))
             Button(
                 onClick = {
@@ -122,7 +140,7 @@ fun DayInfoEdit(
                     disabledContainerColor = MainTheme.colors.mainColor
                 )
             ) {
-                Text(text = "save")
+                Text(text = "Save")
             }
         }
     }
@@ -132,22 +150,16 @@ fun DayInfoEdit(
 @Composable
 private fun ChooseDayAttributesBox(
     textColor: Color,
-    titleOfBox: String,
     dayAttributesForFirstRow: List<DayAttribute>,
     dayAttributesOptional : List<DayAttribute>?,
 ) {
     Box(
+        contentAlignment = Alignment.Center,
         modifier = Modifier
             .fillMaxWidth(0.9f)
             .padding(vertical = 14.dp)
-            .background(Color.Gray)
     ) {
-        Column(modifier = Modifier.align(Alignment.Center)) {
-            Text(
-                text = titleOfBox,
-                color = textColor,
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp)
-            )
+        Column(modifier = Modifier.align(Alignment.Center), verticalArrangement = Arrangement.Center) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

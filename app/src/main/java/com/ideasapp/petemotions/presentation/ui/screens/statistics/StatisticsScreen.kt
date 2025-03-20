@@ -21,35 +21,35 @@ fun StatisticsScreen() {
             modifier = Modifier.fillMaxWidth(0.7f)
         ) {
             FoldableBox(
-                contentForBox = {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text("plot")
-                    }
+                titleText = "plot"
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("plot")
                 }
-            )
+            }
             FoldableBox(
-                contentForBox = {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text("plot")
-                    }
+                titleText = "plot"
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("plot")
                 }
-            )
+            }
             FoldableBox(
-                contentForBox = {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text("plot")
-                    }
+                titleText = "plot"
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("plot")
                 }
-            )
+            }
         }
     }
 }
