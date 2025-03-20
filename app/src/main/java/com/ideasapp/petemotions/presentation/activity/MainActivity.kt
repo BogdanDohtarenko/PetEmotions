@@ -27,8 +27,9 @@ import dagger.hilt.android.AndroidEntryPoint
 // 50. add custom day info attributes
 // 51. pass dynamic quantity of day info attributes
 // 52. make day info edit all clickable (add map) !!!
-// 57. shared pref for pets
-// 58. shared pref for pets
+// 57. data store pref for pets
+// 58. data store pref for attributes
+// 60.
 
 //TODO (design)
 // 4. moods on calendar !

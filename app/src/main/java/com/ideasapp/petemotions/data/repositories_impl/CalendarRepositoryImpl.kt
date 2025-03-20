@@ -5,6 +5,7 @@ import com.ideasapp.petemotions.data.db.mappers.DayInfoMapper
 import com.ideasapp.petemotions.data.db.dbModels.DayItemInfoDbModel
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
+import com.ideasapp.petemotions.domain.entity.calendar.Pet
 import com.ideasapp.petemotions.domain.repositories.CalendarRepository
 import com.ideasapp.petemotions.presentation.util.getDayOfMonthStartingFromMonday
 import kotlinx.coroutines.flow.Flow
@@ -19,9 +20,14 @@ class CalendarRepositoryImpl @Inject constructor(
     private val calendarListDao: CalendarListDao
 ) : CalendarRepository {
 
-    override suspend fun getCalendar(
-        yearMonth: YearMonth
-    ): Flow<List<CalendarUiState.Date>> {
+    private fun dayItemInfoDbModels(allMoodData: List<DayItemInfoDbModel>, yearMonth: YearMonth): List<DayItemInfoDbModel> {
+        return allMoodData.filter { item ->
+            val date = LocalDate.ofEpochDay(item.date)
+            date.year == yearMonth.year && date.monthValue == yearMonth.monthValue
+        }
+    }
+
+    override suspend fun getCalendar(yearMonth: YearMonth): Flow<List<CalendarUiState.Date>> {
         val allDates = yearMonth.getDayOfMonthStartingFromMonday().map { date ->
             val currDayInfo = DayItemInfo(date = date.toEpochDay())
             val isDateInMonth = date.monthValue == yearMonth.monthValue
@@ -35,10 +41,7 @@ class CalendarRepositoryImpl @Inject constructor(
         return flowOf(allDates)
     }
 
-    override suspend fun getMoodForPet(
-        yearMonth : YearMonth,
-        petId : Int
-    ) : Flow<List<CalendarUiState.Date>> {
+    override suspend fun getMoodForPet(yearMonth : YearMonth, petId : Int) : Flow<List<CalendarUiState.Date>> {
         return calendarListDao.getDayInfoList(petId)
             .map { allMoodData ->
                 val filteredData = dayItemInfoDbModels(allMoodData, yearMonth)
@@ -58,14 +61,11 @@ class CalendarRepositoryImpl @Inject constructor(
             }
     }
 
-    private fun dayItemInfoDbModels(allMoodData: List<DayItemInfoDbModel>, yearMonth: YearMonth): List<DayItemInfoDbModel> {
-        return allMoodData.filter { item ->
-            val date = LocalDate.ofEpochDay(item.date)
-            date.year == yearMonth.year && date.monthValue == yearMonth.monthValue
-        }
-    }
-
     override suspend fun addDayItemInfo(dayItemInfo: DayItemInfo) {
         calendarListDao.addItemDayInfo(DayInfoMapper.entityToDbModel(dayItemInfo))
+    }
+
+    override suspend fun getPetsList() : List<Pet> {
+        TODO("Not yet implemented")
     }
 }

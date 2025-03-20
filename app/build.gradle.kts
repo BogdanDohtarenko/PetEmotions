@@ -84,6 +84,9 @@ dependencies {
     //Gson
     implementation(libs.gson)
 
+    //DataStore
+    implementation(libs.androidx.datastore.preferences)
+
     //Room
     implementation(libs.room.runtime)
     kapt(libs.androidx.room.compiler)
