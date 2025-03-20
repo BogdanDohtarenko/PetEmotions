@@ -1,5 +1,7 @@
 package com.ideasapp.petemotions.data.repositories_impl
 
+import android.content.Context
+import com.ideasapp.petemotions.data.dataStore.PetDataStore
 import com.ideasapp.petemotions.data.db.dao.CalendarListDao
 import com.ideasapp.petemotions.data.db.mappers.DayInfoMapper
 import com.ideasapp.petemotions.data.db.dbModels.DayItemInfoDbModel
@@ -8,8 +10,8 @@ import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.entity.calendar.Pet
 import com.ideasapp.petemotions.domain.repositories.CalendarRepository
 import com.ideasapp.petemotions.presentation.util.getDayOfMonthStartingFromMonday
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
@@ -17,7 +19,8 @@ import java.time.YearMonth
 import javax.inject.Inject
 
 class CalendarRepositoryImpl @Inject constructor(
-    private val calendarListDao: CalendarListDao
+    @ApplicationContext private val appContext: Context,
+    private val calendarListDao: CalendarListDao,
 ) : CalendarRepository {
 
     private fun dayItemInfoDbModels(allMoodData: List<DayItemInfoDbModel>, yearMonth: YearMonth): List<DayItemInfoDbModel> {
@@ -65,7 +68,11 @@ class CalendarRepositoryImpl @Inject constructor(
         calendarListDao.addItemDayInfo(DayInfoMapper.entityToDbModel(dayItemInfo))
     }
 
-    override suspend fun getPetsList() : List<Pet> {
-        TODO("Not yet implemented")
+    override suspend fun getPetsList() : Flow<List<Pet>> {
+        return PetDataStore.getPetsFlow(appContext)
+    }
+
+    override suspend fun addPet(pets : List<Pet>) {
+        PetDataStore.savePets(context = appContext, pets = pets)
     }
 }

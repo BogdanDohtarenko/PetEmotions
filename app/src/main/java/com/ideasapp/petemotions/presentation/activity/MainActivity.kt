@@ -27,9 +27,9 @@ import dagger.hilt.android.AndroidEntryPoint
 // 50. add custom day info attributes
 // 51. pass dynamic quantity of day info attributes
 // 52. make day info edit all clickable (add map) !!!
-// 57. data store pref for pets
 // 58. data store pref for attributes
-// 60.
+// 60. migrate to ksp !!!
+// 62. mood cannot be <0 >3, need to add throw exception to setter
 
 //TODO (design)
 // 4. moods on calendar !
@@ -39,12 +39,14 @@ import dagger.hilt.android.AndroidEntryPoint
 // 55. russian language !!!
 // 56. change spare color
 // 59. draw all necessary icons !!!
+// 63. background color in dark theme -> dark gray
 
 //TODO (for future)
 // 2. notifications with timetable
 // 3. PERSONAL TIPS !
 // 26. achievements
 // 33. happy birthday to every pet
+// 61. Huge amount of plots
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
