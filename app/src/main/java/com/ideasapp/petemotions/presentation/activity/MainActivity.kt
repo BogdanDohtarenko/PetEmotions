@@ -15,7 +15,6 @@ import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 //TODO (important)
-// 5. normal day notes design !!
 // 6. autoFilling of days !
 // 8. top bar (filters)
 // 12. mood plot  !!
@@ -29,10 +28,13 @@ import dagger.hilt.android.AndroidEntryPoint
 // 52. make day info edit all clickable (add map) !!!
 // 58. data store pref for attributes
 // 60. migrate to ksp !!!
-// 62. mood cannot be <0 >3, need to add throw exception to setter
+// 66. day edit info divide into different files
+// 68. add edit attribute screen
+// 69.
 
 //TODO (design)
 // 4. moods on calendar !
+// 5. normal day notes design !!
 // 9. color scheme for light theme
 // 24. vibration while scrolling dates in picker
 // 27. icons for nav bar
@@ -40,6 +42,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 56. change spare color
 // 59. draw all necessary icons !!!
 // 63. background color in dark theme -> dark gray
+// 67. nav bar design
 
 //TODO (for future)
 // 2. notifications with timetable
@@ -47,6 +50,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 26. achievements
 // 33. happy birthday to every pet
 // 61. Huge amount of plots
+// 64. deleting by swipe
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

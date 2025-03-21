@@ -1,32 +1,35 @@
-package com.ideasapp.petemotions.presentation.ui.screens.timetable
+package com.ideasapp.petemotions.presentation.ui.screens.calendar
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.AlertDialog
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
-import com.ideasapp.petemotions.presentation.ui.reusableElements.pickers.DateTimePicker
+import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.AddEditTitle
-import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.TimetableCanselSaveButtons
+import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.AttributeCanselSaveButtons
 import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.CustomTextField
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 
 @Composable
-fun EditTimetableDialog(
-    item: TimetableItem?,
+fun AddEditAttributeDialog(
+    itemState: MutableState<DayAttribute?>,
     onDismiss: () -> Unit,
-    onSave: (TimetableItem) -> Unit
+    onSave: (DayAttribute) -> Unit
 ) {
+    val item = remember {itemState.value }
     // without by to avoid unnecessary recompositions
-    val description = remember {mutableStateOf(item?.description ?: "")}
-    val dateTime = remember {mutableLongStateOf(item?.dateTime ?: System.currentTimeMillis())}
+    val title = remember {mutableStateOf(item?.title ?: "")}
+    val imageVector = remember {mutableStateOf(item?.imageVector ?: Icons.Default.FavoriteBorder) }
+
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -39,17 +42,19 @@ fun EditTimetableDialog(
                     .fillMaxWidth()
                     .height(300.dp)
             ) {
-                CustomTextField(description)
+                CustomTextField(title)
                 Spacer(modifier = Modifier.height(8.dp))
-                DateTimePicker(dateTime.longValue) { dateTimeInMillis -> dateTime.longValue = dateTimeInMillis}
             }
         },
         confirmButton = {
-            TimetableCanselSaveButtons(onDismiss, item, description.value, dateTime.longValue, onSave)
+            AttributeCanselSaveButtons(
+                onDismiss = onDismiss,
+                item = item,
+                title = title.value,
+                imageVector = imageVector.value,
+                onSave = onSave
+            )
         },
         containerColor = MainTheme.colors.mainColor,
     )
 }
-
-
-
