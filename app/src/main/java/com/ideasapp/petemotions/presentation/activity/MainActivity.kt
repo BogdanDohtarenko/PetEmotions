@@ -29,6 +29,8 @@ import dagger.hilt.android.AndroidEntryPoint
 // 58. data store pref for attributes
 // 60. migrate to ksp !!!
 // 66. day edit info divide into different files
+// 68. add edit attribute screen
+// 69.
 
 //TODO (design)
 // 4. moods on calendar !
@@ -40,7 +42,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 56. change spare color
 // 59. draw all necessary icons !!!
 // 63. background color in dark theme -> dark gray
-// 65. nav bar design
+// 67. nav bar design
 
 //TODO (for future)
 // 2. notifications with timetable
