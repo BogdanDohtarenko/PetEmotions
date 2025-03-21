@@ -40,6 +40,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 56. change spare color
 // 59. draw all necessary icons !!!
 // 63. background color in dark theme -> dark gray
+// 65. nav bar design
 
 //TODO (for future)
 // 2. notifications with timetable
@@ -47,6 +48,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 26. achievements
 // 33. happy birthday to every pet
 // 61. Huge amount of plots
+// 64. deleting by swipe
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

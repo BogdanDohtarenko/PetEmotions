@@ -8,7 +8,7 @@ data class DayItemInfo(
     @SerializedName("date")
     val date: Long = 1,
     @SerializedName("petId")
-    val petId: Int = 0,
+    var petId: Int = 0,
     @SerializedName("mood")
     val mood: Int? = null,
 ): Serializable {
