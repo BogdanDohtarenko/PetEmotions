@@ -1,8 +1,6 @@
 package com.ideasapp.petemotions.presentation.ui.screens.calendar
 
 import android.util.Log
-import android.widget.ImageButton
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,9 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.MaterialTheme
@@ -33,35 +28,30 @@ import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.presentation.activity.MainActivity
 import com.ideasapp.petemotions.presentation.activity.MainActivity.Companion.CALENDAR_LOG_TAG
 import com.ideasapp.petemotions.presentation.ui.reusableElements.FoldableBox
+import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.AttributesEditBox
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import java.time.LocalDate
+
 @Composable
 fun DayInfoEdit(
     onSaveDayInfoClick: (DayItemInfo) -> Unit,
     exitCallback: () -> Unit,
     dateItem: CalendarUiState.Date?,
     petId: Int?,
-    optionalAttributesFood: List<DayAttribute>?,
-    optionalAttributesHealth: List<DayAttribute>?,
-    optionalAttributesEvents: List<DayAttribute>?,
+    dayAttributesListFood: List<DayAttribute>,
+    dayAttributesListEvents : List<DayAttribute>,
+    dayAttributesListHealth: List<DayAttribute>,
 ) {
     if (dateItem == null) throw RuntimeException("Date to DayInfoEdit = null")
     if (petId == null) throw RuntimeException("petId = null")
-
+    val textColor = MaterialTheme.colorScheme.onBackground
+    val dateLocalDate = LocalDate.ofEpochDay(dateItem.dayInfoItem.date)
+    //States
     val moodState = remember { mutableIntStateOf(dateItem.dayInfoItem.mood ?: MainActivity.MOOD_STATE_NORMAL) }
     val editFoodAttributeState = remember { mutableStateOf(false) }
     val editEventsAttributeState = remember { mutableStateOf(false) }
     val editHealthAttributeState = remember { mutableStateOf(false) }
     val chosenAttribute = remember { mutableStateOf<DayAttribute?>(null) }
-
-    val textColor = MaterialTheme.colorScheme.onBackground
-    val dateLocalDate = LocalDate.ofEpochDay(dateItem.dayInfoItem.date)
-    val attributesFood = listOf(
-        DayAttribute(Icons.AutoMirrored.Default.Send, "opt 1"),
-        DayAttribute(Icons.AutoMirrored.Default.Send, "opt 2"),
-        DayAttribute(Icons.AutoMirrored.Default.Send, "opt 3"),
-        DayAttribute(Icons.AutoMirrored.Default.Send, "opt 4"),
-    )
     val scrollState = rememberScrollState()
     Box(
         modifier = Modifier
@@ -86,6 +76,7 @@ fun DayInfoEdit(
                 moodState = moodState
             )
             // TODO add attribute choosing
+            // TODO set shaking when editing 
             Spacer(modifier = Modifier.height(18.dp))
             // Health
             if (!editHealthAttributeState.value) {
@@ -93,14 +84,17 @@ fun DayInfoEdit(
                     ChooseDayAttributesBox(
                         textColor = textColor,
                         addAttributeState = editHealthAttributeState,
-                        dayAttributesForFirstRow = attributesFood,
-                        dayAttributesOptional = optionalAttributesHealth
+                        dayAttributesList = dayAttributesListHealth,
                     )
                 }
             } else {
-                Button(onClick = { editHealthAttributeState.value = false }) {
-                    Image(imageVector = Icons.Default.Close, contentDescription = "Close")
-                }
+                AttributesEditBox (
+                    titleText = "Health",
+                    textColor = MainTheme.colors.singleTheme,
+                    addAttributeState = editHealthAttributeState,
+                    dayAttributesList = dayAttributesListHealth,
+                    onAddAttributeClick = { attribute -> Log.d(CALENDAR_LOG_TAG, "truing add: $attribute") } //TODO VIEW MODEL
+                )
             }
             Spacer(modifier = Modifier.height(18.dp))
             // Food
@@ -109,14 +103,17 @@ fun DayInfoEdit(
                     ChooseDayAttributesBox(
                         textColor = textColor,
                         addAttributeState = editFoodAttributeState,
-                        dayAttributesForFirstRow = attributesFood,
-                        dayAttributesOptional = optionalAttributesFood
+                        dayAttributesList = dayAttributesListFood,
                     )
                 }
             } else {
-                Button(onClick = { editFoodAttributeState.value = false }) {
-                    Image(imageVector = Icons.Default.Close, contentDescription = "Close")
-                }
+                AttributesEditBox (
+                    titleText = "Food",
+                    textColor = MainTheme.colors.singleTheme,
+                    addAttributeState = editFoodAttributeState,
+                    dayAttributesList = dayAttributesListFood,
+                    onAddAttributeClick = { attribute -> Log.d(CALENDAR_LOG_TAG, "truing add: $attribute") }
+                )
             }
             Spacer(modifier = Modifier.height(18.dp))
             // Events
@@ -128,16 +125,17 @@ fun DayInfoEdit(
                     ChooseDayAttributesBox(
                         textColor = textColor,
                         addAttributeState = editEventsAttributeState,
-                        dayAttributesForFirstRow = attributesFood,
-                        dayAttributesOptional = optionalAttributesEvents
+                        dayAttributesList = dayAttributesListEvents,
                     )
                 }
             } else {
-                Button(
-                    onClick = { editEventsAttributeState.value = false }
-                ) {
-                    Image(imageVector = Icons.Default.Close, contentDescription = "Close")
-                }
+                AttributesEditBox (
+                    titleText = "Events",
+                    textColor = MainTheme.colors.singleTheme,
+                    addAttributeState = editEventsAttributeState,
+                    dayAttributesList = dayAttributesListEvents,
+                    onAddAttributeClick = { attribute -> Log.d(CALENDAR_LOG_TAG, "truing add: $attribute") }
+                )
             }
             Spacer(modifier = Modifier.height(18.dp))
             Button(
