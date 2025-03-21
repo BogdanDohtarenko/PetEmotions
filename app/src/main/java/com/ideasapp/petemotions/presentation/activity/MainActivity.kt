@@ -15,7 +15,6 @@ import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 //TODO (important)
-// 5. normal day notes design !!
 // 6. autoFilling of days !
 // 8. top bar (filters)
 // 12. mood plot  !!
@@ -29,10 +28,11 @@ import dagger.hilt.android.AndroidEntryPoint
 // 52. make day info edit all clickable (add map) !!!
 // 58. data store pref for attributes
 // 60. migrate to ksp !!!
-// 62. mood cannot be <0 >3, need to add throw exception to setter
+// 66. day edit info divide into different files
 
 //TODO (design)
 // 4. moods on calendar !
+// 5. normal day notes design !!
 // 9. color scheme for light theme
 // 24. vibration while scrolling dates in picker
 // 27. icons for nav bar

@@ -1,6 +1,7 @@
 package com.ideasapp.petemotions.presentation.ui.screens.calendar
 
 import android.util.Log
+import android.util.MutableBoolean
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,7 +30,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableIntState
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,7 +50,6 @@ import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
 
-//TODO divide into different files
 @Composable
 fun DayInfoEdit(
     onSaveDayInfoClick: (DayItemInfo) -> Unit,
@@ -62,6 +64,7 @@ fun DayInfoEdit(
     if (petId == null) throw RuntimeException("petId = null")
 
     val moodState = remember { mutableIntStateOf(dateItem.dayInfoItem.mood ?: MainActivity.MOOD_STATE_NORMAL) }
+    val addAttributeState = remember { mutableStateOf(false) }
 
     val textColor =  MaterialTheme.colorScheme.onBackground
     val dateLocalDate = LocalDate.ofEpochDay(dateItem.dayInfoItem.date)
@@ -103,6 +106,7 @@ fun DayInfoEdit(
             ) {
                 ChooseDayAttributesBox(
                     textColor = textColor,
+                    addAttributeState = addAttributeState,
                     dayAttributesForFirstRow = attributesFood,
                     dayAttributesOptional = optionalAttributesHealth
                 )
@@ -115,6 +119,7 @@ fun DayInfoEdit(
             ) {
                 ChooseDayAttributesBox (
                     textColor = textColor,
+                    addAttributeState = addAttributeState,
                     dayAttributesForFirstRow = attributesFood,
                     dayAttributesOptional = optionalAttributesFood
                 )
@@ -127,6 +132,7 @@ fun DayInfoEdit(
             ) {
                 ChooseDayAttributesBox(
                     textColor = textColor,
+                    addAttributeState = addAttributeState,
                     dayAttributesForFirstRow = attributesFood,
                     dayAttributesOptional = optionalAttributesEvents
                 )
@@ -156,6 +162,7 @@ fun DayInfoEdit(
 @Composable
 private fun ChooseDayAttributesBox(
     textColor: Color,
+    addAttributeState: MutableState<Boolean>,
     dayAttributesForFirstRow: List<DayAttribute>,
     dayAttributesOptional : List<DayAttribute>?,
 ) {
@@ -210,11 +217,15 @@ private fun ChooseDayAttributesBox(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
+                    //TODO open distinct screens depends on attribute type
                     //TODO amend add button
                     AttributeItem(
                         imageVector = Icons.Default.Add,
                         textColor = textColor,
-                        title = "_____"
+                        title = "_____",
+                        modifier = Modifier.clickable {
+                            addAttributeState.value = true
+                        }
                     )
                 }
             }
