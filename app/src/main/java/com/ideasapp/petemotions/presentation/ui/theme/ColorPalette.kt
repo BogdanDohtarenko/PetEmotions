@@ -9,5 +9,6 @@ data class ColorPalette(
     val buttonColor: Color,
     val navigationBarColor: Color,
     val statusBarColor: Color,
-    val spareContentColor : Color
+    val spareContentColor : Color,
+    val warningModeColor : Color
 )

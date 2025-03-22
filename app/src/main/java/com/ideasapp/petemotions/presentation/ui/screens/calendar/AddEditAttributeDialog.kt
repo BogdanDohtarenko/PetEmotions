@@ -22,14 +22,14 @@ import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 @Composable
 fun AddEditAttributeDialog(
     itemState: MutableState<DayAttribute?>,
+    attributeBoxType: String,
     onDismiss: () -> Unit,
     onSave: (DayAttribute) -> Unit
 ) {
-    val item = remember {itemState.value }
+    val item = remember { itemState.value }
     // without by to avoid unnecessary recompositions
     val title = remember {mutableStateOf(item?.title ?: "")}
     val imageVector = remember {mutableStateOf(item?.imageVector ?: Icons.Default.FavoriteBorder) }
-
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -50,9 +50,10 @@ fun AddEditAttributeDialog(
             AttributeCanselSaveButtons(
                 onDismiss = onDismiss,
                 item = item,
+                attributeBoxType = attributeBoxType,
                 title = title.value,
                 imageVector = imageVector.value,
-                onSave = onSave
+                onSave = onSave,
             )
         },
         containerColor = MainTheme.colors.mainColor,

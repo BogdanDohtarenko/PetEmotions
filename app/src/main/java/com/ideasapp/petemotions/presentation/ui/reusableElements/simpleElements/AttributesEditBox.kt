@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -34,12 +35,14 @@ import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.AddEditAttributeDialog
 import androidx.compose.foundation.lazy.grid.items
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 
 @Composable
 fun AttributesEditBox(
     titleText: String,
     modifier : Modifier = Modifier,
     textColor: Color,
+    attributeBoxType: String,
     addAttributeState: MutableState<Boolean>,
     dayAttributesList: List<DayAttribute>,
     onAddAttributeClick: (DayAttribute) -> Unit,
@@ -50,7 +53,7 @@ fun AttributesEditBox(
             modifier = modifier
                 .wrapContentHeight()
                 .clip(shape = RoundedCornerShape(10.dp))
-                .background(Color(0xFFF5F5F5)) // Replace with MainTheme.colors.spareContentColor
+                .background(MainTheme.colors.warningModeColor) // Replace with MainTheme.colors.spareContentColor
         ) {
             Column(
                 modifier = modifier
@@ -80,6 +83,7 @@ fun AttributesEditBox(
                     columns = GridCells.Fixed(4), // 4 items per row
                     modifier = modifier
                         .fillMaxWidth()
+                        .heightIn(max = 200.dp)
                         .padding(top = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -88,7 +92,10 @@ fun AttributesEditBox(
                         AttributeItem(
                             imageVector = attribute.imageVector,
                             textColor = textColor,
-                            title = attribute.title
+                            title = attribute.title,
+                            modifier = Modifier.clickable {
+                                selectedItem.value = attribute
+                            }
                         )
                     }
                 }
@@ -112,6 +119,7 @@ fun AttributesEditBox(
     if (addingAttributeState) {
         AddEditAttributeDialog(
             itemState = selectedItem,
+            attributeBoxType = attributeBoxType,
             onDismiss = { addingAttributeState = false },
             onSave = onAddAttributeClick
         )

@@ -1,6 +1,7 @@
 package com.ideasapp.petemotions.presentation.ui.screens.screen_containers
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
+import com.ideasapp.petemotions.presentation.activity.MainActivity.Companion.CALENDAR_LOG_TAG
 import com.ideasapp.petemotions.presentation.navigation.NavItem
 import com.ideasapp.petemotions.presentation.ui.reusableElements.BottomNavigationBar
 import com.ideasapp.petemotions.presentation.ui.reusableElements.NavigationHost
@@ -101,9 +103,12 @@ fun MainScreen(
                         },
                         exitCallback = onClose,
                         petId = petId,
-                        optionalAttributesFood = calendarViewModel.getDayAttributesFood(),
-                        optionalAttributesEvents = calendarViewModel.getDayAttributesEvents(),
-                        optionalAttributesHealth = calendarViewModel.getDayAttributesHealth(),
+                        dayAttributesListFood = calendarViewModel.getDayAttributesFood(),
+                        dayAttributesListEvents = calendarViewModel.getDayAttributesEvents(),
+                        dayAttributesListHealth = calendarViewModel.getDayAttributesHealth(),
+                        onAddAttributeClick = { dayAttribute ->
+                            Log.d(CALENDAR_LOG_TAG, "trying add dayAttribute ${dayAttribute.title} with type ${dayAttribute.type}")
+                        }
                     )
                 },
                 timetableScreenContent = {

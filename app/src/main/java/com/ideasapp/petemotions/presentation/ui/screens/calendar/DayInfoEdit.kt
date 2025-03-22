@@ -16,11 +16,13 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
@@ -34,13 +36,17 @@ import java.time.LocalDate
 
 @Composable
 fun DayInfoEdit(
-    onSaveDayInfoClick: (DayItemInfo) -> Unit,
-    exitCallback: () -> Unit,
-    dateItem: CalendarUiState.Date?,
-    petId: Int?,
-    dayAttributesListFood: List<DayAttribute>,
+    //entities
+    petId: Int?, // current pet
+    dateItem: CalendarUiState.Date?, // current date
+    //lists
+    dayAttributesListFood: List<DayAttribute>, // attribute lists
     dayAttributesListEvents : List<DayAttribute>,
     dayAttributesListHealth: List<DayAttribute>,
+    //lambdas
+    onAddAttributeClick : (DayAttribute) -> Unit, //on attribute save
+    exitCallback: () -> Unit, //exit
+    onSaveDayInfoClick: (DayItemInfo) -> Unit, // on save date
 ) {
     if (dateItem == null) throw RuntimeException("Date to DayInfoEdit = null")
     if (petId == null) throw RuntimeException("petId = null")
@@ -77,66 +83,27 @@ fun DayInfoEdit(
             )
             // TODO add attribute choosing
             // TODO set shaking when editing 
-            Spacer(modifier = Modifier.height(18.dp))
-            // Health
-            if (!editHealthAttributeState.value) {
-                FoldableBox(titleText = "Health", isExpandedByDefault = true) {
-                    ChooseDayAttributesBox(
-                        textColor = textColor,
-                        addAttributeState = editHealthAttributeState,
-                        dayAttributesList = dayAttributesListHealth,
-                    )
-                }
-            } else {
-                AttributesEditBox (
-                    titleText = "Health",
-                    textColor = MainTheme.colors.singleTheme,
-                    addAttributeState = editHealthAttributeState,
-                    dayAttributesList = dayAttributesListHealth,
-                    onAddAttributeClick = { attribute -> Log.d(CALENDAR_LOG_TAG, "truing add: $attribute") } //TODO VIEW MODEL
-                )
-            }
-            Spacer(modifier = Modifier.height(18.dp))
-            // Food
-            if (!editFoodAttributeState.value) {
-                FoldableBox(titleText = "Food", isExpandedByDefault = true) {
-                    ChooseDayAttributesBox(
-                        textColor = textColor,
-                        addAttributeState = editFoodAttributeState,
-                        dayAttributesList = dayAttributesListFood,
-                    )
-                }
-            } else {
-                AttributesEditBox (
-                    titleText = "Food",
-                    textColor = MainTheme.colors.singleTheme,
-                    addAttributeState = editFoodAttributeState,
-                    dayAttributesList = dayAttributesListFood,
-                    onAddAttributeClick = { attribute -> Log.d(CALENDAR_LOG_TAG, "truing add: $attribute") }
-                )
-            }
-            Spacer(modifier = Modifier.height(18.dp))
-            // Events
-            if (!editEventsAttributeState.value) {
-                FoldableBox(
-                    titleText = "Events",
-                    isExpandedByDefault = true
-                ) {
-                    ChooseDayAttributesBox(
-                        textColor = textColor,
-                        addAttributeState = editEventsAttributeState,
-                        dayAttributesList = dayAttributesListEvents,
-                    )
-                }
-            } else {
-                AttributesEditBox (
-                    titleText = "Events",
-                    textColor = MainTheme.colors.singleTheme,
-                    addAttributeState = editEventsAttributeState,
-                    dayAttributesList = dayAttributesListEvents,
-                    onAddAttributeClick = { attribute -> Log.d(CALENDAR_LOG_TAG, "truing add: $attribute") }
-                )
-            }
+            MoodAttributesElement(
+                DayAttribute.ATTRIBUTE_TYPE_HEALTH,
+                editHealthAttributeState,
+                textColor,
+                dayAttributesListHealth,
+                onAddAttributeClick
+            )
+            MoodAttributesElement(
+                DayAttribute.ATTRIBUTE_TYPE_FOOD,
+                editFoodAttributeState,
+                textColor,
+                dayAttributesListFood,
+                onAddAttributeClick
+            )
+            MoodAttributesElement(
+                DayAttribute.ATTRIBUTE_TYPE_EVENTS,
+                editEventsAttributeState,
+                textColor,
+                dayAttributesListEvents,
+                onAddAttributeClick
+            )
             Spacer(modifier = Modifier.height(18.dp))
             Button(
                 onClick = {
@@ -159,5 +126,34 @@ fun DayInfoEdit(
                 Text(text = "Save")
             }
         }
+    }
+}
+
+@Composable
+private fun MoodAttributesElement(
+    attributeBoxType: String,
+    editAttributeState : MutableState<Boolean>,
+    textColor : Color,
+    dayAttributesList: List<DayAttribute>,
+    onAddAttributeClick: (DayAttribute) -> Unit
+) {
+    Spacer(modifier = Modifier.height(18.dp))
+    if (!editAttributeState.value) {
+        FoldableBox(titleText = attributeBoxType, isExpandedByDefault = true) {
+            ChooseDayAttributesBox(
+                textColor = textColor,
+                addAttributeState = editAttributeState,
+                dayAttributesList = dayAttributesList,
+            )
+        }
+    } else {
+        AttributesEditBox(
+            titleText = attributeBoxType,
+            textColor = MainTheme.colors.singleTheme,
+            attributeBoxType = attributeBoxType,
+            addAttributeState = editAttributeState,
+            dayAttributesList = dayAttributesList,
+            onAddAttributeClick = { attribute-> Log.d(CALENDAR_LOG_TAG, "truing add: $attribute") } //TODO VIEW MODEL
+        )
     }
 }
