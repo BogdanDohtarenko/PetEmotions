@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
@@ -44,6 +45,7 @@ fun AttributesEditBox(
     textColor: Color,
     attributeBoxType: String,
     addAttributeState: MutableState<Boolean>,
+    possibleIconsList: List<ImageVector>,
     dayAttributesList: List<DayAttribute>,
     onAddAttributeClick: (DayAttribute) -> Unit,
 ) {
@@ -125,7 +127,8 @@ fun AttributesEditBox(
             itemState = selectedItemState,
             attributeBoxType = attributeBoxType,
             onDismiss = { addingAttribute = false },
-            onSave = onAddAttributeClick
+            onSave = onAddAttributeClick,
+            possibleIconsList = possibleIconsList
         )
     }
 }

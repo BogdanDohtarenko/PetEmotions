@@ -103,6 +103,7 @@ fun MainScreen(
                         },
                         exitCallback = onClose,
                         petId = petId,
+                        possibleIconsList = calendarViewModel.getPossibleIcons(),
                         dayAttributesListFood = calendarViewModel.getDayAttributesFood(),
                         dayAttributesListEvents = calendarViewModel.getDayAttributesEvents(),
                         dayAttributesListHealth = calendarViewModel.getDayAttributesHealth(),

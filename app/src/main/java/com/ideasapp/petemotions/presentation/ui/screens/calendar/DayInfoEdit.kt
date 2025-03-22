@@ -23,6 +23,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
@@ -40,6 +41,7 @@ fun DayInfoEdit(
     petId: Int?, // current pet
     dateItem: CalendarUiState.Date?, // current date
     //lists
+    possibleIconsList: List<ImageVector>,
     dayAttributesListFood: List<DayAttribute>, // attribute lists
     dayAttributesListEvents : List<DayAttribute>,
     dayAttributesListHealth: List<DayAttribute>,
@@ -87,6 +89,7 @@ fun DayInfoEdit(
                 DayAttribute.ATTRIBUTE_TYPE_HEALTH,
                 editHealthAttributeState,
                 textColor,
+                possibleIconsList,
                 dayAttributesListHealth,
                 onAddAttributeClick
             )
@@ -94,6 +97,7 @@ fun DayInfoEdit(
                 DayAttribute.ATTRIBUTE_TYPE_FOOD,
                 editFoodAttributeState,
                 textColor,
+                possibleIconsList,
                 dayAttributesListFood,
                 onAddAttributeClick
             )
@@ -101,6 +105,7 @@ fun DayInfoEdit(
                 DayAttribute.ATTRIBUTE_TYPE_EVENTS,
                 editEventsAttributeState,
                 textColor,
+                possibleIconsList,
                 dayAttributesListEvents,
                 onAddAttributeClick
             )
@@ -134,6 +139,7 @@ private fun MoodAttributesElement(
     attributeBoxType: String,
     editAttributeState : MutableState<Boolean>,
     textColor : Color,
+    possibleIconsList: List<ImageVector>,
     dayAttributesList: List<DayAttribute>,
     onAddAttributeClick: (DayAttribute) -> Unit
 ) {
@@ -152,6 +158,7 @@ private fun MoodAttributesElement(
             textColor = MainTheme.colors.singleTheme,
             attributeBoxType = attributeBoxType,
             addAttributeState = editAttributeState,
+            possibleIconsList = possibleIconsList,
             dayAttributesList = dayAttributesList,
             onAddAttributeClick = { attribute-> Log.d(CALENDAR_LOG_TAG, "truing add: $attribute") } //TODO VIEW MODEL
         )
