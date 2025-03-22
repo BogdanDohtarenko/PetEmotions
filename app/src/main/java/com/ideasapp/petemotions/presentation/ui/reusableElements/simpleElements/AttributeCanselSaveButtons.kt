@@ -21,7 +21,8 @@ fun AttributeCanselSaveButtons(
     item : DayAttribute?,
     title : String,
     imageVector : ImageVector,
-    onSave : (DayAttribute) -> Unit
+    onSave : (DayAttribute) -> Unit,
+    attributeBoxType: String
 ) {
     Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp), horizontalArrangement = Arrangement.SpaceBetween) {
         Button(onClick = onDismiss, colors = ButtonDefaults.buttonColors(containerColor = MainTheme.colors.buttonColor, contentColor = MainTheme.colors.oppositeTheme, disabledContentColor = MainTheme.colors.oppositeTheme, disabledContainerColor = MainTheme.colors.buttonColor.copy(alpha = 0.5f))) {
@@ -32,15 +33,18 @@ fun AttributeCanselSaveButtons(
                 DayAttribute(
                     imageVector = imageVector,
                     title = title,
-                    id = item.id
+                    id = item.id,
+                    type = item.type
                 )
             } else {
                 DayAttribute(
                     imageVector = imageVector,
                     title = title,
+                    type = attributeBoxType
                     )
             }
             onSave(newItem)
+            onDismiss()
         }, colors = ButtonDefaults.buttonColors(containerColor = MainTheme.colors.buttonColor, contentColor = MainTheme.colors.oppositeTheme, disabledContentColor = MainTheme.colors.oppositeTheme, disabledContainerColor = MainTheme.colors.buttonColor.copy(alpha = 0.5f))) {
             Text("Save")
         }

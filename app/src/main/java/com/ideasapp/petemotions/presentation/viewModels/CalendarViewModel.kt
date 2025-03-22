@@ -1,6 +1,18 @@
 package com.ideasapp.petemotions.presentation.viewModels
 
 import android.util.Log
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
@@ -129,16 +141,101 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-
     //TODO retrieve data from db
     fun getDayAttributesFood(): List<DayAttribute> {
-        return listOf()
+        return listOf(
+            DayAttribute(
+                Icons.Default.Menu,
+                title = "fsfsf0",
+                id = 0,
+                type = DayAttribute.ATTRIBUTE_TYPE_FOOD
+            ),
+            DayAttribute(
+                Icons.Default.Menu,
+                title = "fsfsf0",
+                id = 0,
+                type = DayAttribute.ATTRIBUTE_TYPE_FOOD
+            ),
+            DayAttribute(
+                Icons.Default.Menu,
+                title = "fsfsf0",
+                id = 0,
+                type = DayAttribute.ATTRIBUTE_TYPE_FOOD
+            ),
+            DayAttribute(
+                Icons.Default.Menu,
+                title = "fsfsf0",
+                id = 0,
+                type = DayAttribute.ATTRIBUTE_TYPE_FOOD
+            ),
+            DayAttribute(
+                Icons.Default.Menu,
+                title = "fsfsf0",
+                id = 0,
+                type = DayAttribute.ATTRIBUTE_TYPE_FOOD
+            ),DayAttribute(
+                Icons.Default.Menu,
+                title = "fsfsf0",
+                id = 0,
+                type = DayAttribute.ATTRIBUTE_TYPE_FOOD
+            )
+        )
     }
     fun getDayAttributesHealth(): List<DayAttribute> {
-        return listOf()
+        return listOf(
+            DayAttribute(
+                Icons.Default.Menu,
+                title = "fsfsf0",
+                id = 0,
+                type = DayAttribute.ATTRIBUTE_TYPE_HEALTH
+            ),
+            DayAttribute(
+                Icons.Default.Menu,
+                title = "fsfsf0",
+                id = 0,
+                type = DayAttribute.ATTRIBUTE_TYPE_HEALTH
+            ),
+            DayAttribute(
+                Icons.Default.Menu,
+                title = "fsfsf0",
+                id = 0,
+                type = DayAttribute.ATTRIBUTE_TYPE_HEALTH
+            ),
+            DayAttribute(
+                Icons.Default.Menu,
+                title = "fsfs0",
+                id = 0,
+                type = DayAttribute.ATTRIBUTE_TYPE_HEALTH
+            ),
+            DayAttribute(
+                Icons.Default.Menu,
+                title = "fssf0",
+                id = 0,
+                type = DayAttribute.ATTRIBUTE_TYPE_HEALTH
+            ),DayAttribute(
+                Icons.Default.Menu,
+                title = "f0",
+                id = 0,
+                type = DayAttribute.ATTRIBUTE_TYPE_HEALTH
+            )
+        )
     }
     fun getDayAttributesEvents(): List<DayAttribute> {
         return listOf()
+    }
+
+    //TODO supplement icons with custom
+    fun getPossibleIcons(): List<ImageVector> {
+        return listOf(
+            Icons.Default.FavoriteBorder,
+            Icons.Default.Delete,
+            Icons.Default.ShoppingCart,
+            Icons.Default.DateRange,
+            Icons.Default.Warning,
+            Icons.Default.ThumbUp,
+            Icons.Default.Star,
+            Icons.Default.Share,
+        )
     }
 
     fun addOrEditDayItem(selectedDayInfo: DayItemInfo) {
