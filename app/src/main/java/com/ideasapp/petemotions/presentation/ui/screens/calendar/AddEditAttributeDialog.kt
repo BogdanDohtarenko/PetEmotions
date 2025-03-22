@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -44,6 +45,7 @@ fun AddEditAttributeDialog(
             ) {
                 CustomTextField(title)
                 Spacer(modifier = Modifier.height(8.dp))
+                ImagePicker() //TODO
             }
         },
         confirmButton = {

@@ -44,6 +44,7 @@ fun AttributeCanselSaveButtons(
                     )
             }
             onSave(newItem)
+            onDismiss()
         }, colors = ButtonDefaults.buttonColors(containerColor = MainTheme.colors.buttonColor, contentColor = MainTheme.colors.oppositeTheme, disabledContentColor = MainTheme.colors.oppositeTheme, disabledContainerColor = MainTheme.colors.buttonColor.copy(alpha = 0.5f))) {
             Text("Save")
         }
