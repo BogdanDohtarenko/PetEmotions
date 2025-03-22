@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
@@ -45,6 +46,7 @@ fun AddEditAttributeDialog(
                     .fillMaxWidth()
                     .height(300.dp)
             ) {
+                //TODO constraint text size
                 CustomTextField(
                     title
                 )
@@ -53,9 +55,11 @@ fun AddEditAttributeDialog(
                     iconsList = possibleIconsList,
                     onIconClick = { imageVector.value = it }
                 )
+                Spacer(modifier = Modifier.height(18.dp))
                 AttributeCreatingPreview(
-                    title,
-                    imageVector
+                    title = title.value,
+                    imageVector = imageVector.value,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
         },
