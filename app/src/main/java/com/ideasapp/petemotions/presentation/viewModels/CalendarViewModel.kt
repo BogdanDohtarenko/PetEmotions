@@ -2,11 +2,9 @@ package com.ideasapp.petemotions.presentation.viewModels
 
 import android.util.Log
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
@@ -21,10 +19,11 @@ import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.entity.calendar.Pet
-import com.ideasapp.petemotions.domain.entity.calendar.Pet.Companion.flattenToList
+import com.ideasapp.petemotions.domain.use_case.calendar.AddDayAttributeUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.AddDayItemUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.AddPetUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetCalendarUseCase
+import com.ideasapp.petemotions.domain.use_case.calendar.GetDayAttributesUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetMoodForPetUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetPetsListUseCase
 import com.ideasapp.petemotions.presentation.activity.MainActivity
@@ -53,7 +52,9 @@ class CalendarViewModel @Inject constructor(
     private val getMoodForPet : GetMoodForPetUseCase,
     private val addDayItemUseCase: AddDayItemUseCase,
     private val getPetsListUseCase : GetPetsListUseCase,
-    private val addPetUseCase : AddPetUseCase
+    private val addPetUseCase : AddPetUseCase,
+    private val addDayAttribute : AddDayAttributeUseCase,
+    private val getDayAttributes : GetDayAttributesUseCase,
 )  : ViewModel() {
 
     //TODO REFACTOR, DELETE UNNECESSARY
@@ -70,11 +71,15 @@ class CalendarViewModel @Inject constructor(
     private val _petsList = MutableStateFlow<List<Pet>>(emptyList())
     val petsList = _petsList.asStateFlow()
 
+    private val _attributesList = MutableStateFlow<List<DayAttribute>>(emptyList())
+    val attributesList = _attributesList.asStateFlow()
+
     init {
         collectAllDates()
         collectForPetDates()
         viewModelScope.launch {
             collectPetList()
+            collectDayAttributesList()
         }
     }
 
@@ -141,87 +146,28 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    //TODO retrieve data from db
+    //Work with attributes TODO take out to other view model?
+    private suspend fun collectDayAttributesList() {
+        val flowOfLists: Flow<List<DayAttribute>> = getDayAttributes()
+        flowOfLists.collect { list ->
+            _attributesList.value = list
+            Log.d(CALENDAR_LOG_TAG, "attributes list: $list")
+        }
+    }
+    fun addDayAttribute(dayAttribute : DayAttribute) {
+        val currentList = _attributesList.value
+        val updatedList = currentList + dayAttribute
+        _attributesList.value = updatedList
+        addDayAttribute(updatedList)
+    }
     fun getDayAttributesFood(): List<DayAttribute> {
-        return listOf(
-            DayAttribute(
-                Icons.Default.Menu,
-                title = "fsfsf0",
-                id = 0,
-                type = DayAttribute.ATTRIBUTE_TYPE_FOOD
-            ),
-            DayAttribute(
-                Icons.Default.Menu,
-                title = "fsfsf0",
-                id = 0,
-                type = DayAttribute.ATTRIBUTE_TYPE_FOOD
-            ),
-            DayAttribute(
-                Icons.Default.Menu,
-                title = "fsfsf0",
-                id = 0,
-                type = DayAttribute.ATTRIBUTE_TYPE_FOOD
-            ),
-            DayAttribute(
-                Icons.Default.Menu,
-                title = "fsfsf0",
-                id = 0,
-                type = DayAttribute.ATTRIBUTE_TYPE_FOOD
-            ),
-            DayAttribute(
-                Icons.Default.Menu,
-                title = "fsfsf0",
-                id = 0,
-                type = DayAttribute.ATTRIBUTE_TYPE_FOOD
-            ),DayAttribute(
-                Icons.Default.Menu,
-                title = "fsfsf0",
-                id = 0,
-                type = DayAttribute.ATTRIBUTE_TYPE_FOOD
-            )
-        )
+        return attributesList.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_FOOD }
     }
     fun getDayAttributesHealth(): List<DayAttribute> {
-        return listOf(
-            DayAttribute(
-                Icons.Default.Menu,
-                title = "fsfsf0",
-                id = 0,
-                type = DayAttribute.ATTRIBUTE_TYPE_HEALTH
-            ),
-            DayAttribute(
-                Icons.Default.Menu,
-                title = "fsfsf0",
-                id = 0,
-                type = DayAttribute.ATTRIBUTE_TYPE_HEALTH
-            ),
-            DayAttribute(
-                Icons.Default.Menu,
-                title = "fsfsf0",
-                id = 0,
-                type = DayAttribute.ATTRIBUTE_TYPE_HEALTH
-            ),
-            DayAttribute(
-                Icons.Default.Menu,
-                title = "fsfs0",
-                id = 0,
-                type = DayAttribute.ATTRIBUTE_TYPE_HEALTH
-            ),
-            DayAttribute(
-                Icons.Default.Menu,
-                title = "fssf0",
-                id = 0,
-                type = DayAttribute.ATTRIBUTE_TYPE_HEALTH
-            ),DayAttribute(
-                Icons.Default.Menu,
-                title = "f0",
-                id = 0,
-                type = DayAttribute.ATTRIBUTE_TYPE_HEALTH
-            )
-        )
+        return getDayAttributesList().filter { it.type == DayAttribute.ATTRIBUTE_TYPE_HEALTH }
     }
     fun getDayAttributesEvents(): List<DayAttribute> {
-        return listOf()
+        return getDayAttributesList().filter { it.type == DayAttribute.ATTRIBUTE_TYPE_EVENTS }
     }
 
     //TODO supplement icons with custom

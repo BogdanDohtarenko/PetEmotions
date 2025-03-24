@@ -68,10 +68,10 @@ class CalendarRepositoryImpl @Inject constructor(
         calendarListDao.addItemDayInfo(DayInfoMapper.entityToDbModel(dayItemInfo))
     }
 
+    //Pets
     override suspend fun getPetsList() : Flow<List<Pet>> {
         return PetDataStore.getPetsFlow(appContext)
     }
-
     override suspend fun addPet(pets : List<Pet>) {
         PetDataStore.savePets(context = appContext, pets = pets)
     }
