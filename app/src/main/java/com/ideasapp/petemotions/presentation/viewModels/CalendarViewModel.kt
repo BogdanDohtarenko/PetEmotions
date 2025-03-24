@@ -19,13 +19,14 @@ import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.entity.calendar.Pet
-import com.ideasapp.petemotions.domain.use_case.calendar.AddDayAttributeUseCase
+import com.ideasapp.petemotions.domain.use_case.dayAttributes.AddDayAttributeUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.AddDayItemUseCase
-import com.ideasapp.petemotions.domain.use_case.calendar.AddPetUseCase
+import com.ideasapp.petemotions.domain.use_case.pets.AddPetUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetCalendarUseCase
-import com.ideasapp.petemotions.domain.use_case.calendar.GetDayAttributesUseCase
+import com.ideasapp.petemotions.domain.use_case.dayAttributes.GetDayAttributesUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetMoodForPetUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetPetsListUseCase
+import com.ideasapp.petemotions.domain.use_case.dayAttributes.DeleteDayAttributeUseCase
 import com.ideasapp.petemotions.presentation.activity.MainActivity
 import com.ideasapp.petemotions.presentation.activity.MainActivity.Companion.CALENDAR_LOG_TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -49,12 +50,13 @@ import javax.inject.Inject
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
     private val getCalendar: GetCalendarUseCase,
-    private val getMoodForPet : GetMoodForPetUseCase,
+    private val getMoodForPet :GetMoodForPetUseCase,
     private val addDayItemUseCase: AddDayItemUseCase,
     private val getPetsListUseCase : GetPetsListUseCase,
-    private val addPetUseCase : AddPetUseCase,
-    private val addDayAttribute : AddDayAttributeUseCase,
-    private val getDayAttributes : GetDayAttributesUseCase,
+    private val addPetUseCase :AddPetUseCase,
+    private val addDayAttribute :AddDayAttributeUseCase,
+    private val getDayAttributes :GetDayAttributesUseCase,
+    private val deleteDayAttributes :DeleteDayAttributeUseCase,
 )  : ViewModel() {
 
     //TODO REFACTOR, DELETE UNNECESSARY
@@ -154,20 +156,30 @@ class CalendarViewModel @Inject constructor(
             Log.d(CALENDAR_LOG_TAG, "attributes list: $list")
         }
     }
-    fun addDayAttribute(dayAttribute : DayAttribute) {
+    fun onAddDayAttribute(dayAttribute : DayAttribute) {
         val currentList = _attributesList.value
         val updatedList = currentList + dayAttribute
         _attributesList.value = updatedList
-        addDayAttribute(updatedList)
+        viewModelScope.launch {
+            addDayAttribute(dayAttribute)
+        }
+    }
+    fun onDeleteDayAttribute(dayAttribute : DayAttribute) {
+        val currentList = _attributesList.value
+        val updatedList = currentList + dayAttribute
+        _attributesList.value = updatedList
+        viewModelScope.launch {
+            deleteDayAttributes(dayAttribute)
+        }
     }
     fun getDayAttributesFood(): List<DayAttribute> {
-        return attributesList.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_FOOD }
+        return attributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_FOOD }
     }
     fun getDayAttributesHealth(): List<DayAttribute> {
-        return getDayAttributesList().filter { it.type == DayAttribute.ATTRIBUTE_TYPE_HEALTH }
+        return attributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_HEALTH }
     }
     fun getDayAttributesEvents(): List<DayAttribute> {
-        return getDayAttributesList().filter { it.type == DayAttribute.ATTRIBUTE_TYPE_EVENTS }
+        return attributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_EVENTS }
     }
 
     //TODO supplement icons with custom

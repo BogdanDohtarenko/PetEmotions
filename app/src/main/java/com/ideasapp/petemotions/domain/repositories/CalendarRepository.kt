@@ -22,7 +22,4 @@ interface CalendarRepository {
 
     suspend fun getPetsList(): Flow<List<Pet>>
     suspend fun addPet(pets: List<Pet>)
-
-    suspend fun getDayAttributes(): Flow<List<DayAttribute>>
-    suspend fun addDayAttribute(attributes: List<DayAttribute>)
 }

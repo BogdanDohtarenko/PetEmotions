@@ -1,6 +1,5 @@
-package com.ideasapp.petemotions.domain.use_case.calendar
+package com.ideasapp.petemotions.domain.use_case.pets
 
-import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.entity.calendar.Pet
 import com.ideasapp.petemotions.domain.repositories.CalendarRepository
 import javax.inject.Inject
