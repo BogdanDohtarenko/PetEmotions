@@ -105,9 +105,7 @@ fun MainScreen(
                         exitCallback = onClose,
                         petId = petId,
                         possibleIconsList = calendarViewModel.getPossibleIcons(),
-                        dayAttributesListFood = attributesViewModel.getDayAttributesFood(),
-                        dayAttributesListEvents = attributesViewModel.getDayAttributesEvents(),
-                        dayAttributesListHealth = attributesViewModel.getDayAttributesHealth(),
+                        dayAttributesFlow = attributesViewModel.attributesList,
                         onAddAttributeClick = { dayAttribute ->
                             Log.d(CALENDAR_LOG_TAG, "trying add dayAttribute ${dayAttribute.title} with type ${dayAttribute.type}")
                             attributesViewModel.onAddDayAttribute(dayAttribute)

@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,6 +34,7 @@ import com.ideasapp.petemotions.presentation.activity.MainActivity.Companion.CAL
 import com.ideasapp.petemotions.presentation.ui.reusableElements.FoldableBox
 import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.AttributesEditBox
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 @Composable
@@ -42,14 +44,13 @@ fun DayInfoEdit(
     dateItem: CalendarUiState.Date?, // current date
     //lists
     possibleIconsList: List<ImageVector>,
-    dayAttributesListFood: List<DayAttribute>, // attribute lists
-    dayAttributesListEvents : List<DayAttribute>,
-    dayAttributesListHealth: List<DayAttribute>,
+    dayAttributesFlow: Flow<List<DayAttribute>>, // attribute lists
     //lambdas
     onAddAttributeClick : (DayAttribute) -> Unit, //on attribute save
     exitCallback: () -> Unit, //exit
     onSaveDayInfoClick: (DayItemInfo) -> Unit, // on save date
 ) {
+    val dayAttributesList = dayAttributesFlow.collectAsState(initial = listOf())
     if (dateItem == null) throw RuntimeException("Date to DayInfoEdit = null")
     if (petId == null) throw RuntimeException("petId = null")
     val textColor = MaterialTheme.colorScheme.onBackground
@@ -91,7 +92,7 @@ fun DayInfoEdit(
                 editHealthAttributeState,
                 textColor,
                 possibleIconsList,
-                dayAttributesListHealth,
+                dayAttributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_HEALTH },
                 onAddAttributeClick
             )
             MoodAttributesElement(
@@ -99,7 +100,7 @@ fun DayInfoEdit(
                 editFoodAttributeState,
                 textColor,
                 possibleIconsList,
-                dayAttributesListFood,
+                dayAttributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_FOOD },
                 onAddAttributeClick
             )
             MoodAttributesElement(
@@ -107,7 +108,7 @@ fun DayInfoEdit(
                 editEventsAttributeState,
                 textColor,
                 possibleIconsList,
-                dayAttributesListEvents,
+                dayAttributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_EVENTS },
                 onAddAttributeClick
             )
             Spacer(modifier = Modifier.height(18.dp))
