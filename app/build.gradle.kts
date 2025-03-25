@@ -46,6 +46,7 @@ android {
             excludes+="/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
     kapt {
         correctErrorTypes = true
     }
@@ -93,7 +94,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
 
     //tests
-    testImplementation(libs.junit)
+    testImplementation(libs.junit.v413)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 

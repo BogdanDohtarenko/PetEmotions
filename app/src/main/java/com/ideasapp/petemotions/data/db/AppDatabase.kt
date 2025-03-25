@@ -6,20 +6,24 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.ideasapp.petemotions.data.db.dao.CalendarListDao
+import com.ideasapp.petemotions.data.db.dao.DayAttributesDao
 import com.ideasapp.petemotions.data.db.dao.TimetableDao
+import com.ideasapp.petemotions.data.db.dbModels.DayAttributesDbModel
 import com.ideasapp.petemotions.data.db.dbModels.DayItemInfoDbModel
 import com.ideasapp.petemotions.data.db.dbModels.TimetableItemDbModel
 
 @Database(entities = [
     DayItemInfoDbModel::class,
-    TimetableItemDbModel::class],
+    TimetableItemDbModel::class,
+    DayAttributesDbModel::class],
     version = 1,
     exportSchema = false)
-@TypeConverters(LocalDateConverter::class)
+@TypeConverters(ImageVectorConverter::class)
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun CalendarListDao(): CalendarListDao
     abstract fun TimetableDao(): TimetableDao
+    abstract fun DayAttributesDao():DayAttributesDao
 
     companion object {
         private var INSTANCE: AppDatabase? = null
