@@ -6,7 +6,7 @@ import com.ideasapp.petemotions.domain.repositories.DayAttributesRepository
 import javax.inject.Inject
 
 class DeleteDayAttributeUseCase@Inject constructor(
-    private val repository:DayAttributesRepository,
+    private val repository: DayAttributesRepository,
 ) {
     suspend operator fun invoke(attribute: DayAttribute) {
         repository.deleteDayAttribute(attribute)

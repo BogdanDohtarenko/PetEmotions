@@ -11,38 +11,33 @@ import androidx.activity.viewModels
 import com.ideasapp.petemotions.presentation.ui.screens.screen_containers.MainScreen
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
+import com.ideasapp.petemotions.presentation.viewModels.DayAttributesViewModel
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 //TODO (important)
 // 6. autoFilling of days !
 // 8. top bar (filters)
-// 12. mood plot  !!
+// 12. mood plot  !!!!!
 // 28. switch between screens by swipe
 // 31. profile screen
 // 42. REFACTOR CalendarViewModel when it ready + by sumin flow
 // 45. clean all files
 // 49. reform ui directories (by sumin)
-// 50. add custom day info attributes
-// 51. pass dynamic quantity of day info attributes
-// 52. make day info edit all clickable (add map) !!!
-// 58. data store pref for attributes
 // 60. migrate to ksp !!!
-// 66. day edit info divide into different files
-// 68. add edit attribute screen
-// 69.
+// 69. tips on how to manage day attributes
+// 72. edit attributes
 
 //TODO (design)
 // 4. moods on calendar !
 // 5. normal day notes design !!
 // 9. color scheme for light theme
-// 24. vibration while scrolling dates in picker
 // 27. icons for nav bar
 // 55. russian language !!!
 // 56. change spare color
 // 59. draw all necessary icons !!!
-// 63. background color in dark theme -> dark gray
 // 67. nav bar design
+// 70. normal design of B/N/G box
 
 //TODO (for future)
 // 2. notifications with timetable
@@ -58,6 +53,7 @@ class MainActivity : ComponentActivity() {
     //hilt provided viewModels
     private val calendarViewModel: CalendarViewModel by viewModels()
     private val timetableViewModel: TimetableViewModel by viewModels()
+    private val attributesViewModel: DayAttributesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +71,7 @@ class MainActivity : ComponentActivity() {
         )
         setContent {
             MainTheme {
-                MainScreen(calendarViewModel, timetableViewModel)
+                MainScreen(calendarViewModel, timetableViewModel, attributesViewModel)
             }
         }
     }

@@ -15,10 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.ideasapp.petemotions.presentation.activity.MainActivity.Companion.CALENDAR_LOG_TAG
@@ -33,6 +34,7 @@ import com.ideasapp.petemotions.presentation.ui.screens.timetable.FullTimetableS
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.util.toJson
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
+import com.ideasapp.petemotions.presentation.viewModels.DayAttributesViewModel
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 
 @SuppressLint("ContextCastToActivity")
@@ -40,6 +42,7 @@ import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 fun MainScreen(
     calendarViewModel: CalendarViewModel,
     timetableViewModel: TimetableViewModel,
+    attributesViewModel: DayAttributesViewModel
 ) {
     val petIdGlobal = remember { mutableIntStateOf(0) }
     val petsList by calendarViewModel.petsList.collectAsState(initial = emptyList())
@@ -47,6 +50,7 @@ fun MainScreen(
     val uiState by calendarViewModel.uiState.collectAsState()
     val navController = rememberNavController()
     val context = LocalContext.current as ComponentActivity
+    val haptic =  LocalHapticFeedback.current
     context.enableEdgeToEdge()
 
 
@@ -78,6 +82,7 @@ fun MainScreen(
                         petsList = petsList,
                         petId = petIdGlobal,
                         onPetClick = { petId ->
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                             petIdGlobal.intValue = petId
                             calendarViewModel.onChangePet(petId)
                         },
@@ -88,6 +93,7 @@ fun MainScreen(
                             calendarViewModel.toNextMonth(nextMonth)
                         },
                         onEditDayClick = { date,  petId ->
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                             //cast CalendarUiState.Date to string
                             val dateJson = date.toJson()
                             //Navigate to EditDay
@@ -98,18 +104,23 @@ fun MainScreen(
                     DayInfoEdit(
                         dateItem = date,
                         onSaveDayInfoClick = { newDayInfo ->
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                             calendarViewModel.addOrEditDayItem(newDayInfo)
                             showToast(context, "day saved")
                         },
                         exitCallback = onClose,
                         petId = petId,
                         possibleIconsList = calendarViewModel.getPossibleIcons(),
-                        dayAttributesListFood = calendarViewModel.getDayAttributesFood(),
-                        dayAttributesListEvents = calendarViewModel.getDayAttributesEvents(),
-                        dayAttributesListHealth = calendarViewModel.getDayAttributesHealth(),
+                        dayAttributesFlow = attributesViewModel.attributesList,
                         onAddAttributeClick = { dayAttribute ->
-                            calendarViewModel.onAddDayAttribute(dayAttribute)
                             Log.d(CALENDAR_LOG_TAG, "trying add dayAttribute ${dayAttribute.title} with type ${dayAttribute.type}")
+                            showToast(context, "${dayAttribute.title} added")
+                            attributesViewModel.onAddDayAttribute(dayAttribute)
+                        },
+                        onDeleteAttributeClick = { dayAttribute ->
+                            Log.d(CALENDAR_LOG_TAG, "trying to delete ${dayAttribute.title} with type ${dayAttribute.type}")
+                            showToast(context, "${dayAttribute.title} deleted")
+                            attributesViewModel.onDeleteDayAttribute(dayAttribute)
                         }
                     )
                 },
@@ -117,10 +128,12 @@ fun MainScreen(
                     FullTimetableScreen(
                         timetableFlow = timetableFlow,
                         onAddTimetableItem = { item ->
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                             timetableViewModel.addItem(item)
                             showToast(context, "item added")
                         },
                         onDeleteTimetableItem = { item ->
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                             timetableViewModel.deleteItem(item)
                             showToast(context, "item deleted")
                         }

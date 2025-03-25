@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,6 +34,7 @@ import com.ideasapp.petemotions.presentation.activity.MainActivity.Companion.CAL
 import com.ideasapp.petemotions.presentation.ui.reusableElements.FoldableBox
 import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.AttributesEditBox
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 @Composable
@@ -42,14 +44,14 @@ fun DayInfoEdit(
     dateItem: CalendarUiState.Date?, // current date
     //lists
     possibleIconsList: List<ImageVector>,
-    dayAttributesListFood: List<DayAttribute>, // attribute lists
-    dayAttributesListEvents : List<DayAttribute>,
-    dayAttributesListHealth: List<DayAttribute>,
+    dayAttributesFlow: Flow<List<DayAttribute>>, // attribute lists
     //lambdas
     onAddAttributeClick : (DayAttribute) -> Unit, //on attribute save
+    onDeleteAttributeClick : (DayAttribute) -> Unit, //on attribute delete
     exitCallback: () -> Unit, //exit
     onSaveDayInfoClick: (DayItemInfo) -> Unit, // on save date
 ) {
+    val dayAttributesList = dayAttributesFlow.collectAsState(initial = listOf())
     if (dateItem == null) throw RuntimeException("Date to DayInfoEdit = null")
     if (petId == null) throw RuntimeException("petId = null")
     val textColor = MaterialTheme.colorScheme.onBackground
@@ -84,30 +86,34 @@ fun DayInfoEdit(
                 moodState = moodState
             )
             // TODO add attribute choosing
-            // TODO set shaking when editing 
+            // TODO set shaking when editing
+            // TODO guide (how to delete add etc.)
             MoodAttributesElement(
                 DayAttribute.ATTRIBUTE_TYPE_HEALTH,
                 editHealthAttributeState,
                 textColor,
                 possibleIconsList,
-                dayAttributesListHealth,
-                onAddAttributeClick
+                dayAttributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_HEALTH },
+                onAddAttributeClick,
+                onDeleteAttributeClick
             )
             MoodAttributesElement(
                 DayAttribute.ATTRIBUTE_TYPE_FOOD,
                 editFoodAttributeState,
                 textColor,
                 possibleIconsList,
-                dayAttributesListFood,
-                onAddAttributeClick
+                dayAttributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_FOOD },
+                onAddAttributeClick,
+                onDeleteAttributeClick
             )
             MoodAttributesElement(
                 DayAttribute.ATTRIBUTE_TYPE_EVENTS,
                 editEventsAttributeState,
                 textColor,
                 possibleIconsList,
-                dayAttributesListEvents,
-                onAddAttributeClick
+                dayAttributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_EVENTS },
+                onAddAttributeClick,
+                onDeleteAttributeClick
             )
             Spacer(modifier = Modifier.height(18.dp))
             Button(
@@ -119,7 +125,6 @@ fun DayInfoEdit(
                     )
                     onSaveDayInfoClick(newDayInfo)
                     exitCallback()
-                    Log.d(CALENDAR_LOG_TAG, "item saved: $newDayInfo")
                 },
                 colors = ButtonColors(
                     containerColor = MainTheme.colors.mainColor,
@@ -141,7 +146,8 @@ private fun MoodAttributesElement(
     textColor : Color,
     possibleIconsList: List<ImageVector>,
     dayAttributesList: List<DayAttribute>,
-    onAddAttributeClick: (DayAttribute) -> Unit
+    onAddAttributeClick: (DayAttribute) -> Unit,
+    onDeleteAttributeClick: (DayAttribute) -> Unit,
 ) {
     Spacer(modifier = Modifier.height(18.dp))
     if (!editAttributeState.value) {
@@ -160,7 +166,8 @@ private fun MoodAttributesElement(
             addAttributeState = editAttributeState,
             possibleIconsList = possibleIconsList,
             dayAttributesList = dayAttributesList,
-            onAddAttributeClick = { attribute-> Log.d(CALENDAR_LOG_TAG, "truing add: $attribute") } //TODO VIEW MODEL
+            onAddAttributeClick = { attribute -> onAddAttributeClick(attribute) },
+            onDeleteAttributeClick = onDeleteAttributeClick
         )
     }
 }
