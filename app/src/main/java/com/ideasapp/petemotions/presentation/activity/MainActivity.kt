@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 //TODO (important)
 // 6. autoFilling of days !
 // 8. top bar (filters)
-// 12. mood plot  !!
+// 12. mood plot  !!!!!
 // 28. switch between screens by swipe
 // 31. profile screen
 // 42. REFACTOR CalendarViewModel when it ready + by sumin flow
@@ -26,7 +26,6 @@ import dagger.hilt.android.AndroidEntryPoint
 // 49. reform ui directories (by sumin)
 // 60. migrate to ksp !!!
 // 69. tips on how to manage day attributes
-// 71. vibrations
 // 72. edit attributes
 
 //TODO (design)

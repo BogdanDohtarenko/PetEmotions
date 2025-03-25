@@ -21,6 +21,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.itemContentType
@@ -78,8 +79,12 @@ fun FullTimetableScreen(
                     if (item != null) {
                         ListItem(
                             item = item,
-                            onClick = { openDialog(item) },
-                            onLongClick = { onDeleteTimetableItem(item) },
+                            onClick = {
+                                openDialog(item)
+                            },
+                            onLongClick = {
+                                onDeleteTimetableItem(item)
+                            },
                         )
                     }
                 }
