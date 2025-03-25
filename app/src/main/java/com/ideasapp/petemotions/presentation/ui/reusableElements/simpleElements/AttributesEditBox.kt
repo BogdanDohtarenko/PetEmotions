@@ -1,8 +1,10 @@
 package com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,6 +34,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
@@ -48,6 +52,7 @@ fun AttributesEditBox(
     possibleIconsList: List<ImageVector>,
     dayAttributesList: List<DayAttribute>,
     onAddAttributeClick: (DayAttribute) -> Unit,
+    onDeleteAttributeClick: (DayAttribute) -> Unit,
 ) {
     var addingAttribute by remember { mutableStateOf(false) }
     val selectedItemState = remember { mutableStateOf<DayAttribute?>(null) }
@@ -95,10 +100,19 @@ fun AttributesEditBox(
                             imageVector = attribute.imageVector,
                             textColor = textColor,
                             title = attribute.title,
-                            modifier = Modifier.clickable {
-                                selectedItemState.value = attribute
-                                addingAttribute = true
-                            }
+                            modifier = Modifier
+                                .pointerInput(Unit) {
+                                    detectTapGestures(
+                                        onTap = {
+                                            selectedItemState.value = attribute
+                                            addingAttribute = true
+                                        },
+                                        onLongPress = {
+                                            selectedItemState.value = attribute
+                                            onDeleteAttributeClick(attribute)
+                                        },
+                                    )
+                                }
                         )
                     }
                 }

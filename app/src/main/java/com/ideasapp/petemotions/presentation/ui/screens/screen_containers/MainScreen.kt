@@ -108,7 +108,13 @@ fun MainScreen(
                         dayAttributesFlow = attributesViewModel.attributesList,
                         onAddAttributeClick = { dayAttribute ->
                             Log.d(CALENDAR_LOG_TAG, "trying add dayAttribute ${dayAttribute.title} with type ${dayAttribute.type}")
+                            showToast(context, "${dayAttribute.title} added")
                             attributesViewModel.onAddDayAttribute(dayAttribute)
+                        },
+                        onDeleteAttributeClick = { dayAttribute ->
+                            Log.d(CALENDAR_LOG_TAG, "trying to delete ${dayAttribute.title} with type ${dayAttribute.type}")
+                            showToast(context, "${dayAttribute.title} deleted")
+                            attributesViewModel.onDeleteDayAttribute(dayAttribute)
                         }
                     )
                 },

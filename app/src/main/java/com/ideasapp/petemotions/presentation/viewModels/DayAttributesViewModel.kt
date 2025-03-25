@@ -9,6 +9,7 @@ import com.ideasapp.petemotions.domain.use_case.dayAttributes.DeleteDayAttribute
 import com.ideasapp.petemotions.domain.use_case.dayAttributes.GetDayAttributesUseCase
 import com.ideasapp.petemotions.presentation.activity.MainActivity.Companion.CALENDAR_LOG_TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -22,7 +23,7 @@ class DayAttributesViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _attributesList = MutableStateFlow<List<DayAttribute>>(emptyList())
-    val attributesList = _attributesList.asStateFlow() // Expose as read-only
+    val attributesList = _attributesList.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -34,7 +35,6 @@ class DayAttributesViewModel @Inject constructor(
     private suspend fun collectDayAttributesList() {
         getDayAttributes().collect { list ->
             _attributesList.value = list
-            Log.d(CALENDAR_LOG_TAG, "attributes list: $list")
         }
     }
 
@@ -54,7 +54,7 @@ class DayAttributesViewModel @Inject constructor(
     }
     fun onDeleteDayAttribute(dayAttribute: DayAttribute) {
         Log.d(CALENDAR_LOG_TAG, "onDeleteDayAttribute called with ${dayAttribute.title}")
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val currentList = _attributesList.value
             _attributesList.value = currentList.filter { it != dayAttribute }
             deleteDayAttributes(dayAttribute)

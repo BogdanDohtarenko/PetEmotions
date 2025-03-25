@@ -32,7 +32,6 @@ fun AttributeItem(
             contentDescription = title,
             tint = textColor,
             modifier = Modifier
-                .size(14.dp)
                 .padding(bottom = 4.dp)
         )
         Text(

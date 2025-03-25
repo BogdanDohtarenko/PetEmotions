@@ -47,6 +47,7 @@ fun DayInfoEdit(
     dayAttributesFlow: Flow<List<DayAttribute>>, // attribute lists
     //lambdas
     onAddAttributeClick : (DayAttribute) -> Unit, //on attribute save
+    onDeleteAttributeClick : (DayAttribute) -> Unit, //on attribute delete
     exitCallback: () -> Unit, //exit
     onSaveDayInfoClick: (DayItemInfo) -> Unit, // on save date
 ) {
@@ -93,7 +94,8 @@ fun DayInfoEdit(
                 textColor,
                 possibleIconsList,
                 dayAttributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_HEALTH },
-                onAddAttributeClick
+                onAddAttributeClick,
+                onDeleteAttributeClick
             )
             MoodAttributesElement(
                 DayAttribute.ATTRIBUTE_TYPE_FOOD,
@@ -101,7 +103,8 @@ fun DayInfoEdit(
                 textColor,
                 possibleIconsList,
                 dayAttributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_FOOD },
-                onAddAttributeClick
+                onAddAttributeClick,
+                onDeleteAttributeClick
             )
             MoodAttributesElement(
                 DayAttribute.ATTRIBUTE_TYPE_EVENTS,
@@ -109,7 +112,8 @@ fun DayInfoEdit(
                 textColor,
                 possibleIconsList,
                 dayAttributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_EVENTS },
-                onAddAttributeClick
+                onAddAttributeClick,
+                onDeleteAttributeClick
             )
             Spacer(modifier = Modifier.height(18.dp))
             Button(
@@ -121,7 +125,6 @@ fun DayInfoEdit(
                     )
                     onSaveDayInfoClick(newDayInfo)
                     exitCallback()
-                    Log.d(CALENDAR_LOG_TAG, "item saved: $newDayInfo")
                 },
                 colors = ButtonColors(
                     containerColor = MainTheme.colors.mainColor,
@@ -143,7 +146,8 @@ private fun MoodAttributesElement(
     textColor : Color,
     possibleIconsList: List<ImageVector>,
     dayAttributesList: List<DayAttribute>,
-    onAddAttributeClick: (DayAttribute) -> Unit
+    onAddAttributeClick: (DayAttribute) -> Unit,
+    onDeleteAttributeClick: (DayAttribute) -> Unit,
 ) {
     Spacer(modifier = Modifier.height(18.dp))
     if (!editAttributeState.value) {
@@ -162,7 +166,8 @@ private fun MoodAttributesElement(
             addAttributeState = editAttributeState,
             possibleIconsList = possibleIconsList,
             dayAttributesList = dayAttributesList,
-            onAddAttributeClick = { attribute -> onAddAttributeClick(attribute) }
+            onAddAttributeClick = { attribute -> onAddAttributeClick(attribute) },
+            onDeleteAttributeClick = onDeleteAttributeClick
         )
     }
 }
