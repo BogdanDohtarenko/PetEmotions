@@ -17,13 +17,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DayAttributesViewModel @Inject constructor(
-    private val addDayAttribute :AddDayAttributeUseCase,
-    private val getDayAttributes :GetDayAttributesUseCase,
-    private val deleteDayAttributes :DeleteDayAttributeUseCase,
-)  : ViewModel() {
+    private val addDayAttribute: AddDayAttributeUseCase,
+    private val getDayAttributes: GetDayAttributesUseCase,
+    private val deleteDayAttributes: DeleteDayAttributeUseCase,
+) : ViewModel() {
 
     private val _attributesList = MutableStateFlow<List<DayAttribute>>(emptyList())
-    private val attributesList = _attributesList.asStateFlow()
+    val attributesList = _attributesList.asStateFlow() // Expose as read-only
 
     init {
         viewModelScope.launch {
@@ -31,15 +31,16 @@ class DayAttributesViewModel @Inject constructor(
         }
     }
 
-    //Work with attributes
-    //TODO add basic attributes one time after onBoarding
+    // Collect attributes from the use case
     private suspend fun collectDayAttributesList() {
-        val flowOfLists:Flow<List<DayAttribute>> = getDayAttributes()
-        flowOfLists.collect { list ->
+        getDayAttributes().collect { list ->
             _attributesList.value = list
             Log.d(CALENDAR_LOG_TAG, "attributes list: $list")
         }
     }
+
+    //Work with attributes
+    //TODO add basic attributes one time after onBoarding
     fun onAddDayAttribute(dayAttribute: DayAttribute) {
         Log.d(CALENDAR_LOG_TAG, "onAddDayAttribute called with ${dayAttribute.title}, type: ${dayAttribute.type}")
         viewModelScope.launch {
@@ -48,26 +49,36 @@ class DayAttributesViewModel @Inject constructor(
                 Log.d(CALENDAR_LOG_TAG, "DayAttribute already exists: ${dayAttribute.title}")
                 return@launch
             }
-            val updatedList = currentList + dayAttribute
-            _attributesList.value = updatedList
-            Log.d(CALENDAR_LOG_TAG, "Updated attributes list: ${_attributesList.value}")
+
+            // Optimistically update the UI
+            _attributesList.value = currentList + dayAttribute
+
+            // Add the attribute to the data source
             addDayAttribute(dayAttribute)
         }
     }
-    fun onDeleteDayAttribute(dayAttribute :DayAttribute) {
-        val currentList = _attributesList.value
-        val updatedList = currentList + dayAttribute
-        _attributesList.value = updatedList
+
+    fun onDeleteDayAttribute(dayAttribute: DayAttribute) {
+        Log.d(CALENDAR_LOG_TAG, "onDeleteDayAttribute called with ${dayAttribute.title}")
         viewModelScope.launch {
+            val currentList = _attributesList.value
+
+            // Optimistically update the UI
+            _attributesList.value = currentList.filter { it != dayAttribute }
+
+            // Remove the attribute from the data source
             deleteDayAttributes(dayAttribute)
         }
     }
+
     fun getDayAttributesFood(): List<DayAttribute> {
         return attributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_FOOD }
     }
+
     fun getDayAttributesHealth(): List<DayAttribute> {
         return attributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_HEALTH }
     }
+
     fun getDayAttributesEvents(): List<DayAttribute> {
         return attributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_EVENTS }
     }

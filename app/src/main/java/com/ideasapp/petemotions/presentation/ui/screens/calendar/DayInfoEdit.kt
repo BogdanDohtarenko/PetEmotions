@@ -84,7 +84,8 @@ fun DayInfoEdit(
                 moodState = moodState
             )
             // TODO add attribute choosing
-            // TODO set shaking when editing 
+            // TODO set shaking when editing
+            // TODO guide (how to delete add etc.)
             MoodAttributesElement(
                 DayAttribute.ATTRIBUTE_TYPE_HEALTH,
                 editHealthAttributeState,

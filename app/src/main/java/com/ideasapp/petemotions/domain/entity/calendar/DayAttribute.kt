@@ -11,6 +11,6 @@ data class DayAttribute(
     companion object {
         const val ATTRIBUTE_TYPE_HEALTH = "Health"
         const val ATTRIBUTE_TYPE_FOOD = "Food"
-        const val ATTRIBUTE_TYPE_EVENTS = "Food"
+        const val ATTRIBUTE_TYPE_EVENTS = "Events"
     }
 }
