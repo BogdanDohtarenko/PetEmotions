@@ -15,6 +15,7 @@ class ExampleUnitTest {
     fun setup() {
         numbers = intArrayOf(6, 10, 15, 21, 9)
         expectedResults = intArrayOf(3, 5, 5, 7, 3)
+        println("Before")
     }
 
     @Test

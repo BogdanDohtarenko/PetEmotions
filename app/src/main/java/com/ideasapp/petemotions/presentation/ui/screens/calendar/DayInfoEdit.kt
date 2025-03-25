@@ -160,7 +160,7 @@ private fun MoodAttributesElement(
             addAttributeState = editAttributeState,
             possibleIconsList = possibleIconsList,
             dayAttributesList = dayAttributesList,
-            onAddAttributeClick = { attribute-> Log.d(CALENDAR_LOG_TAG, "truing add: $attribute") } //TODO VIEW MODEL
+            onAddAttributeClick = { attribute -> onAddAttributeClick(attribute) }
         )
     }
 }

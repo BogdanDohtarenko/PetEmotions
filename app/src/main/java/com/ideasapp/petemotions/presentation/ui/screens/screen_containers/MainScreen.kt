@@ -110,8 +110,8 @@ fun MainScreen(
                         dayAttributesListEvents = attributesViewModel.getDayAttributesEvents(),
                         dayAttributesListHealth = attributesViewModel.getDayAttributesHealth(),
                         onAddAttributeClick = { dayAttribute ->
-                            attributesViewModel.onAddDayAttribute(dayAttribute)
                             Log.d(CALENDAR_LOG_TAG, "trying add dayAttribute ${dayAttribute.title} with type ${dayAttribute.type}")
+                            attributesViewModel.onAddDayAttribute(dayAttribute)
                         }
                     )
                 },

@@ -40,7 +40,8 @@ class DayAttributesViewModel @Inject constructor(
             Log.d(CALENDAR_LOG_TAG, "attributes list: $list")
         }
     }
-    fun onDeleteDayAttribute(dayAttribute: DayAttribute) {
+    fun onAddDayAttribute(dayAttribute: DayAttribute) {
+        Log.d(CALENDAR_LOG_TAG, "onAddDayAttribute called with ${dayAttribute.title}, type: ${dayAttribute.type}")
         viewModelScope.launch {
             val currentList = _attributesList.value
             if (currentList.contains(dayAttribute)) {
