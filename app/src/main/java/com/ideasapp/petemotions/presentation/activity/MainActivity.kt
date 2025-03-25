@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import com.ideasapp.petemotions.presentation.ui.screens.screen_containers.MainScreen
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
+import com.ideasapp.petemotions.presentation.viewModels.DayAttributesViewModel
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -58,6 +59,7 @@ class MainActivity : ComponentActivity() {
     //hilt provided viewModels
     private val calendarViewModel: CalendarViewModel by viewModels()
     private val timetableViewModel: TimetableViewModel by viewModels()
+    private val attributesViewModel: DayAttributesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,7 +77,7 @@ class MainActivity : ComponentActivity() {
         )
         setContent {
             MainTheme {
-                MainScreen(calendarViewModel, timetableViewModel)
+                MainScreen(calendarViewModel, timetableViewModel, attributesViewModel)
             }
         }
     }

@@ -33,6 +33,7 @@ import com.ideasapp.petemotions.presentation.ui.screens.timetable.FullTimetableS
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.util.toJson
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
+import com.ideasapp.petemotions.presentation.viewModels.DayAttributesViewModel
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 
 @SuppressLint("ContextCastToActivity")
@@ -40,6 +41,7 @@ import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 fun MainScreen(
     calendarViewModel: CalendarViewModel,
     timetableViewModel: TimetableViewModel,
+    attributesViewModel: DayAttributesViewModel
 ) {
     val petIdGlobal = remember { mutableIntStateOf(0) }
     val petsList by calendarViewModel.petsList.collectAsState(initial = emptyList())
@@ -104,11 +106,11 @@ fun MainScreen(
                         exitCallback = onClose,
                         petId = petId,
                         possibleIconsList = calendarViewModel.getPossibleIcons(),
-                        dayAttributesListFood = calendarViewModel.getDayAttributesFood(),
-                        dayAttributesListEvents = calendarViewModel.getDayAttributesEvents(),
-                        dayAttributesListHealth = calendarViewModel.getDayAttributesHealth(),
+                        dayAttributesListFood = attributesViewModel.getDayAttributesFood(),
+                        dayAttributesListEvents = attributesViewModel.getDayAttributesEvents(),
+                        dayAttributesListHealth = attributesViewModel.getDayAttributesHealth(),
                         onAddAttributeClick = { dayAttribute ->
-                            calendarViewModel.onAddDayAttribute(dayAttribute)
+                            attributesViewModel.onAddDayAttribute(dayAttribute)
                             Log.d(CALENDAR_LOG_TAG, "trying add dayAttribute ${dayAttribute.title} with type ${dayAttribute.type}")
                         }
                     )

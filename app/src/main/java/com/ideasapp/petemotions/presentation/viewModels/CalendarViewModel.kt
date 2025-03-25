@@ -16,17 +16,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
-import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.entity.calendar.Pet
-import com.ideasapp.petemotions.domain.use_case.dayAttributes.AddDayAttributeUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.AddDayItemUseCase
-import com.ideasapp.petemotions.domain.use_case.pets.AddPetUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetCalendarUseCase
-import com.ideasapp.petemotions.domain.use_case.dayAttributes.GetDayAttributesUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetMoodForPetUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetPetsListUseCase
-import com.ideasapp.petemotions.domain.use_case.dayAttributes.DeleteDayAttributeUseCase
+import com.ideasapp.petemotions.domain.use_case.pets.AddPetUseCase
 import com.ideasapp.petemotions.presentation.activity.MainActivity
 import com.ideasapp.petemotions.presentation.activity.MainActivity.Companion.CALENDAR_LOG_TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,9 +50,6 @@ class CalendarViewModel @Inject constructor(
     private val addDayItemUseCase: AddDayItemUseCase,
     private val getPetsListUseCase : GetPetsListUseCase,
     private val addPetUseCase :AddPetUseCase,
-    private val addDayAttribute :AddDayAttributeUseCase,
-    private val getDayAttributes :GetDayAttributesUseCase,
-    private val deleteDayAttributes :DeleteDayAttributeUseCase,
 )  : ViewModel() {
 
     //TODO REFACTOR, DELETE UNNECESSARY
@@ -73,15 +66,12 @@ class CalendarViewModel @Inject constructor(
     private val _petsList = MutableStateFlow<List<Pet>>(emptyList())
     val petsList = _petsList.asStateFlow()
 
-    private val _attributesList = MutableStateFlow<List<DayAttribute>>(emptyList())
-    val attributesList = _attributesList.asStateFlow()
-
     init {
+
         collectAllDates()
         collectForPetDates()
         viewModelScope.launch {
             collectPetList()
-            collectDayAttributesList()
         }
     }
 
@@ -146,40 +136,6 @@ class CalendarViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    //Work with attributes TODO take out to other view model?
-    private suspend fun collectDayAttributesList() {
-        val flowOfLists: Flow<List<DayAttribute>> = getDayAttributes()
-        flowOfLists.collect { list ->
-            _attributesList.value = list
-            Log.d(CALENDAR_LOG_TAG, "attributes list: $list")
-        }
-    }
-    fun onAddDayAttribute(dayAttribute : DayAttribute) {
-        val currentList = _attributesList.value
-        val updatedList = currentList + dayAttribute
-        _attributesList.value = updatedList
-        viewModelScope.launch {
-            addDayAttribute(dayAttribute)
-        }
-    }
-    fun onDeleteDayAttribute(dayAttribute : DayAttribute) {
-        val currentList = _attributesList.value
-        val updatedList = currentList + dayAttribute
-        _attributesList.value = updatedList
-        viewModelScope.launch {
-            deleteDayAttributes(dayAttribute)
-        }
-    }
-    fun getDayAttributesFood(): List<DayAttribute> {
-        return attributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_FOOD }
-    }
-    fun getDayAttributesHealth(): List<DayAttribute> {
-        return attributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_HEALTH }
-    }
-    fun getDayAttributesEvents(): List<DayAttribute> {
-        return attributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_EVENTS }
     }
 
     //TODO supplement icons with custom

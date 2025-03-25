@@ -1,12 +1,10 @@
 package com.ideasapp.petemotions.data.repositories_impl
 
-import android.content.Context
-import com.ideasapp.petemotions.data.db.dao.CalendarListDao
+import android.util.Log
 import com.ideasapp.petemotions.data.db.dao.DayAttributesDao
 import com.ideasapp.petemotions.data.db.mappers.DayAttributeMapper
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.domain.repositories.DayAttributesRepository
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -15,6 +13,7 @@ class DayAttributesRepositoryImpl @Inject constructor(
     private val dayAttributesListDao: DayAttributesDao,
 ): DayAttributesRepository {
     override suspend fun addDayAttribute(dayAttribute:DayAttribute) {
+        Log.d("Calendar", "@DayAttributesRepositoryImpl adding dayAttribute $dayAttribute")
         dayAttributesListDao.addDayAttribute(DayAttributeMapper.entityToDbModel(dayAttribute))
     }
 
