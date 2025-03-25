@@ -18,6 +18,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import com.ideasapp.petemotions.presentation.activity.MainActivity.Companion.TIMETABLE_LOG_TAG
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
@@ -40,7 +42,7 @@ fun DateTimePicker(
     var selectedDate by remember { mutableStateOf(initialDateTime.toLocalDate()) }
     var selectedHour by remember { mutableIntStateOf(initialDateTime.hour) }
     var selectedMinute by remember { mutableIntStateOf(initialDateTime.minute) }
-
+    val haptic = LocalHapticFeedback.current
     //convert selected date and time to milliseconds
     val dateTimeInMillis = remember(selectedDate, selectedHour, selectedMinute) {
         selectedDate
@@ -52,6 +54,7 @@ fun DateTimePicker(
     Log.d(TIMETABLE_LOG_TAG, "dateTime in millis: $dateTimeInMillis")
 
     LaunchedEffect(dateTimeInMillis) {
+        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
         onValueChange(dateTimeInMillis)
     }
 

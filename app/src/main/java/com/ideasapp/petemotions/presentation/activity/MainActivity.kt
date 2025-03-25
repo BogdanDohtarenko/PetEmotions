@@ -33,7 +33,6 @@ import dagger.hilt.android.AndroidEntryPoint
 // 4. moods on calendar !
 // 5. normal day notes design !!
 // 9. color scheme for light theme
-// 24. vibration while scrolling dates in picker
 // 27. icons for nav bar
 // 55. russian language !!!
 // 56. change spare color

@@ -34,8 +34,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
@@ -54,6 +56,7 @@ fun AttributesEditBox(
     onAddAttributeClick: (DayAttribute) -> Unit,
     onDeleteAttributeClick: (DayAttribute) -> Unit,
 ) {
+    val haptic = LocalHapticFeedback.current
     var addingAttribute by remember { mutableStateOf(false) }
     val selectedItemState = remember { mutableStateOf<DayAttribute?>(null) }
         Box(
@@ -104,10 +107,12 @@ fun AttributesEditBox(
                                 .pointerInput(Unit) {
                                     detectTapGestures(
                                         onTap = {
+                                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                             selectedItemState.value = attribute
                                             addingAttribute = true
                                         },
                                         onLongPress = {
+                                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                             selectedItemState.value = attribute
                                             onDeleteAttributeClick(attribute)
                                         },
