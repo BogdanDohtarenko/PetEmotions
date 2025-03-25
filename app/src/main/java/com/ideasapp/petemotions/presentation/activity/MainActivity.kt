@@ -24,15 +24,10 @@ import dagger.hilt.android.AndroidEntryPoint
 // 42. REFACTOR CalendarViewModel when it ready + by sumin flow
 // 45. clean all files
 // 49. reform ui directories (by sumin)
-// 50. add custom day info attributes
-// 51. pass dynamic quantity of day info attributes
-// 52. make day info edit all clickable (add map) !!!
-// 58. data store pref for attributes
 // 60. migrate to ksp !!!
-// 66. day edit info divide into different files
-// 68. add edit attribute screen
 // 69. tips on how to manage day attributes
 // 71. vibrations
+// 72. edit attributes
 
 //TODO (design)
 // 4. moods on calendar !
@@ -43,7 +38,6 @@ import dagger.hilt.android.AndroidEntryPoint
 // 55. russian language !!!
 // 56. change spare color
 // 59. draw all necessary icons !!!
-// 63. background color in dark theme -> dark gray
 // 67. nav bar design
 // 70. normal design of B/N/G box
 
