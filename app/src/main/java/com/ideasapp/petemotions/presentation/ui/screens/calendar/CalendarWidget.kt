@@ -1,6 +1,6 @@
 package com.ideasapp.petemotions.presentation.ui.screens.calendar
 
-import androidx.compose.animation.core.tween
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -8,47 +8,29 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
-import kotlinx.coroutines.launch
-import androidx.compose.foundation.gestures.anchoredDraggable
-import androidx.compose.foundation.gestures.AnchoredDraggableState
-import androidx.compose.foundation.gestures.DraggableAnchors
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.animateTo
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.FractionalThreshold
-import androidx.compose.material.rememberSwipeableState
-import androidx.compose.material.swipeable
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ideasapp.petemotions.R
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
-import com.ideasapp.petemotions.presentation.navigation.DragValue
+import com.ideasapp.petemotions.presentation.ui.reusableElements.SwipeAction
+import com.ideasapp.petemotions.presentation.ui.reusableElements.SwipeableActionsBox
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import java.time.YearMonth
-import kotlin.math.roundToInt
 
 //TODO improve calendar
 // circle selection
-@OptIn(ExperimentalMaterialApi::class,ExperimentalFoundationApi::class)
 @Composable
 fun CalendarWidget(
     days: Array<String>,
@@ -58,61 +40,18 @@ fun CalendarWidget(
     onNextMonthButtonClicked: (YearMonth) -> Unit,
     onDateClickListener: (CalendarUiState.Date) -> Unit,
 ) {
-    val scope = rememberCoroutineScope()
-    val density = LocalDensity.current
 
-    // Define parent box and draggable box dimensions
-    val parentBoxWidth = 320.dp
-    val boxSize = 50.dp
-    val widthPx = with(density) { (parentBoxWidth - boxSize).toPx() }
 
-    // Anchors for the swipe states
-    val anchors = DraggableAnchors {
-        -1f at -widthPx // Previous month
-        0f at 0f        // Current month
-        1f at widthPx   // Next month
-    }
-
-    // Remember the draggable state
-    val state = rememberSaveable(saver = AnchoredDraggableState.Saver()) {
-        AnchoredDraggableState(
-            initialValue = 0f,
-            anchors = anchors
-        )
-    }
-
-    // Handle swipe completion
-    LaunchedEffect(state.currentValue) {
-        when (state.currentValue) {
-            1f -> {
-                onNextMonthButtonClicked(yearMonth)
-                scope.launch { state.animateTo(0f) } // Reset state after swipe
-            }
-            -1f -> {
-                onPreviousMonthButtonClicked(yearMonth)
-                scope.launch { state.animateTo(0f) } // Reset state after swipe
-            }
-        }
-    }
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .anchoredDraggable(
-                state = state,
-                orientation = Orientation.Horizontal
-            )
-    ) {
-        Column(
+    Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .offset {
+                /*.offset {
                     IntOffset(
                         x = state.requireOffset().toInt(),
                         y = 0
                     )
-                }
+                }*/
         ) {
             Row {
                 repeat(days.size) {
@@ -131,7 +70,7 @@ fun CalendarWidget(
             )
         }
     }
-}
+
 
 @Composable
 fun Content(

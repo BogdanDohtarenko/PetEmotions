@@ -36,7 +36,7 @@ class ExampleUnitTest {
     private fun findMaxDivisor(num: Int): Int {
         for (i in num / 2 downTo 1) {
             if (num % i == 0) {
-                return i
+                return i 
             }
         }
         return num
