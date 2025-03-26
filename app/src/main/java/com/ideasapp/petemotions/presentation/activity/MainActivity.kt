@@ -46,6 +46,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 33. happy birthday to every pet
 // 61. Huge amount of plots
 // 64. deleting by swipe
+// 73. by long click on date you can see attributes
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
