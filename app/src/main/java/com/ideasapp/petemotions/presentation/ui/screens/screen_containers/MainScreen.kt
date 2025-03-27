@@ -6,7 +6,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -62,8 +65,15 @@ fun MainScreen(
             .navigationBarsPadding()
             .background(MainTheme.colors.singleTheme)
             .systemBarsPadding(),
+    ) {
+        paddingValues ->
+        val heightToDecrease = 20.dp //Custom shape's notch height to decrease from bottom padding
+        Box(Modifier.fillMaxSize().padding(
+            PaddingValues(
+                top = paddingValues.calculateTopPadding(),
+                bottom = paddingValues.calculateBottomPadding() - heightToDecrease))) {
 
-    ) { paddingValues ->
+        }
         Column(
             modifier = Modifier
                 .padding(paddingValues)

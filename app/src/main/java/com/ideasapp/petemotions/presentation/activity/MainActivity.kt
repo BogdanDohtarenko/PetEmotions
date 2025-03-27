@@ -36,8 +36,6 @@ import dagger.hilt.android.AndroidEntryPoint
 // 55. russian language !!!
 // 56. change spare color
 // 59. draw all necessary icons !!!
-// 67. nav bar design
-// 70. normal design of B/N/G box
 
 //TODO (for future)
 // 2. notifications with timetable
@@ -46,6 +44,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 33. happy birthday to every pet
 // 61. Huge amount of plots
 // 64. deleting by swipe
+// 73. by long click on date you can see attributes
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
