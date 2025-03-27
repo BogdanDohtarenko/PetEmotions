@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ideasapp.petemotions.presentation.navigation.BottomNavItem
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
@@ -38,8 +40,8 @@ fun BottomNavigationBar(navController: NavController) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(80.dp),
-        color = MaterialTheme.colorScheme.primary,
+            .fillMaxHeight(0.07f),
+        color = MainTheme.colors.navigationBarColor,
         shape = AnimatedBottomBarShape(selectedItemIndex)
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -63,22 +65,21 @@ fun BottomNavigationBar(navController: NavController) {
                                     restoreState = true
                                 }
                             }
-                        },
+                        }
+                        .padding(
+                            bottom = if (isSelected) 18.dp else 0.dp,
+                            start = 0.dp,
+                            end = 0.dp,
+                            top = 0.dp
+                        ),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(
                         imageVector = item.icon,
                         contentDescription = item.label,
-                        tint = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface,
+                        tint = if (isSelected) MainTheme.colors.mainColor else MainTheme.colors.singleTheme,
                         modifier = Modifier
-                            .size(if (isSelected) 32.dp else 24.dp)
-                            .padding(bottom = if (isSelected) 8.dp else 0.dp)
-                    )
-                    Text(
-                        text = item.label,
-                        style = MaterialTheme.typography.labelSmall.copy(
-                            color = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
-                        )
+                            .size(if (isSelected) 36.dp else 28.dp)
                     )
                 }
             }
@@ -92,8 +93,9 @@ class AnimatedBottomBarShape(private val selectedItemIndex: Int) : Shape {
         layoutDirection: LayoutDirection,
         density: Density
     ): Outline {
-        val hillHeight = with(density) { 20.dp.toPx() }
-        val hillWidth = with(density) { 100.dp.toPx() }
+
+        val hillHeight = with(density) { 25.dp.toPx() }
+        val hillWidth = with(density) { 130.dp.toPx() }
 
         return Outline.Generic(Path().apply {
             // Начинаем с левого верхнего угла
