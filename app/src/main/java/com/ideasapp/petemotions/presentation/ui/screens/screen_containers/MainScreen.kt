@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -64,16 +65,15 @@ fun MainScreen(
             .navigationBarsPadding()
             .background(MainTheme.colors.singleTheme)
             .systemBarsPadding(),
-        /*content = { paddingValues ->
-            val heightToDecrease = 20.dp //Custom shape's notch height to decrease from bottom padding
-            Box(Modifier.fillMaxSize().padding(
-                PaddingValues(
-                    top = paddingValues.calculateTopPadding(),
-                    bottom = paddingValues.calculateBottomPadding() - heightToDecrease))) {
-                content()
-            }
-        },*/
-    ) { paddingValues ->
+    ) {
+        paddingValues ->
+        val heightToDecrease = 20.dp //Custom shape's notch height to decrease from bottom padding
+        Box(Modifier.fillMaxSize().padding(
+            PaddingValues(
+                top = paddingValues.calculateTopPadding(),
+                bottom = paddingValues.calculateBottomPadding() - heightToDecrease))) {
+
+        }
         Column(
             modifier = Modifier
                 .padding(paddingValues)
