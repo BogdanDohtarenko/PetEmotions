@@ -35,7 +35,7 @@ import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
-    var selectedItemIndex by remember { mutableStateOf(0) }
+    var selectedItemIndex by remember { mutableStateOf(1) }
 
     Surface(
         modifier = Modifier

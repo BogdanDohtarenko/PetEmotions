@@ -36,7 +36,6 @@ import dagger.hilt.android.AndroidEntryPoint
 // 55. russian language !!!
 // 56. change spare color
 // 59. draw all necessary icons !!!
-// 70. normal design of B/N/G box
 
 //TODO (for future)
 // 2. notifications with timetable
