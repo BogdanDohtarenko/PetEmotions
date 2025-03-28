@@ -11,6 +11,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,11 +23,11 @@ class StatisticsViewModel @Inject constructor(
     val moodPortion: LiveData<MoodPortion?> = _moodPortion
 
     fun getMoodPortionData(petId: Int) {
-        val moodPortion: Deferred<MoodPortion> = viewModelScope.async(Dispatchers.Default) {
-            getMoodPortion(petId)
-        }
         viewModelScope.launch {
-            _moodPortion.value = moodPortion.await()
+            val moodPortion = withContext(Dispatchers.Default) {
+                getMoodPortion(petId)
+            }
+            _moodPortion.value = moodPortion
         }
     }
 

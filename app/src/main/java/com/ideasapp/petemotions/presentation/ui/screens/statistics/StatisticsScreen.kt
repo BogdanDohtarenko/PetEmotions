@@ -17,6 +17,7 @@ import com.ideasapp.petemotions.domain.entity.calendar.Pet
 import com.ideasapp.petemotions.domain.entity.stastistics.MoodPortion
 import com.ideasapp.petemotions.presentation.ui.reusableElements.FoldableBox
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.TopButtonCalendarBar
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 
 @Composable
 fun StatisticsScreen(
@@ -29,17 +30,30 @@ fun StatisticsScreen(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.TopCenter)
+        ) {
+            TopButtonCalendarBar(
+                pets = petsList,
+                onPetClick = onPetClick,
+                petId = petId
+            )
+        }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth(0.7f)
+            modifier = Modifier.fillMaxWidth(0.9f)
         ) {
-            TopButtonCalendarBar(pets = petsList,onPetClick = onPetClick,petId = petId)
             FoldableBox(
-                titleText = "mood portions",
+                titleText = "Mood portions",
                 isExpandedByDefault = true
             ) {
                 if(moodPortion == null) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(
+                        color = MainTheme.colors.mainColor,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    )
                 } else {
                     MoodPortionPlot(
                         moodPortion = moodPortion,

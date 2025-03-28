@@ -88,10 +88,7 @@ class MainActivity : ComponentActivity() {
     companion object {
         const val CALENDAR_LOG_TAG = "Calendar"
         const val TIMETABLE_LOG_TAG = "Timetable"
-
-        const val MOOD_STATE_GOOD = 3
-        const val MOOD_STATE_NORMAL = 2
-        const val MOOD_STATE_BAD = 1
+        const val STATISTICS_LOG_TAG = "Statistics"
     }
 }
 

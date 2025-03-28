@@ -57,7 +57,7 @@ fun DayInfoEdit(
     val textColor = MaterialTheme.colorScheme.onBackground
     val dateLocalDate = LocalDate.ofEpochDay(dateItem.dayInfoItem.date)
     //States
-    val moodState = remember { mutableIntStateOf(dateItem.dayInfoItem.mood ?: MainActivity.MOOD_STATE_NORMAL) }
+    val moodState = remember { mutableIntStateOf(dateItem.dayInfoItem.mood ?: DayItemInfo.NORMAL_MOOD) }
     val editFoodAttributeState = remember { mutableStateOf(false) }
     val editEventsAttributeState = remember { mutableStateOf(false) }
     val editHealthAttributeState = remember { mutableStateOf(false) }
