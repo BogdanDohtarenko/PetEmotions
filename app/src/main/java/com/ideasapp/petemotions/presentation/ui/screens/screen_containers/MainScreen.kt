@@ -17,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -38,6 +39,7 @@ import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.util.toJson
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import com.ideasapp.petemotions.presentation.viewModels.DayAttributesViewModel
+import com.ideasapp.petemotions.presentation.viewModels.StatisticsViewModel
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 
 @SuppressLint("ContextCastToActivity")
@@ -45,10 +47,14 @@ import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 fun MainScreen(
     calendarViewModel: CalendarViewModel,
     timetableViewModel: TimetableViewModel,
-    attributesViewModel: DayAttributesViewModel
+    attributesViewModel: DayAttributesViewModel,
+    statisticsViewModel: StatisticsViewModel
 ) {
-    val petIdGlobal = remember { mutableIntStateOf(0) }
+    val petIdCalendar = remember { mutableIntStateOf(0) }
+    val petIdStatistics = remember { mutableIntStateOf(0) }
+    val petIdTimetable = remember { mutableIntStateOf(0) }
     val petsList by calendarViewModel.petsList.collectAsState(initial = emptyList())
+    val moodPortion = statisticsViewModel.moodPortion.observeAsState()
     val timetableFlow = timetableViewModel.timetableFlow
     val uiState by calendarViewModel.uiState.collectAsState()
     val navController = rememberNavController()
@@ -84,16 +90,26 @@ fun MainScreen(
             NavigationHost(
                 navController = navController,
                 statisticsScreenContent = {
-                    StatisticsScreen()
+                    statisticsViewModel.getMoodPortionData(petIdStatistics.intValue)
+                    StatisticsScreen(
+                        petsList = petsList,
+                        petId = petIdStatistics,
+                        onPetClick = { petId ->
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            petIdCalendar.intValue = petId
+                            calendarViewModel.onChangePet(petId)
+                        },
+                        moodPortion = moodPortion.value
+                    )
                 },
                 calendarScreenContent = {
                     CalendarScreen(
                         uiState = uiState,
                         petsList = petsList,
-                        petId = petIdGlobal,
+                        petId = petIdCalendar,
                         onPetClick = { petId ->
                             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                            petIdGlobal.intValue = petId
+                            petIdCalendar.intValue = petId
                             calendarViewModel.onChangePet(petId)
                         },
                         onPreviousMonthButtonClicked = { prevMonth ->

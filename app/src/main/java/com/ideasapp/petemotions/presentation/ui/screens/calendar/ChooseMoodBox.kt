@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.presentation.activity.MainActivity
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 
@@ -46,9 +47,9 @@ fun ChooseMoodBox(
         ) {
             // Bad
             MoodOption(
-                text = "B",
-                isSelected = moodStateValue == MainActivity.MOOD_STATE_BAD,
-                onClick = { onClick(MainActivity.MOOD_STATE_BAD) },
+                text = "G",
+                isSelected = moodStateValue == DayItemInfo.GOOD_MOOD,
+                onClick = { onClick(DayItemInfo.GOOD_MOOD) },
                 selectedColor = selectedColor,
                 unselectedColor = unselectedColor
             )
@@ -56,17 +57,17 @@ fun ChooseMoodBox(
             // Normal
             MoodOption(
                 text = "N",
-                isSelected = moodStateValue == MainActivity.MOOD_STATE_NORMAL,
-                onClick = { onClick(MainActivity.MOOD_STATE_NORMAL) },
+                isSelected = moodStateValue == DayItemInfo.NORMAL_MOOD,
+                onClick = { onClick(DayItemInfo.NORMAL_MOOD) },
                 selectedColor = selectedColor,
                 unselectedColor = unselectedColor
             )
 
             // Good
             MoodOption(
-                text = "G",
-                isSelected = moodStateValue == MainActivity.MOOD_STATE_GOOD,
-                onClick = { onClick(MainActivity.MOOD_STATE_GOOD) },
+                text = "B",
+                isSelected = moodStateValue == DayItemInfo.BAD_MOOD,
+                onClick = { onClick(DayItemInfo.BAD_MOOD) },
                 selectedColor = selectedColor,
                 unselectedColor = unselectedColor
             )

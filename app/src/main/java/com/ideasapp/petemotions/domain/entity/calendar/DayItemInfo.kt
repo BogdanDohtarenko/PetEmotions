@@ -14,8 +14,8 @@ data class DayItemInfo(
 ): Serializable {
     companion object {
         const val EMPTY = 0
-        const val GOOD_MOOD = 3
+        const val GOOD_MOOD = 1
         const val NORMAL_MOOD = 2
-        const val BAD_MOOD = 1
+        const val BAD_MOOD = 3
     }
 }

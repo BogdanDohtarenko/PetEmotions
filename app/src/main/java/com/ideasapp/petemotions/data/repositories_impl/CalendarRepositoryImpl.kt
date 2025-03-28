@@ -6,7 +6,6 @@ import com.ideasapp.petemotions.data.db.dao.CalendarListDao
 import com.ideasapp.petemotions.data.db.mappers.DayInfoMapper
 import com.ideasapp.petemotions.data.db.dbModels.DayItemInfoDbModel
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
-import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.entity.calendar.Pet
 import com.ideasapp.petemotions.domain.repositories.CalendarRepository
@@ -46,7 +45,7 @@ class CalendarRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMoodForPet(yearMonth : YearMonth, petId : Int) : Flow<List<CalendarUiState.Date>> {
-        return calendarListDao.getDayInfoList(petId)
+        return calendarListDao.getDayInfoFlowList(petId)
             .map { allMoodData ->
                 val filteredData = dayItemInfoDbModels(allMoodData, yearMonth)
 
