@@ -6,15 +6,25 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableIntState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.ideasapp.petemotions.domain.entity.calendar.Pet
+import com.ideasapp.petemotions.domain.entity.stastistics.MoodPortion
 import com.ideasapp.petemotions.presentation.ui.reusableElements.FoldableBox
+import com.ideasapp.petemotions.presentation.ui.screens.calendar.TopButtonCalendarBar
 
 @Composable
-fun StatisticsScreen() {
+fun StatisticsScreen(
+    petId: MutableIntState,
+    petsList: List<Pet>,
+    onPetClick: (Int) -> Unit,
+    moodPortion: MoodPortion?
+) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -23,14 +33,19 @@ fun StatisticsScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth(0.7f)
         ) {
+            TopButtonCalendarBar(pets = petsList,onPetClick = onPetClick,petId = petId)
             FoldableBox(
-                titleText = "plot",
+                titleText = "mood portions",
                 isExpandedByDefault = true
             ) {
-                MoodPortionPlot(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxWidth()
-                )
+                if(moodPortion == null) {
+                    CircularProgressIndicator()
+                } else {
+                    MoodPortionPlot(
+                        moodPortion = moodPortion,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
             Spacer(modifier = Modifier.height(18.dp))
             FoldableBox(

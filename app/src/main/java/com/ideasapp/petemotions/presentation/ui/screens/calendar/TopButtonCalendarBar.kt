@@ -47,16 +47,15 @@ fun TopButtonCalendarBar(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
-        //TODO filter button
         IconButton(
-            onClick = { Log.d(CALENDAR_LOG_TAG, "filter clicked") },
+            onClick = { },
             modifier = Modifier
                 .background(color = MainTheme.colors.singleTheme, shape = CircleShape)
                 .padding(8.dp)
         ) {
             Icon(
                 imageVector = Icons.Filled.AccountBox,
-                contentDescription = stringResource(id = R.string.back),
+                contentDescription = stringResource(id = R.string.back), // TODO change icon to shadow of pet
                 tint = Color.White
             )
         }

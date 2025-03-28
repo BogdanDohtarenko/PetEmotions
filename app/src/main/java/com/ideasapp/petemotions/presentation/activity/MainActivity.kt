@@ -12,11 +12,12 @@ import com.ideasapp.petemotions.presentation.ui.screens.screen_containers.MainSc
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import com.ideasapp.petemotions.presentation.viewModels.DayAttributesViewModel
+import com.ideasapp.petemotions.presentation.viewModels.StatisticsViewModel
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 //TODO (important)
-// 6. autoFilling of days !
+// 6. autoFilling of days !!!!
 // 8. top bar (filters)
 // 12. mood plot  !!!!!
 // 28. switch between screens by swipe
@@ -24,7 +25,6 @@ import dagger.hilt.android.AndroidEntryPoint
 // 42. REFACTOR CalendarViewModel when it ready + by sumin flow
 // 45. clean all files
 // 49. reform ui directories (by sumin)
-// 60. migrate to ksp !!!
 // 69. tips on how to manage day attributes
 // 72. edit attributes
 // 74. MoodPortionPlot
@@ -36,7 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 27. icons for nav bar
 // 55. russian language !!!
 // 56. change spare color
-// 59. draw all necessary icons !!!
+// 59. draw all necessary icons !!!!!
 //
 
 //TODO (for future)
@@ -44,9 +44,11 @@ import dagger.hilt.android.AndroidEntryPoint
 // 3. PERSONAL TIPS !
 // 26. achievements
 // 33. happy birthday to every pet
+// 60. migrate to ksp !!!
 // 61. Huge amount of plots
 // 64. deleting by swipe
 // 73. by long click on date you can see attributes
+// 74. my server + Workers to work with it
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -55,6 +57,7 @@ class MainActivity : ComponentActivity() {
     private val calendarViewModel: CalendarViewModel by viewModels()
     private val timetableViewModel: TimetableViewModel by viewModels()
     private val attributesViewModel: DayAttributesViewModel by viewModels()
+    private val statisticsViewModel:StatisticsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,7 +75,12 @@ class MainActivity : ComponentActivity() {
         )
         setContent {
             MainTheme {
-                MainScreen(calendarViewModel, timetableViewModel, attributesViewModel)
+                MainScreen(
+                    calendarViewModel,
+                    timetableViewModel,
+                    attributesViewModel,
+                    statisticsViewModel
+                )
             }
         }
     }

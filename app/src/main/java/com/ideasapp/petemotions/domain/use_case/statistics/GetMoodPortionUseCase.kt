@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetMoodPortionUseCase @Inject constructor(
     private val repository: StatisticsRepository,
 ) {
-    operator fun invoke(): MoodPortion {
-        return repository.getMoodPortion()
+    operator suspend fun invoke(petId: Int): MoodPortion {
+        return repository.getMoodPortion(petId)
     }
 }
