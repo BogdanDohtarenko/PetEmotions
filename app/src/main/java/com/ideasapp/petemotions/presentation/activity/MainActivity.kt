@@ -27,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 60. migrate to ksp !!!
 // 69. tips on how to manage day attributes
 // 72. edit attributes
+// 74. MoodPortionPlot
 
 //TODO (design)
 // 4. moods on calendar !
@@ -36,6 +37,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 55. russian language !!!
 // 56. change spare color
 // 59. draw all necessary icons !!!
+//
 
 //TODO (for future)
 // 2. notifications with timetable
