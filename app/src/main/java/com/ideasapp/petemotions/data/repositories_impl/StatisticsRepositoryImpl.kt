@@ -4,8 +4,10 @@ import android.util.Log
 import com.ideasapp.petemotions.data.db.dao.CalendarListDao
 import com.ideasapp.petemotions.data.db.dbModels.DayItemInfoDbModel
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
+import com.ideasapp.petemotions.domain.entity.stastistics.MoodOfYear
 import com.ideasapp.petemotions.domain.entity.stastistics.MoodPortion
 import com.ideasapp.petemotions.domain.repositories.StatisticsRepository
+import java.time.Year
 import javax.inject.Inject
 
 class StatisticsRepositoryImpl @Inject constructor(
@@ -52,4 +54,22 @@ class StatisticsRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun getMoodOfYear(petId:Int):MoodOfYear {
+        val moodOfYear = MoodOfYear( //TODO amend
+            year = Year.now(),
+            januaryData = 60,
+            februaryData = 70,
+            marchData = 80,
+            aprilData = 50,
+            mayData = 90,
+            juneData = 100,
+            julyData = 60,
+            augustData = 80,
+            septemberData = 80,
+            octoberData = 70,
+            novemberData = 90,
+            decemberData = 90
+        )
+        return moodOfYear
+    }
 }
