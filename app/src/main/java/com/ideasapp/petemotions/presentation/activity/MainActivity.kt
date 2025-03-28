@@ -19,7 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 //TODO (important)
 // 6. autoFilling of days !!!!
 // 8. top bar (filters)
-// 12. mood plot  !!!!!
 // 28. switch between screens by swipe
 // 31. profile screen
 // 42. REFACTOR CalendarViewModel when it ready + by sumin flow
@@ -27,7 +26,8 @@ import dagger.hilt.android.AndroidEntryPoint
 // 49. reform ui directories (by sumin)
 // 69. tips on how to manage day attributes
 // 72. edit attributes
-// 74. MoodPortionPlot
+// 76. day attributes list add to day item info !!!!
+// 78. plot that shows mood in scope of year by every month !!!!
 
 //TODO (design)
 // 4. moods on calendar !
@@ -48,7 +48,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 61. Huge amount of plots
 // 64. deleting by swipe
 // 73. by long click on date you can see attributes
-// 74. my server + Workers to work with it
+// 75. my server + Workers to work with it
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

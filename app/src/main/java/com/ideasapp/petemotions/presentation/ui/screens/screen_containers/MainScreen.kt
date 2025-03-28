@@ -52,9 +52,10 @@ fun MainScreen(
 ) {
     val petIdCalendar = remember { mutableIntStateOf(0) }
     val petIdStatistics = remember { mutableIntStateOf(0) }
-    val petIdTimetable = remember { mutableIntStateOf(0) }
+    val petIdTimetable = remember { mutableIntStateOf(0) } //TODO Add pets to timetable
     val petsList by calendarViewModel.petsList.collectAsState(initial = emptyList())
     val moodPortion = statisticsViewModel.moodPortion.observeAsState()
+    val moodOfYear = statisticsViewModel.moodOfYear.observeAsState()
     val timetableFlow = timetableViewModel.timetableFlow
     val uiState by calendarViewModel.uiState.collectAsState()
     val navController = rememberNavController()
@@ -90,6 +91,7 @@ fun MainScreen(
             NavigationHost(
                 navController = navController,
                 statisticsScreenContent = {
+                    statisticsViewModel.getMoodOfYearByMonth(petIdStatistics.intValue)
                     statisticsViewModel.getMoodPortionData(petIdStatistics.intValue)
                     StatisticsScreen(
                         petsList = petsList,
@@ -99,7 +101,8 @@ fun MainScreen(
                             petIdCalendar.intValue = petId
                             calendarViewModel.onChangePet(petId)
                         },
-                        moodPortion = moodPortion.value
+                        moodPortion = moodPortion.value,
+                        moodOfYear = moodOfYear.value
                     )
                 },
                 calendarScreenContent = {
