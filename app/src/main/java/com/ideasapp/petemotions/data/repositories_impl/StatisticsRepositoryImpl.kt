@@ -61,14 +61,14 @@ class StatisticsRepositoryImpl @Inject constructor(
             februaryData = 70,
             marchData = 80,
             aprilData = 50,
-            mayData = 90,
+            mayData = null,
             juneData = 100,
-            julyData = 60,
-            augustData = 80,
+            julyData = 90,
+            augustData = 70,
             septemberData = 80,
-            octoberData = 70,
+            octoberData = 90,
             novemberData = 90,
-            decemberData = 90
+            decemberData = 100
         )
         return moodOfYear
     }
