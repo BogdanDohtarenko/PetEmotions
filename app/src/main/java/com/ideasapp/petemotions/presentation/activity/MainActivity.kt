@@ -28,6 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 72. edit attributes
 // 76. day attributes list add to day item info !!!!
 // 78. plot that shows mood in scope of year by every month !!!!
+// 79. diagram for attributes
 
 //TODO (design)
 // 4. moods on calendar !

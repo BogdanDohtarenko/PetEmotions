@@ -1,11 +1,18 @@
 package com.ideasapp.petemotions.presentation.ui.screens.statistics
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,79 +35,91 @@ fun StatisticsScreen(
     moodPortion: MoodPortion?,
     moodOfYear: MoodOfYear?
 ) {
+    val scrollState = rememberScrollState()
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.TopCenter
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.TopCenter)
-        ) {
-            TopButtonCalendarBar(
-                pets = petsList,
-                onPetClick = onPetClick,
-                petId = petId
-            )
-        }
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth(0.9f)
-        ) {
-            FoldableBox(
-                titleText = "Mood portions",
-                isExpandedByDefault = true
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top,
+                modifier = Modifier
+                    .fillMaxWidth(0.95f)
+                    .verticalScroll(scrollState)
             ) {
-                if(moodPortion == null) {
-                    CircularProgressIndicator(
-                        color = MainTheme.colors.mainColor,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
-                } else {
-                    MoodPortionPlot(
-                        moodPortion = moodPortion,
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    TopButtonCalendarBar(pets = petsList,onPetClick = onPetClick,petId = petId)
                 }
-            }
-            Spacer(modifier = Modifier.height(18.dp))
-            FoldableBox(
-                titleText = "plot"
-            ) {
-                if(moodOfYear == null) {
-                    CircularProgressIndicator(
-                        color = MainTheme.colors.mainColor,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
-                    )
-                } else {
-                    MoodOfYearByMonth(
-                        moodOfYear = moodOfYear,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(18.dp))
-            FoldableBox(
-                titleText = "plot"
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxWidth()
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top,
+                    modifier = Modifier
+                        .fillMaxWidth(0.9f)
+                        .fillMaxHeight()
                 ) {
-                    Text("plot")
+                    FoldableBox(titleText = "Mood portions",isExpandedByDefault = true) {
+                        if (moodPortion == null) {
+                            CircularProgressIndicator(color = MainTheme.colors.mainColor,modifier = Modifier.align(Alignment.CenterHorizontally))
+                        } else {
+                            MoodPortionPlot(moodPortion = moodPortion,modifier = Modifier.fillMaxWidth())
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(18.dp))
+                    FoldableBox(titleText = "Mood of year") {
+                        if (moodOfYear == null) {
+                            CircularProgressIndicator(color = MainTheme.colors.mainColor)
+                        } else {
+                            MoodOfYearByMonth(
+                                moodOfYear = moodOfYear,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(300.dp)
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(18.dp))
+                    FoldableBox(titleText = "plot") {
+                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
+                            Text("plot")
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(18.dp))
+                    FoldableBox(titleText = "plot") {
+                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
+                            Text("plot")
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(18.dp))
+                    FoldableBox(titleText = "plot") {
+                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
+                            Text("plot")
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(18.dp))
+                    FoldableBox(titleText = "plot") {
+                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
+                            Text("plot")
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(18.dp))
+                    FoldableBox(titleText = "plot") {
+                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
+                            Text("plot")
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(18.dp))
+                    FoldableBox(titleText = "plot") {
+                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
+                            Text("plot")
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(18.dp))
+                    FoldableBox(titleText = "plot") {
+                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
+                            Text("plot")
+                        }
+                    }
                 }
             }
-            Spacer(modifier = Modifier.height(18.dp))
-            FoldableBox(
-                titleText = "plot"
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("plot")
-                }
-            }
-        }
     }
 }

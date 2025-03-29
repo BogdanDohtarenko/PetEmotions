@@ -1,7 +1,9 @@
 package com.ideasapp.petemotions.presentation.ui.screens.statistics
 
+import MoodPlot
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -33,6 +35,11 @@ fun MoodOfYearByMonth(
         modifier = modifier
             .padding(16.dp)
     ) {
-        MoodPlot(coordinates = coordinates,modifier = Modifier.fillMaxSize(),xMaxValue = 12,yMaxValue = 100)
+        MoodPlot(
+            coordinates = coordinates,
+            modifier = Modifier.fillMaxSize(),
+            xMaxValue = 12,
+            yMaxValue = 100
+        )
     }
 }
