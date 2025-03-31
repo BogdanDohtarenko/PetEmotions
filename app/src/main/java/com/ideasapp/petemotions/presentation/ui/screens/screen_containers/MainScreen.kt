@@ -53,6 +53,7 @@ fun MainScreen(
     val petIdCalendar = remember { mutableIntStateOf(0) }
     val petIdStatistics = remember { mutableIntStateOf(0) }
     val petIdTimetable = remember { mutableIntStateOf(0) } //TODO Add pets to timetable
+    val selectedYear = remember { mutableIntStateOf(0) }
     val petsList by calendarViewModel.petsList.collectAsState(initial = emptyList())
     val moodPortion = statisticsViewModel.moodPortion.observeAsState()
     val moodOfYear = statisticsViewModel.moodOfYear.observeAsState()
@@ -91,11 +92,12 @@ fun MainScreen(
             NavigationHost(
                 navController = navController,
                 statisticsScreenContent = {
-                    statisticsViewModel.getMoodOfYearByMonth(petIdStatistics.intValue)
+                    statisticsViewModel.getMoodOfYearByMonth(petIdStatistics.intValue, selectedYear.intValue)
                     statisticsViewModel.getMoodPortionData(petIdStatistics.intValue)
                     StatisticsScreen(
                         petsList = petsList,
                         petId = petIdStatistics,
+                        selectedYear = selectedYear,
                         onPetClick = { petId ->
                             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                             petIdCalendar.intValue = petId

@@ -11,6 +11,8 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableIntState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -18,10 +20,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.domain.entity.stastistics.MoodOfYear
+import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.DropdownList
 
 @Composable
 fun MoodOfYearByMonth(
     moodOfYear: MoodOfYear,
+    selectedYear: MutableIntState,
     modifier: Modifier = Modifier
 ) {
     val coordinates = mapOf(
@@ -38,7 +42,7 @@ fun MoodOfYearByMonth(
         11 to moodOfYear.novemberData,
         12 to moodOfYear.decemberData
     )
-    var expanded = remember { mutableStateOf(true) }
+
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
@@ -48,15 +52,12 @@ fun MoodOfYearByMonth(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            DropdownMenu(
-                expanded = expanded.value,
-                onDismissRequest = { expanded.value = false }
-            ) {
-                Text("2025", fontSize=18.sp, modifier = Modifier.padding(10.dp))
-                Text("2026", fontSize=18.sp, modifier = Modifier.padding(10.dp))
-                Divider()
-                Text("2027", fontSize=18.sp, modifier = Modifier.padding(10.dp))
-            }
+            DropdownList(
+                itemList = listOf("2025", "2026", "2027"),
+                selectedIndex = selectedYear,
+                modifier = Modifier,
+                onItemClick = { selectedYear.intValue = it }
+            )
             MoodPlot(
                 coordinates = coordinates,
                 modifier = Modifier.fillMaxSize(),

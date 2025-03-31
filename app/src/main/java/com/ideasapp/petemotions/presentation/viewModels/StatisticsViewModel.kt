@@ -35,7 +35,7 @@ class StatisticsViewModel @Inject constructor(
         }
     }
 
-    fun getMoodOfYearByMonth(petId: Int) {
+    fun getMoodOfYearByMonth(petId: Int, selectedYear: Int) {
         viewModelScope.launch {
             val moodOfYear = withContext(Dispatchers.Default) {
                 getMoodOfYearUseCase(petId)
