@@ -32,6 +32,7 @@ fun StatisticsScreen(
     petId: MutableIntState,
     petsList: List<Pet>,
     selectedYear: MutableIntState,
+    years: List<Int>,
     onPetClick: (Int) -> Unit,
     moodPortion: MoodPortion?,
     moodOfYear: MoodOfYear?
@@ -73,6 +74,7 @@ fun StatisticsScreen(
                             MoodOfYearByMonth(
                                 moodOfYear = moodOfYear,
                                 selectedYear = selectedYear,
+                                years = years,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(300.dp)

@@ -26,6 +26,7 @@ import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.
 fun MoodOfYearByMonth(
     moodOfYear: MoodOfYear,
     selectedYear: MutableIntState,
+    years: List<Int>,
     modifier: Modifier = Modifier
 ) {
     val coordinates = mapOf(
@@ -53,7 +54,7 @@ fun MoodOfYearByMonth(
             verticalArrangement = Arrangement.Center
         ) {
             DropdownList(
-                itemList = listOf("2025", "2026", "2027"),
+                itemList = years.map { it.toString() },
                 selectedIndex = selectedYear,
                 modifier = Modifier,
                 onItemClick = { selectedYear.intValue = it }

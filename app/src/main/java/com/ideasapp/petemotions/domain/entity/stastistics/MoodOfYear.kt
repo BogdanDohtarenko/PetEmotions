@@ -3,7 +3,6 @@ package com.ideasapp.petemotions.domain.entity.stastistics
 import java.time.Year
 
 data class MoodOfYear(
-    val year: Year,
     val januaryData: Int?,
     val februaryData: Int?,
     val marchData: Int?,

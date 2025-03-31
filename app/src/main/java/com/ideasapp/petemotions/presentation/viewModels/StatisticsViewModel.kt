@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.Year
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,6 +27,8 @@ class StatisticsViewModel @Inject constructor(
     private val _moodOfYear: MutableLiveData<MoodOfYear?> = MutableLiveData(null)
     val moodOfYear: LiveData<MoodOfYear?> = _moodOfYear
 
+    val possibleYearsList = listOf(2025, 2026, 2027)
+
     fun getMoodPortionData(petId: Int) {
         viewModelScope.launch {
             val moodPortion = withContext(Dispatchers.Default) {
@@ -35,10 +38,11 @@ class StatisticsViewModel @Inject constructor(
         }
     }
 
-    fun getMoodOfYearByMonth(petId: Int, selectedYear: Int) {
+    fun getMoodOfYearByMonth(petId: Int, selectedYearIndex: Int) {
         viewModelScope.launch {
+            val selectedYear = possibleYearsList[selectedYearIndex]
             val moodOfYear = withContext(Dispatchers.Default) {
-                getMoodOfYearUseCase(petId)
+                getMoodOfYearUseCase(petId, selectedYear)
             }
             _moodOfYear.value = moodOfYear
         }
