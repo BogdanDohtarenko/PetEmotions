@@ -59,7 +59,11 @@ fun StatisticsScreen(
                         .fillMaxWidth(0.9f)
                         .fillMaxHeight()
                 ) {
-                    FoldableBox(titleText = "Mood portions",isExpandedByDefault = true) {
+                    FoldableBox(
+                        titleText = "Mood portions",
+                        isExpandedByDefault = true,
+                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                    ) {
                         if (moodPortion == null) {
                             CircularProgressIndicator(color = MainTheme.colors.mainColor,modifier = Modifier.align(Alignment.CenterHorizontally))
                         } else {

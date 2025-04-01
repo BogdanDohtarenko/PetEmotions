@@ -6,6 +6,7 @@ import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.entity.stastistics.MoodOfYear
 import com.ideasapp.petemotions.domain.entity.stastistics.MoodPortion
 import com.ideasapp.petemotions.domain.repositories.StatisticsRepository
+import kotlinx.coroutines.delay
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -48,8 +49,6 @@ class StatisticsRepositoryImpl @Inject constructor(
 
     override suspend fun getMoodOfYear(petId: Int, year: Int): MoodOfYear {
         val dayInfoList = calendarListDao.getDayInfoList(petId)
-
-        // Group data by month and calculate averages
         val monthlyData = dayInfoList
             .mapNotNull { item ->
                 val localDate = LocalDate.ofEpochDay(item.date.toLong())
@@ -74,9 +73,6 @@ class StatisticsRepositoryImpl @Inject constructor(
             .mapValues { (_, values) ->
                 values.average().toInt()
             }
-
-        Log.d("Statistics", "year: $year")
-        Log.d("Statistics", "monthlyData: $monthlyData")
 
         return MoodOfYear(
             januaryData = monthlyData[1],
