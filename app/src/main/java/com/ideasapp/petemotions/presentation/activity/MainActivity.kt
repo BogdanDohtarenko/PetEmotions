@@ -27,18 +27,15 @@ import dagger.hilt.android.AndroidEntryPoint
 // 69. tips on how to manage day attributes
 // 72. edit attributes
 // 76. day attributes list add to day item info !!!!
-// 78. plot that shows mood in scope of year by every month !!!!
 // 79. diagram for attributes
 
 //TODO (design)
 // 4. moods on calendar !
-// 5. normal day notes design !!
 // 9. color scheme for light theme
 // 27. icons for nav bar
 // 55. russian language !!!
 // 56. change spare color
 // 59. draw all necessary icons !!!!!
-//
 
 //TODO (for future)
 // 2. notifications with timetable

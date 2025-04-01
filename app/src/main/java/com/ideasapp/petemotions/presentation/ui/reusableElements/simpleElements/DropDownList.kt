@@ -5,18 +5,21 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -26,12 +29,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Popup
-import androidx.compose.ui.window.PopupProperties
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 
 @Composable
 fun DropdownList(
@@ -40,81 +40,72 @@ fun DropdownList(
     modifier: Modifier = Modifier,
     onItemClick: (Int) -> Unit
 ) {
-    // State to control the dropdown visibility
     var showDropdown by rememberSaveable { mutableStateOf(false) }
-    val scrollState = rememberScrollState()
+    val colors = MaterialTheme.colorScheme
 
     Box(
-        modifier = modifier,
-        contentAlignment = Alignment.Center
+        modifier = modifier.wrapContentSize(),
+        contentAlignment = Alignment.TopStart
     ) {
-        // Button to toggle the dropdown
         Box(
             modifier = Modifier
-                .clickable { showDropdown = true }
-                .padding(5.dp)
+                .clickable { showDropdown = !showDropdown }
+                .padding(horizontal = 12.dp, vertical = 8.dp)
         ) {
             Row(
-                horizontalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector =
-                    if (!showDropdown)
-                        Icons.Default.KeyboardArrowDown
-                    else
-                        Icons.Default.KeyboardArrowUp,
-                    contentDescription = "show dropdown"
-                )
                 Text(
                     text = itemList[selectedIndex.value],
-                    color = Color.Black,
-                    textAlign = TextAlign.Center
+                    color = colors.onSurface,
+                    fontSize = 14.sp,
+                    maxLines = 1
+                )
+                Icon(
+                    imageVector = if (showDropdown)
+                        Icons.Default.KeyboardArrowUp
+                    else
+                        Icons.Default.KeyboardArrowDown,
+                    contentDescription = "Dropdown arrow",
                 )
             }
         }
 
-        // Dropdown list as an overlay
         if (showDropdown) {
-            Popup(
-                alignment = Alignment.TopCenter,
-                properties = PopupProperties(
-                    dismissOnBackPress = true,
-                    dismissOnClickOutside = true
-                ),
-                onDismissRequest = { showDropdown = false }
+            DropdownMenu(
+                expanded = showDropdown,
+                onDismissRequest = { showDropdown = false },
+                modifier = Modifier
+                    .background(MainTheme.colors.mainColor)
+                    .width(IntrinsicSize.Min)
             ) {
-                Column(
-                    modifier = Modifier
-                        .background(Color(0xFFE8F5E9)) // Light green background
-                        .border(1.dp, Color.Gray)
-                        .wrapContentWidth() // Ensure size matches content
-                        .verticalScroll(scrollState)
-                        .padding(vertical = 4.dp),
-                    horizontalAlignment = Alignment.Start
-                ) {
-                    itemList.forEachIndexed { index, item ->
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    onItemClick(index)
-                                    selectedIndex.value = index
-                                    showDropdown = false
-                                }
-                                .padding(vertical = 8.dp, horizontal = 16.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
+                itemList.forEachIndexed { index, item ->
+                    DropdownMenuItem(
+                        text = {
                             Text(
                                 text = item,
-                                color = Color.Black,
-                                textAlign = TextAlign.Center,
+                                color = if (index == selectedIndex.value)
+                                    MainTheme.colors.singleTheme.copy(alpha = 0.5f)
+                                else
+                                    MainTheme.colors.singleTheme,
                                 fontSize = 14.sp
                             )
-                        }
-                        if (index != itemList.lastIndex) {
-                            Divider(color = Color.LightGray, thickness = 1.dp)
-                        }
+                        },
+                        onClick = {
+                            onItemClick(index)
+                            selectedIndex.value = index
+                            showDropdown = false
+                        },
+                        colors = MenuDefaults.itemColors(
+                            textColor = MainTheme.colors.singleTheme
+                        )
+                    )
+                    if (index != itemList.lastIndex) {
+                        HorizontalDivider(
+                            color = MainTheme.colors.singleTheme.copy(alpha = 0.2f),
+                            thickness = 0.5.dp
+                        )
                     }
                 }
             }
