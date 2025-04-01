@@ -31,6 +31,8 @@ import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 fun StatisticsScreen(
     petId: MutableIntState,
     petsList: List<Pet>,
+    selectedYear: MutableIntState,
+    years: List<Int>,
     onPetClick: (Int) -> Unit,
     moodPortion: MoodPortion?,
     moodOfYear: MoodOfYear?
@@ -65,12 +67,14 @@ fun StatisticsScreen(
                         }
                     }
                     Spacer(modifier = Modifier.height(18.dp))
-                    FoldableBox(titleText = "Mood of year") {
+                    FoldableBox(titleText = "Mood of year", isExpandedByDefault = true) {
                         if (moodOfYear == null) {
                             CircularProgressIndicator(color = MainTheme.colors.mainColor)
                         } else {
                             MoodOfYearByMonth(
                                 moodOfYear = moodOfYear,
+                                selectedYear = selectedYear,
+                                years = years,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(300.dp)

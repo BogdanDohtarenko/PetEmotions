@@ -108,7 +108,7 @@ fun MoodPlot(
 
             previousValidPoint?.let { prevPoint ->
                 drawLine(
-                    color = Color(red = 139, green = 69, blue = 19),
+                    color = Color.Black,
                     start = prevPoint,
                     end = currentPoint,
                     strokeWidth = 2.dp.toPx(),

@@ -2,12 +2,13 @@ package com.ideasapp.petemotions.data.repositories_impl
 
 import android.util.Log
 import com.ideasapp.petemotions.data.db.dao.CalendarListDao
-import com.ideasapp.petemotions.data.db.dbModels.DayItemInfoDbModel
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.entity.stastistics.MoodOfYear
 import com.ideasapp.petemotions.domain.entity.stastistics.MoodPortion
 import com.ideasapp.petemotions.domain.repositories.StatisticsRepository
-import java.time.Year
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
 import javax.inject.Inject
 
 class StatisticsRepositoryImpl @Inject constructor(
@@ -18,9 +19,9 @@ class StatisticsRepositoryImpl @Inject constructor(
         val dayInfoList = calendarListDao.getDayInfoList(petId)
 
         //counters
-        var goodDaysCount: Double = 0.0
-        var normalDaysCount: Double = 0.0
-        var badDaysCount: Double = 0.0
+        var goodDaysCount = 0.0
+        var normalDaysCount = 0.0
+        var badDaysCount = 0.0
 
         //count each mood frequency
         dayInfoList.forEach { item ->
@@ -30,20 +31,11 @@ class StatisticsRepositoryImpl @Inject constructor(
                 DayItemInfo.BAD_MOOD -> badDaysCount++
             }
         }
-
-        Log.d("Statistics", "goodDaysCount $goodDaysCount")
-        Log.d("Statistics", "normalDaysCount $normalDaysCount")
-        Log.d("Statistics", "badDaysCount $badDaysCount")
-
         //percent values
         val allDayCount = goodDaysCount + normalDaysCount + badDaysCount
         val goodDaysPercent: Double = goodDaysCount/allDayCount * 100
         val normalDaysPercent: Double = normalDaysCount/allDayCount * 100
         val badDaysPercent: Double = badDaysCount/allDayCount * 100
-
-        Log.d("Statistics", "goodDaysPercent $goodDaysPercent")
-        Log.d("Statistics", "normalDaysPercent $normalDaysPercent")
-        Log.d("Statistics", "badDaysPercent $badDaysPercent")
 
         //create MoodPortion object
         return MoodPortion(
@@ -54,22 +46,51 @@ class StatisticsRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getMoodOfYear(petId:Int):MoodOfYear {
-        val moodOfYear = MoodOfYear( //TODO amend
-            year = Year.now(),
-            januaryData = 60,
-            februaryData = 70,
-            marchData = 80,
-            aprilData = 50,
-            mayData = null,
-            juneData = 100,
-            julyData = 90,
-            augustData = 70,
-            septemberData = 80,
-            octoberData = 90,
-            novemberData = 90,
-            decemberData = 100
+    override suspend fun getMoodOfYear(petId: Int, year: Int): MoodOfYear {
+        val dayInfoList = calendarListDao.getDayInfoList(petId)
+
+        // Group data by month and calculate averages
+        val monthlyData = dayInfoList
+            .mapNotNull { item ->
+                val localDate = LocalDate.ofEpochDay(item.date.toLong())
+
+                if (localDate.year == year) {
+                    val moodValue = when (item.mood) {
+                        1 -> 99.0
+                        2 -> 66.0
+                        3 -> 33.0
+                        else -> null
+                    }
+                    if (moodValue != null) {
+                        Pair(localDate.monthValue, moodValue)
+                    } else {
+                        null
+                    }
+                } else {
+                    null
+                }
+            }
+            .groupBy({ it.first }, { it.second })
+            .mapValues { (_, values) ->
+                values.average().toInt()
+            }
+
+        Log.d("Statistics", "year: $year")
+        Log.d("Statistics", "monthlyData: $monthlyData")
+
+        return MoodOfYear(
+            januaryData = monthlyData[1],
+            februaryData = monthlyData[2],
+            marchData = monthlyData[3],
+            aprilData = monthlyData[4],
+            mayData = monthlyData[5],
+            juneData = monthlyData[6],
+            julyData = monthlyData[7],
+            augustData = monthlyData[8],
+            septemberData = monthlyData[9],
+            octoberData = monthlyData[10],
+            novemberData = monthlyData[11],
+            decemberData = monthlyData[12]
         )
-        return moodOfYear
     }
 }

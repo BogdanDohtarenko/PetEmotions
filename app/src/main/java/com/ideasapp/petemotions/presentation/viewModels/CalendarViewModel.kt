@@ -67,12 +67,15 @@ class CalendarViewModel @Inject constructor(
     val petsList = _petsList.asStateFlow()
 
     init {
-
         collectAllDates()
         collectForPetDates()
         viewModelScope.launch {
             collectPetList()
         }
+    }
+
+    private fun getCurrentYearMonth(): YearMonth {
+        return _uiState.value.yearMonth
     }
 
     private fun updateDatesForMonth(yearMonth: YearMonth) {
@@ -118,12 +121,15 @@ class CalendarViewModel @Inject constructor(
         }
     }
     private fun collectForPetDates() {
-        petIdLD.asFlow().distinctUntilChanged().flatMapLatest {petId->
-            getMoodForPet(_uiState.value.yearMonth, petId)
-        }.flowOn(Dispatchers.IO).onEach {petDates->
+        petIdLD.asFlow().distinctUntilChanged().flatMapLatest { petId ->
+            getMoodForPet(getCurrentYearMonth(), petId)
+        }.flowOn(Dispatchers.IO).onEach { petDates ->
             _petDatesState.value = petDates
-            _uiState.update {currentState->
-                currentState.copy(dates = petDates)
+            _uiState.update { currentState ->
+                currentState.copy(
+                    dates = petDates,
+                    yearMonth = currentState.yearMonth
+                )
             }
         }.launchIn(viewModelScope)
     }
@@ -156,6 +162,9 @@ class CalendarViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             Log.d(MainActivity.CALENDAR_LOG_TAG, "Adding new item: $selectedDayInfo")
             addDayItemUseCase(selectedDayInfo)
+
+            val currentYearMonth = getCurrentYearMonth()
+            updateDatesForMonth(currentYearMonth)
         }
     }
 }
