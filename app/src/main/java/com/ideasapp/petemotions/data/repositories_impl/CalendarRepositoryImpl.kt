@@ -23,7 +23,7 @@ class CalendarRepositoryImpl @Inject constructor(
     private val calendarListDao: CalendarListDao,
 ) : CalendarRepository {
 
-    override suspend fun autofillPreviousDay() {
+    override fun autofillPreviousDay() {
         TODO("Not yet implemented")
     }
 

@@ -8,13 +8,18 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.ideasapp.petemotions.presentation.ui.screens.screen_containers.MainScreen
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
+import com.ideasapp.petemotions.presentation.util.workManager.DailyWorker
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import com.ideasapp.petemotions.presentation.viewModels.DayAttributesViewModel
 import com.ideasapp.petemotions.presentation.viewModels.StatisticsViewModel
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.TimeUnit
 
 //TODO (important)
 // 6. autoFilling of days !!!!
@@ -28,6 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 // 72. edit attributes
 // 76. day attributes list add to day item info !!!!
 // 79. diagram for attributes
+// 80. add permission handling
 
 //TODO (design)
 // 4. moods on calendar !
@@ -81,6 +87,18 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
+        scheduleDailyWork()
+    }
+
+    private fun scheduleDailyWork() {
+        val dailyWorkRequest = PeriodicWorkRequestBuilder<DailyWorker>(1, TimeUnit.DAYS)
+            .setInitialDelay(1, TimeUnit.DAYS)
+            .build()
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "DailyWork",
+            ExistingPeriodicWorkPolicy.KEEP,
+            dailyWorkRequest
+        )
     }
 
     companion object {
