@@ -23,7 +23,11 @@ class CalendarRepositoryImpl @Inject constructor(
     private val calendarListDao: CalendarListDao,
 ) : CalendarRepository {
 
-    private fun dayItemInfoDbModels(allMoodData: List<DayItemInfoDbModel>, yearMonth: YearMonth): List<DayItemInfoDbModel> {
+    override suspend fun autofillPreviousDay() {
+        TODO("Not yet implemented")
+    }
+
+    private fun dayItemInfoDbModels(allMoodData: List<DayItemInfoDbModel>,yearMonth: YearMonth): List<DayItemInfoDbModel> {
         return allMoodData.filter { item ->
             val date = LocalDate.ofEpochDay(item.date)
             date.year == yearMonth.year && date.monthValue == yearMonth.monthValue
