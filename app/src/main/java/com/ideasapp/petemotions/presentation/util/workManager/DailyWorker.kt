@@ -39,7 +39,7 @@ class DailyWorker (
     }
 
     private fun showNotification(context: Context, title: String, message: String) {
-        val channelId = "sync_channel"
+        val channelId = "1"
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val channel = NotificationChannel(

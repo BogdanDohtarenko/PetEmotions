@@ -53,6 +53,7 @@ import java.util.concurrent.TimeUnit
 // 64. deleting by swipe
 // 73. by long click on date you can see attributes
 // 75. my server + Workers to work with it
+// 81. turn on/off auto filling
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
