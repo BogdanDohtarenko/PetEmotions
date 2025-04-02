@@ -28,22 +28,22 @@ class CalendarRepositoryImpl @Inject constructor(
         val yesterday = today.minusDays(1)
         val dayBeforeYesterday = today.minusDays(2)
 
-        val allDays = calendarListDao.getDayInfoList()
-
-        val dayBeforeYesterdayRecord = allDays.find {
-            LocalDate.ofEpochDay(it.date) == dayBeforeYesterday
-        }
-
-        val yesterdayRecord = allDays.find {
-            LocalDate.ofEpochDay(it.date) == yesterday
-        }
-
-        if (dayBeforeYesterdayRecord != null && yesterdayRecord == null) {
-            val newYesterdayRecord = dayBeforeYesterdayRecord.copy(
-                date = yesterday.toEpochDay() // Обновляем дату на вчера
-            )
-            calendarListDao.addItemDayInfo(newYesterdayRecord)
-        }
+//        //val allDays = calendarListDao.getDayInfoList()
+//
+//        val dayBeforeYesterdayRecord = allDays.find {
+//            LocalDate.ofEpochDay(it.date) == dayBeforeYesterday
+//        }
+//
+//        val yesterdayRecord = allDays.find {
+//            LocalDate.ofEpochDay(it.date) == yesterday
+//        }
+//
+//        if (dayBeforeYesterdayRecord != null && yesterdayRecord == null) {
+//            val newYesterdayRecord = dayBeforeYesterdayRecord.copy(
+//                date = yesterday.toEpochDay() // Обновляем дату на вчера
+//            )
+//            //calendarListDao.addItemDayInfo(newYesterdayRecord)
+        //}
     }
 
     private fun dayItemInfoDbModels(allMoodData: List<DayItemInfoDbModel>,yearMonth: YearMonth): List<DayItemInfoDbModel> {

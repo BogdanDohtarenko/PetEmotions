@@ -1,5 +1,7 @@
 package com.ideasapp.petemotions.presentation.ui.screens.statistics
 
+import android.media.Image
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,9 +13,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.ideasapp.petemotions.domain.entity.stastistics.MoodPortion
 import androidx.compose.ui.unit.sp
+import com.ideasapp.petemotions.R
 
 @Composable
 fun MoodPortionPlot(
@@ -42,9 +47,9 @@ fun MoodPortionPlot(
                     .fillMaxWidth()
                     .padding(vertical = 8.dp)
             ) {
-                MoodStatColumn("G", "Good", moodPortion.goodPercents)
-                MoodStatColumn("N", "Normal", moodPortion.normalPercents)
-                MoodStatColumn("B", "Bad", moodPortion.badPercents)
+                MoodStatColumn(R.drawable.animal_good, "Good", moodPortion.goodPercents)
+                MoodStatColumn(R.drawable.animal_normal, "Normal", moodPortion.normalPercents)
+                MoodStatColumn(R.drawable.animal_bad, "Bad", moodPortion.badPercents)
             }
         }
     }
@@ -52,7 +57,7 @@ fun MoodPortionPlot(
 
 @Composable
 fun MoodStatColumn(
-    icon: String,
+    iconId: Int,
     moodLabel: String,
     percentage: Int
 ) {
@@ -62,7 +67,9 @@ fun MoodStatColumn(
         modifier = Modifier
             .padding(horizontal = 8.dp)
     ) {
-        Text(text = icon, fontSize = 24.sp) //TODO ICOn
+        Image(
+            painter = painterResource(id = iconId),contentDescription = moodLabel
+        )
         Text(text = moodLabel, fontSize = 16.sp)
         Text(text = "$percentage%", fontSize = 16.sp)
     }
