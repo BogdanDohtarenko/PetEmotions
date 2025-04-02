@@ -3,28 +3,29 @@ package com.ideasapp.petemotions.presentation.util.workManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import androidx.work.Worker
-import androidx.work.WorkerParameters
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
+import androidx.work.WorkerParameters
 import com.ideasapp.petemotions.R
 import com.ideasapp.petemotions.domain.use_case.calendar.AutofillPreviousDayUseCase
-import com.ideasapp.petemotions.domain.use_case.calendar.GetCalendarUseCase
-import kotlinx.coroutines.runBlocking
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 
-class DailyWorker (
-    private val autofillPreviousDayUseCase: AutofillPreviousDayUseCase,
-    context: Context,
-    workerParams: WorkerParameters
-) : CoroutineWorker(context, workerParams) {
+@HiltWorker
+class DailyWorker @AssistedInject constructor(
+    @Assisted private val appContext: Context,
+    @Assisted private val workerParams: WorkerParameters,
+    private val autofillPreviousDayUseCase: AutofillPreviousDayUseCase
+) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
         Log.d("AutoFill", "DailyWorker started")
         return try {
             autofillPreviousDayUseCase()
             showNotification(
-                context = applicationContext,
+                context = appContext,
                 title = "We keep your calendar",
                 message = "Yesterday was filled"
             )
@@ -33,7 +34,7 @@ class DailyWorker (
         } catch (e: Exception) {
             Log.e("AutoFill", "DailyWorker failed", e)
             showNotification(
-                context = applicationContext,
+                context = appContext,
                 title = "Sorry :(",
                 message = "We can't fill yesterday"
             )

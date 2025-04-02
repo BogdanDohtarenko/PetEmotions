@@ -1,7 +1,10 @@
 package com.ideasapp.petemotions.presentation.activity
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -9,9 +12,13 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.ideasapp.petemotions.presentation.ui.screens.screen_containers.MainScreen
@@ -37,6 +44,7 @@ import java.util.concurrent.TimeUnit
 // 76. day attributes list add to day item info !!!!
 // 79. diagram for attributes
 // 80. add permission handling
+// 81. notifications for timetable
 
 //TODO (design)
 // 9. color scheme for light theme
@@ -67,6 +75,7 @@ class MainActivity : ComponentActivity() {
     private val attributesViewModel: DayAttributesViewModel by viewModels()
     private val statisticsViewModel:StatisticsViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
         val isDarkTheme =
@@ -91,7 +100,16 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
+        grantPermissions()
         scheduleDailyWork()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun grantPermissions() {
+        val permissionStatus = ContextCompat.checkSelfPermission(this,Manifest.permission.POST_NOTIFICATIONS)
+        if (permissionStatus != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.POST_NOTIFICATIONS),1)
+        }
     }
 
     //TODO make it out
@@ -106,22 +124,19 @@ class MainActivity : ComponentActivity() {
         )
     }*/
     private fun scheduleDailyWork() {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
-            .setRequiresBatteryNotLow(false)
-            .build()
+        val constraints =
+            Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
 
-        val dailyWorkRequest = PeriodicWorkRequestBuilder<DailyWorker>(1, TimeUnit.MINUTES)
-            .setInitialDelay(0, TimeUnit.MINUTES)
-            .setConstraints(constraints)
-            .build()
+        val workRequest =
+            PeriodicWorkRequest
+                .Builder(DailyWorker::class.java, 24L, TimeUnit.HOURS)
+                .setConstraints(constraints)
+                .build()
 
+        WorkManager.getInstance(this).enqueue(workRequest)
         Log.d("AutoFill", "Scheduling daily work")
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            "DailyWork",
-            ExistingPeriodicWorkPolicy.UPDATE,
-            dailyWorkRequest
-        )
     }
 
     companion object {
