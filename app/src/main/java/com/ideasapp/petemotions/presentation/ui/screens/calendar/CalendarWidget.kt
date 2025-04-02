@@ -2,11 +2,13 @@ package com.ideasapp.petemotions.presentation.ui.screens.calendar
 
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ExperimentalMaterialApi
@@ -46,12 +48,6 @@ fun CalendarWidget(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                /*.offset {
-                    IntOffset(
-                        x = state.requireOffset().toInt(),
-                        y = 0
-                    )
-                }*/
         ) {
             Row {
                 repeat(days.size) {
@@ -117,15 +113,31 @@ fun ContentItem(
         Column(
             modifier = Modifier.align(Alignment.Center),
         ) {
+            val imageId = when (date.dayInfoItem.mood) {
+                1 -> R.drawable.animal_good
+                2 -> R.drawable.animal_normal
+                3 -> R.drawable.animal_bad
+                else -> null
+            }
             // TODO Get gray icon if not filled
-            Text(
-                text = date.dayInfoItem.mood?.toString() ?: "0", //set mood here
-                style = MaterialTheme.typography.bodyMedium,
-                color = color,
-                modifier = Modifier
-                    .padding(10.dp)
-                    .align(Alignment.CenterHorizontally)
-            )
+            if (imageId != null) {
+                Image(
+                    painter = painterResource(id = imageId),
+                    contentDescription = date.dayInfoItem.mood.toString(),
+                    modifier = Modifier
+                        .heightIn(min = 30.dp, max = 70.dp)
+                        .align(Alignment.CenterHorizontally),
+                )
+            } else {
+                Text(
+                    text = "0", //set mood here
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = color,
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
+            }
             Text(
                 text = date.dayOfMonth,
                 fontSize = 16.sp,
