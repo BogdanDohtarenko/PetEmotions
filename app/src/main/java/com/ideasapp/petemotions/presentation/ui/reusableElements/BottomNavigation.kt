@@ -25,6 +25,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -60,22 +61,17 @@ fun BottomNavigationBar(navController: NavController) {
                             selectedItemIndex = item.id
                             if (currentRoute != item.route) {
                                 navController.navigate(item.route) {
-                                    popUpTo(navController.graph.startDestinationId) { saveState = true }
+                                    popUpTo(navController.graph.startDestinationId) {saveState = true}
                                     launchSingleTop = true
                                     restoreState = true
                                 }
                             }
                         }
-                        .padding(
-                            bottom = if (isSelected) 18.dp else 0.dp,
-                            start = 0.dp,
-                            end = 0.dp,
-                            top = 0.dp
-                        ),
+                        .padding(bottom = if (isSelected) 18.dp else 0.dp,start = 0.dp,end = 0.dp,top = 0.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(
-                        imageVector = item.icon,
+                        painter = painterResource(id = item.iconId),
                         contentDescription = item.label,
                         tint = if (isSelected) MainTheme.colors.mainColor else MainTheme.colors.singleTheme,
                         modifier = Modifier

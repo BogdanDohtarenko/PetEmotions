@@ -41,6 +41,7 @@ import java.util.concurrent.TimeUnit
 // 55. russian language !!!
 // 56. change spare color
 // 82. adjust mood icons size
+// 83. change attribute/statistics items
 
 //TODO (for future)
 // 2. notifications with timetable
