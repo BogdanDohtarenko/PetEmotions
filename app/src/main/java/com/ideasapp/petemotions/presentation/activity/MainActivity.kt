@@ -36,12 +36,12 @@ import java.util.concurrent.TimeUnit
 // 80. add permission handling
 
 //TODO (design)
-// 4. moods on calendar !
 // 9. color scheme for light theme
 // 27. icons for nav bar
 // 55. russian language !!!
 // 56. change spare color
 // 59. draw all necessary icons !!!!!
+// 82. adjust mood icons size
 
 //TODO (for future)
 // 2. notifications with timetable
@@ -91,6 +91,7 @@ class MainActivity : ComponentActivity() {
         scheduleDailyWork()
     }
 
+    //TODO make it out
     private fun scheduleDailyWork() {
         val dailyWorkRequest = PeriodicWorkRequestBuilder<DailyWorker>(1, TimeUnit.DAYS)
             .setInitialDelay(1, TimeUnit.DAYS)
