@@ -40,7 +40,6 @@ import java.util.concurrent.TimeUnit
 // 27. icons for nav bar
 // 55. russian language !!!
 // 56. change spare color
-// 59. draw all necessary icons !!!!!
 // 82. adjust mood icons size
 
 //TODO (for future)
