@@ -3,12 +3,15 @@ package com.ideasapp.petemotions.presentation.activity
 import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.ideasapp.petemotions.presentation.ui.screens.screen_containers.MainScreen
@@ -92,13 +95,31 @@ class MainActivity : ComponentActivity() {
     }
 
     //TODO make it out
-    private fun scheduleDailyWork() {
+    /*private fun scheduleDailyWork() {
         val dailyWorkRequest = PeriodicWorkRequestBuilder<DailyWorker>(1, TimeUnit.DAYS)
             .setInitialDelay(1, TimeUnit.DAYS)
             .build()
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
             "DailyWork",
             ExistingPeriodicWorkPolicy.KEEP,
+            dailyWorkRequest
+        )
+    }*/
+    private fun scheduleDailyWork() {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+            .setRequiresBatteryNotLow(false)
+            .build()
+
+        val dailyWorkRequest = PeriodicWorkRequestBuilder<DailyWorker>(1, TimeUnit.MINUTES)
+            .setInitialDelay(0, TimeUnit.MINUTES)
+            .setConstraints(constraints)
+            .build()
+
+        Log.d("AutoFill", "Scheduling daily work")
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "DailyWork",
+            ExistingPeriodicWorkPolicy.UPDATE,
             dailyWorkRequest
         )
     }

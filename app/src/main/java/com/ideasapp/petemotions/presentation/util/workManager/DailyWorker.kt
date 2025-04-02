@@ -7,34 +7,37 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.work.CoroutineWorker
 import com.ideasapp.petemotions.R
 import com.ideasapp.petemotions.domain.use_case.calendar.AutofillPreviousDayUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetCalendarUseCase
+import kotlinx.coroutines.runBlocking
 
 class DailyWorker (
     private val autofillPreviousDayUseCase: AutofillPreviousDayUseCase,
     context: Context,
     workerParams: WorkerParameters
-) : Worker(context, workerParams) {
+) : CoroutineWorker(context, workerParams) {
 
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result {
+        Log.d("AutoFill", "DailyWorker started")
         return try {
             autofillPreviousDayUseCase()
-
             showNotification(
                 context = applicationContext,
                 title = "We keep your calendar",
-                message = "Day was filled"
+                message = "Yesterday was filled"
             )
-
+            Log.d("AutoFill", "DailyWorker completed successfully")
             Result.success()
         } catch (e: Exception) {
+            Log.e("AutoFill", "DailyWorker failed", e)
             showNotification(
                 context = applicationContext,
                 title = "Sorry :(",
                 message = "We can't fill yesterday"
             )
-            Result.retry()
+            Result.failure()
         }
     }
 
