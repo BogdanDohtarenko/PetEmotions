@@ -113,24 +113,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    //TODO make it out
-    /*private fun scheduleDailyWork() {
-        val dailyWorkRequest = PeriodicWorkRequestBuilder<DailyWorker>(1, TimeUnit.DAYS)
-            .setInitialDelay(1, TimeUnit.DAYS)
-            .build()
-        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            "DailyWork",
-            ExistingPeriodicWorkPolicy.KEEP,
-            dailyWorkRequest
-        )
-    }*/
     private fun scheduleDailyWork() {
-        val testWorkRequest = OneTimeWorkRequestBuilder<DailyWorker>().build()
-        WorkManager.getInstance(this).enqueue(testWorkRequest)
         Log.d("AutoFill", "Scheduling daily work")
-        /*val constraints =
+        val constraints =
             Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
 
         val workRequest =
@@ -140,7 +126,6 @@ class MainActivity : ComponentActivity() {
                 .build()
 
         WorkManager.getInstance(this).enqueue(workRequest)
-        */
     }
 
     companion object {

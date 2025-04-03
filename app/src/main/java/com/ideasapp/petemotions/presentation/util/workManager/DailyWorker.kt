@@ -7,21 +7,25 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
+import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.ideasapp.petemotions.R
 import com.ideasapp.petemotions.domain.use_case.calendar.AutofillPreviousDayUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import javax.inject.Inject
 
-class DailyWorker (
-    appContext: Context,
-    workerParams: WorkerParameters,
-) : CoroutineWorker(appContext, workerParams) {
+@HiltWorker
+class DailyWorker @AssistedInject constructor(
+    private val autofillPreviousDayUseCase: AutofillPreviousDayUseCase,
+    @Assisted appContext: Context,
+    @Assisted workerParams: WorkerParameters,
+) : Worker(appContext, workerParams) {
 
-    override suspend fun doWork(): Result {
+    override fun doWork(): Result {
         Log.d("AutoFill", "DailyWorker started")
         return try {
-            //autofillPreviousDayUseCase()
+            autofillPreviousDayUseCase()
             showNotification(
                 context = applicationContext,
                 title = "We keep your calendar",

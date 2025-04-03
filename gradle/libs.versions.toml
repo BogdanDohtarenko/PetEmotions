@@ -27,7 +27,7 @@ roomRuntimeVersion = "2.6.1"
 ui = "1.7.8"
 tvMaterialVersion = "1.0.0"
 runtimeLivedataVersion = "1.7.8"
-workRuntimeKtxVersion = "2.10.0"
+workRuntimeKtxVersion = "2.8.1"
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontrollerVersion" }
