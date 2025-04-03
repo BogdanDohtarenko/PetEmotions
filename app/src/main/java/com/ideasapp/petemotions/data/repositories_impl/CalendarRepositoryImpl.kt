@@ -1,10 +1,11 @@
 package com.ideasapp.petemotions.data.repositories_impl
 
 import android.content.Context
+import android.util.Log
 import com.ideasapp.petemotions.data.dataStore.PetDataStore
 import com.ideasapp.petemotions.data.db.dao.CalendarListDao
-import com.ideasapp.petemotions.data.db.mappers.DayInfoMapper
 import com.ideasapp.petemotions.data.db.dbModels.DayItemInfoDbModel
+import com.ideasapp.petemotions.data.db.mappers.DayInfoMapper
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.entity.calendar.Pet
@@ -12,6 +13,7 @@ import com.ideasapp.petemotions.domain.repositories.CalendarRepository
 import com.ideasapp.petemotions.presentation.util.getDayOfMonthStartingFromMonday
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
@@ -22,28 +24,47 @@ class CalendarRepositoryImpl @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val calendarListDao: CalendarListDao,
 ) : CalendarRepository {
+    //auto filling service
+    override suspend fun autofillPreviousDay(): Boolean {
+        var needFilling = false
+            try {
+                val today = LocalDate.now()
+                val yesterday = today.minusDays(1)
+                val dayBeforeYesterday = today.minusDays(2)
 
-    override fun autofillPreviousDay() {
-        val today = LocalDate.now()
-        val yesterday = today.minusDays(1)
-        val dayBeforeYesterday = today.minusDays(2)
+                val petsList = PetDataStore.getPetsFlow(appContext).first()
 
-//        //val allDays = calendarListDao.getDayInfoList()
-//
-//        val dayBeforeYesterdayRecord = allDays.find {
-//            LocalDate.ofEpochDay(it.date) == dayBeforeYesterday
-//        }
-//
-//        val yesterdayRecord = allDays.find {
-//            LocalDate.ofEpochDay(it.date) == yesterday
-//        }
-//
-//        if (dayBeforeYesterdayRecord != null && yesterdayRecord == null) {
-//            val newYesterdayRecord = dayBeforeYesterdayRecord.copy(
-//                date = yesterday.toEpochDay() // Обновляем дату на вчера
-//            )
-//            //calendarListDao.addItemDayInfo(newYesterdayRecord)
-        //}
+                Log.d("AutoFill", "petsList: $petsList")
+
+                petsList.forEach { pet ->
+                    try {
+                        val allDays = calendarListDao.getDayInfoList(pet.id)
+
+                        val dayBeforeYesterdayRecord = allDays.find {
+                            LocalDate.ofEpochDay(it.date) == dayBeforeYesterday
+                        }
+                        Log.d("AutoFill", "dayBeforeYesterdayRecord: $dayBeforeYesterdayRecord")
+                        val yesterdayRecord = allDays.find {
+                            LocalDate.ofEpochDay(it.date) == yesterday
+                        }
+                        Log.d("AutoFill", "yesterdayRecord: $yesterdayRecord")
+                        if (dayBeforeYesterdayRecord != null && yesterdayRecord == null) {
+                            needFilling = true
+                            val newYesterdayRecord = dayBeforeYesterdayRecord.copy(
+                                date = yesterday.toEpochDay(),
+                                //TODO set all other fields to null
+                            )
+                            calendarListDao.addItemDayInfo(newYesterdayRecord)
+                            Log.d("AutoFill", "Copied record for pet ${pet.id} from $dayBeforeYesterday to $yesterday")
+                        }
+                    } catch (e: Exception) {
+                        Log.e("AutoFill", "Error processing pet ${pet.id}", e)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("AutoFill", "Error in autofillPreviousDay", e)
+            }
+        return needFilling
     }
 
     private fun dayItemInfoDbModels(allMoodData: List<DayItemInfoDbModel>,yearMonth: YearMonth): List<DayItemInfoDbModel> {

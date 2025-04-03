@@ -80,6 +80,7 @@ dependencies {
 
     //Hilt
     implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.work)
     implementation(libs.androidx.tv.material)
     implementation(libs.androidx.runtime.livedata)
     kapt(libs.hilt.android.compiler)

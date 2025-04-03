@@ -7,7 +7,7 @@ import javax.inject.Inject
 class AutofillPreviousDayUseCase @Inject constructor(
     private val repository:CalendarRepository,
 ) {
-    operator fun invoke() {
-        repository.autofillPreviousDay()
+    suspend operator fun invoke(): Boolean {
+        return repository.autofillPreviousDay()
     }
 }

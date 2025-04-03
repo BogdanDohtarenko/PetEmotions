@@ -23,5 +23,5 @@ interface CalendarRepository {
     suspend fun getPetsList(): Flow<List<Pet>>
     suspend fun addPet(pets: List<Pet>)
 
-    fun autofillPreviousDay()
+    suspend fun autofillPreviousDay():  Boolean
 }
