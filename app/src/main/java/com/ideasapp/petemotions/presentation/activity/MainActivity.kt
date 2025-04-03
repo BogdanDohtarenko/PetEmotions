@@ -18,6 +18,7 @@ import androidx.core.content.ContextCompat
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -124,7 +125,10 @@ class MainActivity : ComponentActivity() {
         )
     }*/
     private fun scheduleDailyWork() {
-        val constraints =
+        val testWorkRequest = OneTimeWorkRequestBuilder<DailyWorker>().build()
+        WorkManager.getInstance(this).enqueue(testWorkRequest)
+        Log.d("AutoFill", "Scheduling daily work")
+        /*val constraints =
             Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
@@ -136,7 +140,7 @@ class MainActivity : ComponentActivity() {
                 .build()
 
         WorkManager.getInstance(this).enqueue(workRequest)
-        Log.d("AutoFill", "Scheduling daily work")
+        */
     }
 
     companion object {

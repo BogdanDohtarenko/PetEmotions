@@ -13,19 +13,17 @@ import com.ideasapp.petemotions.domain.use_case.calendar.AutofillPreviousDayUseC
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
-@HiltWorker
-class DailyWorker @AssistedInject constructor(
-    @Assisted private val appContext: Context,
-    @Assisted private val workerParams: WorkerParameters,
-    private val autofillPreviousDayUseCase: AutofillPreviousDayUseCase
+class DailyWorker (
+    appContext: Context,
+    workerParams: WorkerParameters,
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
         Log.d("AutoFill", "DailyWorker started")
         return try {
-            autofillPreviousDayUseCase()
+            //autofillPreviousDayUseCase()
             showNotification(
-                context = appContext,
+                context = applicationContext,
                 title = "We keep your calendar",
                 message = "Yesterday was filled"
             )
@@ -34,7 +32,7 @@ class DailyWorker @AssistedInject constructor(
         } catch (e: Exception) {
             Log.e("AutoFill", "DailyWorker failed", e)
             showNotification(
-                context = appContext,
+                context = applicationContext,
                 title = "Sorry :(",
                 message = "We can't fill yesterday"
             )
