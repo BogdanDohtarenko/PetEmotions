@@ -25,12 +25,14 @@ class DailyWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         Log.d("AutoFill", "DailyWorker started")
         return try {
-            autofillPreviousDayUseCase()
-            showNotification(
-                context = applicationContext,
-                title = "We keep your calendar",
-                message = "Yesterday was filled"
-            )
+            val isAutoFilled = autofillPreviousDayUseCase()
+            if (isAutoFilled) {
+                showNotification(
+                    context = applicationContext,
+                    title = "We keep your calendar",
+                    message = "Yesterday was filled"
+                )
+            }
             Log.d("AutoFill", "DailyWorker completed successfully")
             Result.success()
         } catch (e: Exception) {

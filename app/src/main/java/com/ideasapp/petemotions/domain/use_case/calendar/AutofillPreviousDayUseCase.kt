@@ -8,6 +8,6 @@ class AutofillPreviousDayUseCase @Inject constructor(
     private val repository:CalendarRepository,
 ) {
     suspend operator fun invoke(): Boolean {
-        repository.autofillPreviousDay()
+        return repository.autofillPreviousDay()
     }
 }

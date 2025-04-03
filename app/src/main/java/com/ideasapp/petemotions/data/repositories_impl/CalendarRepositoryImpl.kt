@@ -4,23 +4,18 @@ import android.content.Context
 import android.util.Log
 import com.ideasapp.petemotions.data.dataStore.PetDataStore
 import com.ideasapp.petemotions.data.db.dao.CalendarListDao
-import com.ideasapp.petemotions.data.db.mappers.DayInfoMapper
 import com.ideasapp.petemotions.data.db.dbModels.DayItemInfoDbModel
+import com.ideasapp.petemotions.data.db.mappers.DayInfoMapper
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.entity.calendar.Pet
 import com.ideasapp.petemotions.domain.repositories.CalendarRepository
 import com.ideasapp.petemotions.presentation.util.getDayOfMonthStartingFromMonday
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.YearMonth
 import javax.inject.Inject
@@ -30,7 +25,8 @@ class CalendarRepositoryImpl @Inject constructor(
     private val calendarListDao: CalendarListDao,
 ) : CalendarRepository {
     //auto filling service
-    override suspend fun autofillPreviousDay() {
+    override suspend fun autofillPreviousDay(): Boolean {
+        var needFilling = false
             try {
                 val today = LocalDate.now()
                 val yesterday = today.minusDays(1)
@@ -53,6 +49,7 @@ class CalendarRepositoryImpl @Inject constructor(
                         }
                         Log.d("AutoFill", "yesterdayRecord: $yesterdayRecord")
                         if (dayBeforeYesterdayRecord != null && yesterdayRecord == null) {
+                            needFilling = true
                             val newYesterdayRecord = dayBeforeYesterdayRecord.copy(
                                 date = yesterday.toEpochDay(),
                                 //TODO set all other fields to null
@@ -67,6 +64,7 @@ class CalendarRepositoryImpl @Inject constructor(
             } catch (e: Exception) {
                 Log.e("AutoFill", "Error in autofillPreviousDay", e)
             }
+        return needFilling
     }
 
     private fun dayItemInfoDbModels(allMoodData: List<DayItemInfoDbModel>,yearMonth: YearMonth): List<DayItemInfoDbModel> {
