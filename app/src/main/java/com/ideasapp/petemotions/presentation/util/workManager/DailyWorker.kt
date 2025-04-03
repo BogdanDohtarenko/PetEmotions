@@ -20,9 +20,9 @@ class DailyWorker @AssistedInject constructor(
     private val autofillPreviousDayUseCase: AutofillPreviousDayUseCase,
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
-) : Worker(appContext, workerParams) {
+) : CoroutineWorker(appContext, workerParams) {
 
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result {
         Log.d("AutoFill", "DailyWorker started")
         return try {
             autofillPreviousDayUseCase()

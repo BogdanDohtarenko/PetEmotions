@@ -30,9 +30,7 @@ class CalendarRepositoryImpl @Inject constructor(
     private val calendarListDao: CalendarListDao,
 ) : CalendarRepository {
     //auto filling service
-    override fun autofillPreviousDay() {
-        val coroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-        coroutineScope.launch {
+    override suspend fun autofillPreviousDay() {
             try {
                 val today = LocalDate.now()
                 val yesterday = today.minusDays(1)
@@ -49,11 +47,11 @@ class CalendarRepositoryImpl @Inject constructor(
                         val dayBeforeYesterdayRecord = allDays.find {
                             LocalDate.ofEpochDay(it.date) == dayBeforeYesterday
                         }
-
+                        Log.d("AutoFill", "dayBeforeYesterdayRecord: $dayBeforeYesterdayRecord")
                         val yesterdayRecord = allDays.find {
                             LocalDate.ofEpochDay(it.date) == yesterday
                         }
-
+                        Log.d("AutoFill", "yesterdayRecord: $yesterdayRecord")
                         if (dayBeforeYesterdayRecord != null && yesterdayRecord == null) {
                             val newYesterdayRecord = dayBeforeYesterdayRecord.copy(
                                 date = yesterday.toEpochDay(),
@@ -69,7 +67,6 @@ class CalendarRepositoryImpl @Inject constructor(
             } catch (e: Exception) {
                 Log.e("AutoFill", "Error in autofillPreviousDay", e)
             }
-        }
     }
 
     private fun dayItemInfoDbModels(allMoodData: List<DayItemInfoDbModel>,yearMonth: YearMonth): List<DayItemInfoDbModel> {
