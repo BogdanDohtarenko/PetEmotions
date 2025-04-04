@@ -35,11 +35,16 @@ markdown
 Copy
 ## 📸 Screenshots
 
-| [](https://github.com/user-attachments/assets/b06b0fbb-0fbe-4d51-b01a-7212f83e3b32) | [](https://github.com/user-attachments/assets/31352b18-a85e-4380-93bd-c47fa5141508) | [](https://github.com/user-attachments/assets/f39a10bf-3573-437e-a53b-4941be6cfef1) |
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b06b0fbb-0fbe-4d51-b01a-7212f83e3b32" alt="Dashboard" width="30%" />
+  <img src="https://github.com/user-attachments/assets/31352b18-a85e-4380-93bd-c47fa5141508" alt="Pet Profile" width="30%" />
+  <img src="https://github.com/user-attachments/assets/f39a10bf-3573-437e-a53b-4941be6cfef1" alt="Statistics" width="30%" />
+</p>
 
----
-
-| [](https://github.com/user-attachments/assets/e2fdbfb8-3b1a-45ae-aa84-4ccc04846a36) | [](https://github.com/user-attachments/assets/065a9c89-c21a-4b47-9708-f1234d46d19f) | [](https://github.com/user-attachments/assets/aea4a273-e037-4cee-95ab-8ce93b5d2381) |
-
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e2fdbfb8-3b1a-45ae-aa84-4ccc04846a36" alt="Reminders" width="30%" />
+  <img src="https://github.com/user-attachments/assets/065a9c89-c21a-4b47-9708-f1234d46d19f" alt="Add New Pets" width="30%" />
+  <img src="https://github.com/user-attachments/assets/aea4a273-e037-4cee-95ab-8ce93b5d2381" alt="Settings" width="30%" />
+</p>
 
 
