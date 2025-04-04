@@ -2,7 +2,6 @@
 
 **Pet Mood Tracker** is a Kotlin-based app designed to help you track your pets' daily moods, activities, and overall well-being. With customizable input fields, detailed statistics, and seamless reminders, this app ensures you never miss a moment in your pet's life. 
 
----
 
 ## ✨ Features
 
@@ -13,7 +12,6 @@
 - **Reminders**: Create and manage reminders for important tasks like feeding, walking, or vet visits.
 - **Beautiful UI**: Built with Jetpack Compose to ensure a modern and fluid user experience.
 
----
 
 ## 🛠️ Tech Stack
 
@@ -29,10 +27,6 @@ The app leverages modern Android development tools and best practices:
 - **Work Manager**: For scheduling background tasks.
 - **JUnit**: For unit testing.
 
----
-markdown
-
-Copy
 ## 📸 Screenshots
 
 <p align="center">
