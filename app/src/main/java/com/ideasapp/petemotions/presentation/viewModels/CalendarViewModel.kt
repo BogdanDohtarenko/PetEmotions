@@ -70,6 +70,8 @@ class CalendarViewModel @Inject constructor(
         collectAllDates()
         collectForPetDates()
         viewModelScope.launch {
+            addPet(Pet(0, "Ellie"))
+            addPet(Pet(1, "Hina"))
             collectPetList()
         }
     }
