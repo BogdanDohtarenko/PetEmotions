@@ -1,6 +1,7 @@
 package com.ideasapp.petemotions.presentation.activity
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Color
@@ -15,6 +16,8 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
@@ -24,6 +27,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.ideasapp.petemotions.presentation.ui.screens.screen_containers.MainScreen
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
+import com.ideasapp.petemotions.presentation.util.GlobalPreferences
 import com.ideasapp.petemotions.presentation.util.workManager.DailyWorker
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import com.ideasapp.petemotions.presentation.viewModels.DayAttributesViewModel
@@ -33,9 +37,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
 //TODO (important)
-// 6. autoFilling of days !!!!
 // 8. top bar (filters)
-// 28. switch between screens by swipe
 // 31. profile screen
 // 42. REFACTOR CalendarViewModel when it ready + by sumin flow
 // 45. clean all files
@@ -44,8 +46,8 @@ import java.util.concurrent.TimeUnit
 // 72. edit attributes
 // 76. day attributes list add to day item info !!!!
 // 79. diagram for attributes
-// 80. add permission handling
 // 81. notifications for timetable
+// 85.
 
 //TODO (design)
 // 9. color scheme for light theme
@@ -53,12 +55,13 @@ import java.util.concurrent.TimeUnit
 // 55. russian language !!!
 // 56. change spare color
 // 82. adjust mood icons size
-// 83. change attribute/statistics items
+// 83. change attribute/statistics icons
 
 //TODO (for future)
 // 2. notifications with timetable
 // 3. PERSONAL TIPS !
 // 26. achievements
+// 28. switch between screens by swipe
 // 33. happy birthday to every pet
 // 60. migrate to ksp !!!
 // 61. Huge amount of plots
@@ -102,15 +105,29 @@ class MainActivity : ComponentActivity() {
             }
         }
         grantPermissions()
-        scheduleDailyWork()
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun grantPermissions() {
-        val permissionStatus = ContextCompat.checkSelfPermission(this,Manifest.permission.POST_NOTIFICATIONS)
-        if (permissionStatus != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,arrayOf(Manifest.permission.POST_NOTIFICATIONS),1)
-        }
+
+            val permissionStatus = ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            )
+            if (permissionStatus != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    1
+                )
+            } else {
+                Log.d("AutoFill", "permission granted")
+                if (GlobalPreferences.isFirstLaunch(this)) {
+                    Log.d("AutoFill", "isFirstLaunch true")
+                    scheduleDailyWork()
+                    GlobalPreferences.updateFirstLaunch(this)
+                }
+            }
     }
 
     private fun scheduleDailyWork() {
@@ -128,7 +145,12 @@ class MainActivity : ComponentActivity() {
         WorkManager.getInstance(this).enqueue(workRequest)
     }
 
+
+
     companion object {
+        private val Context.dataStore by preferencesDataStore(name = "global_preferences")
+        private val FIRST_LAUNCH_KEY = booleanPreferencesKey("first_launch")
+
         const val CALENDAR_LOG_TAG = "Calendar"
         const val TIMETABLE_LOG_TAG = "Timetable"
         const val STATISTICS_LOG_TAG = "Statistics"
