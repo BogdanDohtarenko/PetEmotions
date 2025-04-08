@@ -1,5 +1,6 @@
 package com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,12 +20,16 @@ fun AttributeItem(
     imageVector: ImageVector,
     textColor: Color,
     title: String,
+    onAttributeChooseClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
             .padding(8.dp)
-            .wrapContentSize(),
+            .wrapContentSize()
+            .clickable {
+                onAttributeChooseClick(title)
+            },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(

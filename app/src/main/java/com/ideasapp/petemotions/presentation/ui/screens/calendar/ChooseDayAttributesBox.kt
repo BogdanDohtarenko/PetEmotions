@@ -1,6 +1,7 @@
 package com.ideasapp.petemotions.presentation.ui.screens.calendar
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,12 +27,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.AttributeItem
+import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 
 @Composable
 fun ChooseDayAttributesBox(
     textColor: Color,
+    chosenAttributeState: MutableState<Boolean>,
     addAttributeState: MutableState<Boolean>,
     dayAttributesList: List<DayAttribute>,
+    onAttributeChooseClick: (String) -> Unit,
     modifier : Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -47,7 +51,14 @@ fun ChooseDayAttributesBox(
             AttributeItem(
                 imageVector = attribute.imageVector,
                 textColor = textColor,
-                title = attribute.title
+                title = attribute.title,
+                onAttributeChooseClick = onAttributeChooseClick,
+                modifier = Modifier.background(
+                    if (chosenAttributeState.value)
+                        MainTheme.colors.mainColor
+                    else
+                        MainTheme.colors.spareContentColor
+                )
             )
         }
     }

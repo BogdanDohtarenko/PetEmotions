@@ -5,6 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.ideasapp.petemotions.data.db.converters.ImageVectorConverter
+import com.ideasapp.petemotions.data.db.converters.StringListConverter
 import com.ideasapp.petemotions.data.db.dao.CalendarListDao
 import com.ideasapp.petemotions.data.db.dao.DayAttributesDao
 import com.ideasapp.petemotions.data.db.dao.TimetableDao
@@ -18,7 +20,7 @@ import com.ideasapp.petemotions.data.db.dbModels.TimetableItemDbModel
     DayAttributesDbModel::class],
     version = 1,
     exportSchema = false)
-@TypeConverters(ImageVectorConverter::class)
+@TypeConverters(ImageVectorConverter::class, StringListConverter::class)
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun CalendarListDao(): CalendarListDao

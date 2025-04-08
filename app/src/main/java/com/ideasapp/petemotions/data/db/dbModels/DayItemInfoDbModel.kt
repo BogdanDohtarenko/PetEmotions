@@ -9,5 +9,6 @@ import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo.Companion.EMP
 data class DayItemInfoDbModel(
     @ColumnInfo(name = "date") val date: Long,
     @ColumnInfo(name = "petId") val petId: Int,
-    @ColumnInfo(name = "mood") val mood: Int? = null
+    @ColumnInfo(name = "mood") val mood: Int? = null,
+    @ColumnInfo(name = "attributeNames") val attributeNames: List<String> = listOf<String>()
 )
