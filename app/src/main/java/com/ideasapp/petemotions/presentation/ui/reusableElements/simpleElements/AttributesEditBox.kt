@@ -103,6 +103,7 @@ fun AttributesEditBox(
                             imageVector = attribute.imageVector,
                             textColor = textColor,
                             title = attribute.title,
+                            onAttributeChooseClick = {},
                             modifier = Modifier
                                 .pointerInput(Unit) {
                                     detectTapGestures(

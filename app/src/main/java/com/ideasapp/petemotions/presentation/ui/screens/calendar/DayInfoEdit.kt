@@ -1,6 +1,5 @@
 package com.ideasapp.petemotions.presentation.ui.screens.calendar
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,8 +28,6 @@ import androidx.compose.ui.unit.dp
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
-import com.ideasapp.petemotions.presentation.activity.MainActivity
-import com.ideasapp.petemotions.presentation.activity.MainActivity.Companion.CALENDAR_LOG_TAG
 import com.ideasapp.petemotions.presentation.ui.reusableElements.FoldableBox
 import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.AttributesEditBox
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
@@ -61,7 +58,7 @@ fun DayInfoEdit(
     val editFoodAttributeState = remember { mutableStateOf(false) }
     val editEventsAttributeState = remember { mutableStateOf(false) }
     val editHealthAttributeState = remember { mutableStateOf(false) }
-    val chosenAttribute = remember { mutableStateOf<DayAttribute?>(null) }
+    val chosenAttributes = remember { mutableStateOf<MutableList<String>>(mutableListOf()) }
     val scrollState = rememberScrollState()
     Box(
         modifier = Modifier
@@ -95,7 +92,10 @@ fun DayInfoEdit(
                 possibleIconsList,
                 dayAttributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_HEALTH },
                 onAddAttributeClick,
-                onDeleteAttributeClick
+                onDeleteAttributeClick,
+                onAttributeChooseClick = { newAddedAttribute ->
+                    chosenAttributes.value.add(newAddedAttribute)
+                }
             )
             MoodAttributesElement(
                 DayAttribute.ATTRIBUTE_TYPE_FOOD,
@@ -104,7 +104,10 @@ fun DayInfoEdit(
                 possibleIconsList,
                 dayAttributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_FOOD },
                 onAddAttributeClick,
-                onDeleteAttributeClick
+                onDeleteAttributeClick,
+                onAttributeChooseClick = { newAddedAttribute ->
+                    chosenAttributes.value.add(newAddedAttribute)
+                }
             )
             MoodAttributesElement(
                 DayAttribute.ATTRIBUTE_TYPE_EVENTS,
@@ -113,7 +116,10 @@ fun DayInfoEdit(
                 possibleIconsList,
                 dayAttributesList.value.filter { it.type == DayAttribute.ATTRIBUTE_TYPE_EVENTS },
                 onAddAttributeClick,
-                onDeleteAttributeClick
+                onDeleteAttributeClick,
+                onAttributeChooseClick = { newAddedAttribute ->
+                    chosenAttributes.value.add(newAddedAttribute)
+                }
             )
             Spacer(modifier = Modifier.height(18.dp))
             Button(
@@ -121,7 +127,8 @@ fun DayInfoEdit(
                     val newDayInfo = DayItemInfo(
                         date = dateItem.dayInfoItem.date,
                         petId = petId,
-                        mood = moodState.intValue
+                        mood = moodState.intValue,
+                        attributeNames = chosenAttributes.value,
                     )
                     onSaveDayInfoClick(newDayInfo)
                     exitCallback()
@@ -148,7 +155,9 @@ private fun MoodAttributesElement(
     dayAttributesList: List<DayAttribute>,
     onAddAttributeClick: (DayAttribute) -> Unit,
     onDeleteAttributeClick: (DayAttribute) -> Unit,
+    onAttributeChooseClick: (String) -> Unit,
 ) {
+    val chosenAttributeState = remember { mutableStateOf(false) }
     Spacer(modifier = Modifier.height(18.dp))
     if (!editAttributeState.value) {
         FoldableBox(titleText = attributeBoxType, isExpandedByDefault = true) {
@@ -156,6 +165,8 @@ private fun MoodAttributesElement(
                 textColor = textColor,
                 addAttributeState = editAttributeState,
                 dayAttributesList = dayAttributesList,
+                onAttributeChooseClick = onAttributeChooseClick,
+                chosenAttributeState = chosenAttributeState,
             )
         }
     } else {
@@ -167,7 +178,7 @@ private fun MoodAttributesElement(
             possibleIconsList = possibleIconsList,
             dayAttributesList = dayAttributesList,
             onAddAttributeClick = { attribute -> onAddAttributeClick(attribute) },
-            onDeleteAttributeClick = onDeleteAttributeClick
+            onDeleteAttributeClick = onDeleteAttributeClick,
         )
     }
 }
