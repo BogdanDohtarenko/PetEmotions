@@ -10,5 +10,5 @@ data class DayItemInfoDbModel(
     @ColumnInfo(name = "date") val date: Long,
     @ColumnInfo(name = "petId") val petId: Int,
     @ColumnInfo(name = "mood") val mood: Int? = null,
-    @ColumnInfo(name = "attributes") val attributes: List<DayAttributesDbModel> = listOf<DayAttributesDbModel>()
+    @ColumnInfo(name = "attributeNames") val attributeNames: List<String> = listOf<String>()
 )

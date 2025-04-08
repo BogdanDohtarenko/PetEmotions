@@ -43,7 +43,6 @@ import java.util.concurrent.TimeUnit
 // 45. clean all files
 // 49. reform ui directories (by sumin)
 // 69. tips on how to manage day attributes
-// 72. edit attributes
 // 76. day attributes list add to day item info !!!!
 // 79. diagram for attributes
 // 81. notifications for timetable

@@ -11,6 +11,8 @@ data class DayItemInfo(
     var petId: Int = 0,
     @SerializedName("mood")
     val mood: Int? = null,
+    @SerializedName("attributeNames")
+    val attributeNames: List<String> = listOf<String>()
 ): Serializable {
     companion object {
         const val EMPTY = 0
