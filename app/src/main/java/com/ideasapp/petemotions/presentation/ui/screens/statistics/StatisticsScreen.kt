@@ -86,39 +86,9 @@ fun StatisticsScreen(
                         }
                     }
                     Spacer(modifier = Modifier.height(18.dp))
-                    FoldableBox(titleText = "plot") {
-                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
-                            Text("plot")
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(18.dp))
-                    FoldableBox(titleText = "plot") {
-                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
-                            Text("plot")
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(18.dp))
-                    FoldableBox(titleText = "plot") {
-                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
-                            Text("plot")
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(18.dp))
-                    FoldableBox(titleText = "plot") {
-                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
-                            Text("plot")
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(18.dp))
-                    FoldableBox(titleText = "plot") {
-                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
-                            Text("plot")
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(18.dp))
-                    FoldableBox(titleText = "plot") {
-                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
-                            Text("plot")
+                    FoldableBox(titleText = "Attributes diagram", isExpandedByDefault = true) {
+                        Box(contentAlignment = Alignment.Center) {
+                            AttributesDiagram()
                         }
                     }
                     Spacer(modifier = Modifier.height(18.dp))
