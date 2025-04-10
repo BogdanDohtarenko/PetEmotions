@@ -3,6 +3,7 @@ package com.ideasapp.petemotions.data.repositories_impl
 import android.util.Log
 import com.ideasapp.petemotions.data.db.dao.CalendarListDao
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
+import com.ideasapp.petemotions.domain.entity.stastistics.ChartModel
 import com.ideasapp.petemotions.domain.entity.stastistics.MoodOfYear
 import com.ideasapp.petemotions.domain.entity.stastistics.MoodPortion
 import com.ideasapp.petemotions.domain.repositories.StatisticsRepository
@@ -15,6 +16,10 @@ import javax.inject.Inject
 class StatisticsRepositoryImpl @Inject constructor(
     private val calendarListDao: CalendarListDao,
 ): StatisticsRepository {
+
+    override suspend fun getAttributesByYear(petId:Int,year:Int): List<ChartModel> {
+        TODO("Not yet implemented")
+    }
 
     override suspend fun getMoodPortion(petId: Int): MoodPortion {
         val dayInfoList = calendarListDao.getDayInfoList(petId)
