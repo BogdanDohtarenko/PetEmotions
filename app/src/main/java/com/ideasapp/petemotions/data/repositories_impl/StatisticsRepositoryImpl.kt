@@ -1,6 +1,7 @@
 package com.ideasapp.petemotions.data.repositories_impl
 
 import android.util.Log
+import androidx.compose.ui.graphics.Color
 import com.ideasapp.petemotions.data.db.dao.CalendarListDao
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.entity.stastistics.ChartModel
@@ -18,7 +19,12 @@ class StatisticsRepositoryImpl @Inject constructor(
 ): StatisticsRepository {
 
     override suspend fun getAttributesByYear(petId:Int,year:Int): List<ChartModel> {
-        TODO("Not yet implemented")
+        return listOf(
+            ChartModel(value = 45f, color = Color.Black, name = "Good walk"),
+            ChartModel(value = 5f, color = Color.Gray, name = "Boring walk"),
+            ChartModel(value = 20f, color = Color.Green, name = "Dog friends"),
+            ChartModel(value = 30f, color = Color.Red, name = "Training"),
+        )
     }
 
     override suspend fun getMoodPortion(petId: Int): MoodPortion {

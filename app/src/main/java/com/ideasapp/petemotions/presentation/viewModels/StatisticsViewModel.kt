@@ -59,12 +59,6 @@ class StatisticsViewModel @Inject constructor(
             val selectedYear = possibleYearsList[selectedYearIndex]
             val charts = withContext(Dispatchers.Default) {
                 getAttributesOfYearUseCase(petId, selectedYear)
-                listOf( //TODO remove
-                    ChartModel(value = 45f, color = Color.Black, name = "Good walk"),
-                    ChartModel(value = 5f, color = Color.Gray, name = "Boring walk"),
-                    ChartModel(value = 20f, color = Color.Green, name = "Dog friends"),
-                    ChartModel(value = 30f, color = Color.Red, name = "Training"),
-                )
             }
             _charts.value = charts
         }
