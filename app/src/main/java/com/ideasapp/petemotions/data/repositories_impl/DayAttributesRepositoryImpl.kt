@@ -22,7 +22,7 @@ class DayAttributesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getDayAttributes(): Flow<List<DayAttribute>> {
-        return dayAttributesListDao.getDayAttributeList()
+        return dayAttributesListDao.getDayAttributeFlowList()
             .map { dbModelList ->
                 dbModelList.map { dbModel ->
                     DayAttributeMapper.dbModelToEntity(dbModel)

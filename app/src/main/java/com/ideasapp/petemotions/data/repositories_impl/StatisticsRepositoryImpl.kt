@@ -3,22 +3,47 @@ package com.ideasapp.petemotions.data.repositories_impl
 import android.util.Log
 import androidx.compose.ui.graphics.Color
 import com.ideasapp.petemotions.data.db.dao.CalendarListDao
+import com.ideasapp.petemotions.data.db.dao.DayAttributesDao
+import com.ideasapp.petemotions.data.db.dbModels.DayAttributesDbModel
+import com.ideasapp.petemotions.data.db.dbModels.DayItemInfoDbModel
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.entity.stastistics.ChartModel
 import com.ideasapp.petemotions.domain.entity.stastistics.MoodOfYear
 import com.ideasapp.petemotions.domain.entity.stastistics.MoodPortion
 import com.ideasapp.petemotions.domain.repositories.StatisticsRepository
-import kotlinx.coroutines.delay
-import java.time.Instant
 import java.time.LocalDate
-import java.time.ZoneId
 import javax.inject.Inject
 
 class StatisticsRepositoryImpl @Inject constructor(
     private val calendarListDao: CalendarListDao,
 ): StatisticsRepository {
 
-    override suspend fun getAttributesByYear(petId:Int,year:Int): List<ChartModel> {
+    override suspend fun getAttributesByYear(petId:Int, year:Int): List<ChartModel> {
+        val dayInfoList: List<DayItemInfoDbModel> = calendarListDao.getDayInfoList(petId)
+        val yearData = dayInfoList.filter { item ->
+            val localDate = LocalDate.ofEpochDay(item.date)
+            localDate.year == year
+        }
+
+        val attributesList = mutableListOf<String>()
+        yearData.forEach { dayInfoItem ->
+            dayInfoItem.attributeNames.forEach { name ->
+                attributesList.add(name)
+            }
+        }
+        val totalAttributes = attributesList.size
+
+        val attributeCounts = attributesList.groupingBy { it }.eachCount()
+
+        val attributePercentages = attributeCounts.mapValues { (attribute, count) ->
+            (count.toDouble() / totalAttributes) * 100
+        }
+        val uniqueAttributePercentages = attributePercentages.toMap()
+
+        uniqueAttributePercentages.forEach { (attribute, percentage) ->
+            Log.d("AttributeDiagram", "Attribute: $attribute, Percentage: %.2f%%".format(percentage))
+        }
+
         return listOf(
             ChartModel(value = 45f, color = Color.Black, name = "Good walk"),
             ChartModel(value = 5f, color = Color.Gray, name = "Boring walk"),
@@ -62,7 +87,7 @@ class StatisticsRepositoryImpl @Inject constructor(
         val dayInfoList = calendarListDao.getDayInfoList(petId)
         val monthlyData = dayInfoList
             .mapNotNull { item ->
-                val localDate = LocalDate.ofEpochDay(item.date.toLong())
+                val localDate = LocalDate.ofEpochDay(item.date)
 
                 if (localDate.year == year) {
                     val moodValue = when (item.mood) {
