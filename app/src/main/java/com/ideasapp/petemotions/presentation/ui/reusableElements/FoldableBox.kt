@@ -70,7 +70,11 @@ fun FoldableBox(
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
-                Column(modifier = modifier.padding(top = 8.dp)) {
+                Column(
+                    modifier = modifier.padding(top = 8.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
                     contentForBox()
                 }
             }

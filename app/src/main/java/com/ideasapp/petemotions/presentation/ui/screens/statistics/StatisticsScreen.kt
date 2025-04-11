@@ -2,15 +2,13 @@ package com.ideasapp.petemotions.presentation.ui.screens.statistics
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
@@ -21,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ideasapp.petemotions.domain.entity.calendar.Pet
+import com.ideasapp.petemotions.domain.entity.stastistics.ChartModel
 import com.ideasapp.petemotions.domain.entity.stastistics.MoodOfYear
 import com.ideasapp.petemotions.domain.entity.stastistics.MoodPortion
 import com.ideasapp.petemotions.presentation.ui.reusableElements.FoldableBox
@@ -29,13 +28,16 @@ import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 
 @Composable
 fun StatisticsScreen(
+    //state values
     petId: MutableIntState,
     petsList: List<Pet>,
     selectedYear: MutableIntState,
     years: List<Int>,
     onPetClick: (Int) -> Unit,
+    //for plots and diagrams
     moodPortion: MoodPortion?,
-    moodOfYear: MoodOfYear?
+    moodOfYear: MoodOfYear?,
+    charts : List<ChartModel>?
 ) {
     val scrollState = rememberScrollState()
     Box(
@@ -86,39 +88,21 @@ fun StatisticsScreen(
                         }
                     }
                     Spacer(modifier = Modifier.height(18.dp))
-                    FoldableBox(titleText = "plot") {
-                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
-                            Text("plot")
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(18.dp))
-                    FoldableBox(titleText = "plot") {
-                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
-                            Text("plot")
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(18.dp))
-                    FoldableBox(titleText = "plot") {
-                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
-                            Text("plot")
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(18.dp))
-                    FoldableBox(titleText = "plot") {
-                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
-                            Text("plot")
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(18.dp))
-                    FoldableBox(titleText = "plot") {
-                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
-                            Text("plot")
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(18.dp))
-                    FoldableBox(titleText = "plot") {
-                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
-                            Text("plot")
+                    FoldableBox(titleText = "Attributes diagram", isExpandedByDefault = true) {
+                        Box(
+                            contentAlignment = Alignment.Center,
+                            modifier = Modifier.fillMaxSize().padding(8.dp)
+                        ) {
+                            if (charts == null) {
+                                CircularProgressIndicator(color = MainTheme.colors.mainColor)
+                            } else  {
+                                AttributesDiagram (
+                                    selectedYear = selectedYear,
+                                    years = years,
+                                    charts = charts,
+                                    modifier = Modifier.align(Alignment.Center)
+                                )
+                            }
                         }
                     }
                     Spacer(modifier = Modifier.height(18.dp))

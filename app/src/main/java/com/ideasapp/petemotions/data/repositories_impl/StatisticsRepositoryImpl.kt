@@ -1,20 +1,62 @@
 package com.ideasapp.petemotions.data.repositories_impl
 
 import android.util.Log
+import androidx.compose.ui.graphics.Color
 import com.ideasapp.petemotions.data.db.dao.CalendarListDao
+import com.ideasapp.petemotions.data.db.dao.DayAttributesDao
+import com.ideasapp.petemotions.data.db.dbModels.DayItemInfoDbModel
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
+import com.ideasapp.petemotions.domain.entity.stastistics.ChartModel
 import com.ideasapp.petemotions.domain.entity.stastistics.MoodOfYear
 import com.ideasapp.petemotions.domain.entity.stastistics.MoodPortion
 import com.ideasapp.petemotions.domain.repositories.StatisticsRepository
-import kotlinx.coroutines.delay
-import java.time.Instant
 import java.time.LocalDate
-import java.time.ZoneId
 import javax.inject.Inject
 
 class StatisticsRepositoryImpl @Inject constructor(
     private val calendarListDao: CalendarListDao,
+    private val dayAttributesListDao: DayAttributesDao,
 ): StatisticsRepository {
+
+    override suspend fun getAttributesByYear(petId:Int, year:Int): List<ChartModel> {
+
+        val dayInfoList: List<DayItemInfoDbModel> = calendarListDao.getDayInfoList(petId)
+        val yearData = dayInfoList.filter { item ->
+            val localDate = LocalDate.ofEpochDay(item.date)
+            localDate.year == year
+        }
+
+        val presenceAttributes = dayAttributesListDao.getDayAttributeList()
+        val attributeCounts = mutableMapOf<String, Int>()
+        yearData.forEach { dayInfoItem ->
+            dayInfoItem.attributeNames.forEach { name ->
+                attributeCounts[name] = attributeCounts.getOrDefault(name, 0) + 1
+            }
+        }
+
+        val topAttributes = attributeCounts.toList()
+            .filter { pair ->
+                presenceAttributes.any { it.title == pair.first }
+            }
+            .sortedByDescending { it.second }
+            .take(8)
+
+        val totalCount = topAttributes.sumOf { it.second }
+
+        val topAttributesList =  topAttributes.map { (attribute, count) ->
+            val percentage = if (totalCount > 0) {
+                (count.toDouble() / totalCount) * 100
+            } else {
+                0.0
+            }
+            attribute to percentage
+        }
+
+        val chartModelsList = convertToPercentageChartModels(topAttributesList)
+        Log.d("AttributeDiagram", "$chartModelsList")
+
+        return chartModelsList
+    }
 
     override suspend fun getMoodPortion(petId: Int): MoodPortion {
         val dayInfoList = calendarListDao.getDayInfoList(petId)
@@ -51,7 +93,7 @@ class StatisticsRepositoryImpl @Inject constructor(
         val dayInfoList = calendarListDao.getDayInfoList(petId)
         val monthlyData = dayInfoList
             .mapNotNull { item ->
-                val localDate = LocalDate.ofEpochDay(item.date.toLong())
+                val localDate = LocalDate.ofEpochDay(item.date)
 
                 if (localDate.year == year) {
                     val moodValue = when (item.mood) {
@@ -88,5 +130,24 @@ class StatisticsRepositoryImpl @Inject constructor(
             novemberData = monthlyData[11],
             decemberData = monthlyData[12]
         )
+    }
+
+    private fun convertToPercentageChartModels(originalList: List<Pair<String, Double>>): List<ChartModel> {
+        val colors = listOf(
+            Color.Green.copy(alpha = 1f).copy(red = 0.5f, green = 0.7f, blue = 0.5f),  // Softer Green
+            Color.Red.copy(alpha = 1f).copy(red = 0.8f, green = 0.4f, blue = 0.4f),    // Softer Red
+            Color.Magenta.copy(alpha = 1f).copy(red = 0.8f, green = 0.4f, blue = 0.8f), // Softer Magenta
+            Color.Blue.copy(alpha = 1f).copy(red = 0.4f, green = 0.4f, blue = 0.6f),   // Softer Blue
+            Color.Gray.copy(alpha = 1f).copy(red = 0.3f, green = 0.3f, blue = 0.3f),   // Dark Gray (replacement for Black)                                           // Black remains the same
+            Color.Cyan.copy(alpha = 1f).copy(red = 0.4f, green = 0.6f, blue = 0.6f), // Softer Cyan
+            Color.Yellow.copy(alpha = 1f).copy(red = 0.8f, green = 0.8f, blue = 0.4f), // Softer Yellow
+            Color.Gray.copy(alpha = 1f).copy(red = 0.6f, green = 0.6f, blue = 0.6f)   // Softer Gray
+        )
+
+        var count = 0
+
+        return originalList.map { (name, value) ->
+            ChartModel(value = value.toFloat(), color = colors[count++], name = name)
+        }
     }
 }

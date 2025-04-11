@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit
 // 69. tips on how to manage day attributes
 // 79. diagram for attributes
 // 81. notifications for timetable
-// 86.
+// 86. stub showing while load data
 
 //TODO (design)
 // 9. color scheme for light theme
@@ -54,6 +54,8 @@ import java.util.concurrent.TimeUnit
 // 56. change spare color
 // 82. adjust mood icons size
 // 83. change attribute/statistics icons
+// 88. animation
+// 89. bottom sheet
 
 //TODO (for future)
 // 2. notifications with timetable
