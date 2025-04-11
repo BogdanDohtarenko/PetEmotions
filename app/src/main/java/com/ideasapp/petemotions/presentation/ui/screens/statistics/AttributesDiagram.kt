@@ -41,21 +41,30 @@ fun AttributesDiagram(
                 modifier = Modifier.padding(6.dp),
                 onItemClick = { selectedYear.intValue = it }
             )
-            ChartCirclePie(
-                modifier = Modifier,
-                charts = charts
-            )
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.Start
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
-                charts.forEach {chart->
-                    Row(horizontalArrangement = Arrangement.Start,verticalAlignment = Alignment.CenterVertically) {
-                        Box(modifier = Modifier.padding(4.dp).background(chart.color).height(8.dp).width(8.dp)) {}
-                        Text(
-                            text = chart.name,
-                            modifier = Modifier.padding(vertical = 4.dp)
-                        )
+                ChartCirclePie(
+                    modifier = Modifier,
+                    charts = charts
+                )
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    charts.forEach {chart->
+                        Row(horizontalArrangement = Arrangement.Start,verticalAlignment = Alignment.CenterVertically) {
+                            Box(modifier = Modifier
+                                .padding(4.dp)
+                                .background(chart.color)
+                                .height(8.dp)
+                                .width(8.dp)) {}
+                            Text(
+                                text = chart.name,
+                                modifier = Modifier.padding(vertical = 4.dp)
+                            )
+                        }
                     }
                 }
             }

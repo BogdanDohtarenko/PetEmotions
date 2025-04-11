@@ -128,14 +128,14 @@ class StatisticsRepositoryImpl @Inject constructor(
 
     private fun convertToPercentageChartModels(originalList: List<Pair<String, Double>>): List<ChartModel> {
         val colors = listOf(
-            Color.Green.copy(alpha = 0.5f),
-            Color.Red.copy(alpha = 0.5f),
-            Color.Magenta.copy(alpha = 0.5f),
-            Color.Blue.copy(alpha = 0.5f),
-            Color.Black.copy(alpha = 0.5f),
-            Color.Cyan.copy(alpha = 0.5f),
-            Color.Yellow.copy(alpha = 0.5f),
-            Color.Gray.copy(alpha = 0.5f),
+            Color.Green.copy(alpha = 1f).copy(red = 0.5f, green = 0.7f, blue = 0.5f),  // Softer Green
+            Color.Red.copy(alpha = 1f).copy(red = 0.8f, green = 0.4f, blue = 0.4f),    // Softer Red
+            Color.Magenta.copy(alpha = 1f).copy(red = 0.8f, green = 0.4f, blue = 0.8f), // Softer Magenta
+            Color.Blue.copy(alpha = 1f).copy(red = 0.4f, green = 0.4f, blue = 0.6f),   // Softer Blue
+            Color.Gray.copy(alpha = 1f).copy(red = 0.3f, green = 0.3f, blue = 0.3f),   // Dark Gray (replacement for Black)                                           // Black remains the same
+            Color.Cyan.copy(alpha = 1f).copy(red = 0.4f, green = 0.6f, blue = 0.6f), // Softer Cyan
+            Color.Yellow.copy(alpha = 1f).copy(red = 0.8f, green = 0.8f, blue = 0.4f), // Softer Yellow
+            Color.Gray.copy(alpha = 1f).copy(red = 0.6f, green = 0.6f, blue = 0.6f)   // Softer Gray
         )
 
         var count = 0

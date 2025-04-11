@@ -25,9 +25,9 @@ import com.ideasapp.petemotions.domain.entity.stastistics.ChartModel
 
 @Composable
 fun ChartCirclePie(
-    modifier:Modifier,
+    modifier: Modifier,
     charts: List<ChartModel>,
-    size:Dp = 200.dp,
+    size: Dp = 200.dp,
     strokeWidth: Dp = 16.dp
 ) {
     val myText = "ChartCirclePie"
@@ -35,25 +35,20 @@ fun ChartCirclePie(
     val textLayoutResult = textMeasurer.measure(text = AnnotatedString(myText))
     val textSize = textLayoutResult.size
     val density = LocalDensity.current
+
     Canvas(
         modifier = modifier
             .size(size)
-            .background(Color.LightGray)
             .padding(12.dp),
         onDraw = {
             var startAngle = 0f
-            var sweepAngle = 0f
+            var sweepAngle: Float
 
-            charts.forEach {
-                val brush = createStripeBrush(
-                    density = density,
-                    stripeColor = Color.Red
-                )
-
-                sweepAngle = (it.value / 100) * 360
+            charts.forEach { chart ->
+                sweepAngle = (chart.value / 100) * 360
 
                 drawArc(
-                    color = it.color,
+                    color = chart.color,
                     startAngle = startAngle,
                     sweepAngle = sweepAngle,
                     useCenter = false,
@@ -63,38 +58,10 @@ fun ChartCirclePie(
                         join = StrokeJoin.Round
                     )
                 )
+
+                // Update the start angle for the next segment, adding a gap if needed
                 startAngle += sweepAngle
             }
-
-            drawText(
-                textMeasurer, myText,
-                topLeft = Offset(
-                    (this.size.width - textSize.width) / 2f,
-                    (this.size.height - textSize.height) / 2f
-                ),
-            )
         }
-    )
-}
-
-fun createStripeBrush(
-    density: Density,
-    stripeColor: Color,
-    stripeWidth: Dp = 2.dp,
-    stripeToGapRatio: Float = 2f
-): Brush {
-    val stripeWidthPx = with(density) { stripeWidth.toPx() }
-    val gapWidthPx = stripeWidthPx / stripeToGapRatio
-
-    return Brush.horizontalGradient(
-        listOf(
-            stripeColor,
-            stripeColor,
-            Color.Transparent,
-            Color.Transparent
-        ),
-        startX = 0f,
-        endX = stripeWidthPx + gapWidthPx,
-        tileMode = TileMode.Repeated
     )
 }
