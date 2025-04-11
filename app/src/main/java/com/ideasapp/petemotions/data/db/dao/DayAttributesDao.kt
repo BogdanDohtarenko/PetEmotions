@@ -12,6 +12,9 @@ interface DayAttributesDao {
     @Query("SELECT * FROM DayAttributes")
     fun getDayAttributeFlowList(): Flow<List<DayAttributesDbModel>>
 
+    @Query("SELECT * FROM DayAttributes")
+    fun getDayAttributeList(): List<DayAttributesDbModel>
+
     @Query("DELETE FROM DayAttributes WHERE id = :dayAttributeId")
     fun deleteDayAttribute(dayAttributeId :Int)
 
