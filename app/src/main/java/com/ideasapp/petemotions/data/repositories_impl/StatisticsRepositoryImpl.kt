@@ -3,8 +3,6 @@ package com.ideasapp.petemotions.data.repositories_impl
 import android.util.Log
 import androidx.compose.ui.graphics.Color
 import com.ideasapp.petemotions.data.db.dao.CalendarListDao
-import com.ideasapp.petemotions.data.db.dao.DayAttributesDao
-import com.ideasapp.petemotions.data.db.dbModels.DayAttributesDbModel
 import com.ideasapp.petemotions.data.db.dbModels.DayItemInfoDbModel
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.entity.stastistics.ChartModel
@@ -19,37 +17,39 @@ class StatisticsRepositoryImpl @Inject constructor(
 ): StatisticsRepository {
 
     override suspend fun getAttributesByYear(petId:Int, year:Int): List<ChartModel> {
+
         val dayInfoList: List<DayItemInfoDbModel> = calendarListDao.getDayInfoList(petId)
         val yearData = dayInfoList.filter { item ->
             val localDate = LocalDate.ofEpochDay(item.date)
             localDate.year == year
         }
 
-        val attributesList = mutableListOf<String>()
+        val attributeCounts = mutableMapOf<String, Int>()
         yearData.forEach { dayInfoItem ->
             dayInfoItem.attributeNames.forEach { name ->
-                attributesList.add(name)
+                attributeCounts[name] = attributeCounts.getOrDefault(name, 0) + 1
             }
         }
-        val totalAttributes = attributesList.size
 
-        val attributeCounts = attributesList.groupingBy { it }.eachCount()
+        val topAttributes = attributeCounts.toList()
+            .sortedByDescending { it.second }
+            .take(8)
 
-        val attributePercentages = attributeCounts.mapValues { (attribute, count) ->
-            (count.toDouble() / totalAttributes) * 100
+        val totalCount = topAttributes.sumOf { it.second }
+
+        val topAttributesList =  topAttributes.map { (attribute, count) ->
+            val percentage = if (totalCount > 0) {
+                (count.toDouble() / totalCount) * 100
+            } else {
+                0.0
+            }
+            attribute to percentage
         }
-        val uniqueAttributePercentages = attributePercentages.toMap()
 
-        uniqueAttributePercentages.forEach { (attribute, percentage) ->
-            Log.d("AttributeDiagram", "Attribute: $attribute, Percentage: %.2f%%".format(percentage))
-        }
+        val chartModelsList = convertToPercentageChartModels(topAttributesList)
+        Log.d("AttributeDiagram", "$chartModelsList")
 
-        return listOf(
-            ChartModel(value = 45f, color = Color.Black, name = "Good walk"),
-            ChartModel(value = 5f, color = Color.Gray, name = "Boring walk"),
-            ChartModel(value = 20f, color = Color.Green, name = "Dog friends"),
-            ChartModel(value = 30f, color = Color.Red, name = "Training"),
-        )
+        return chartModelsList
     }
 
     override suspend fun getMoodPortion(petId: Int): MoodPortion {
@@ -124,5 +124,24 @@ class StatisticsRepositoryImpl @Inject constructor(
             novemberData = monthlyData[11],
             decemberData = monthlyData[12]
         )
+    }
+
+    private fun convertToPercentageChartModels(originalList: List<Pair<String, Double>>): List<ChartModel> {
+        val colors = listOf(
+            Color.Green.copy(alpha = 0.5f),
+            Color.Red.copy(alpha = 0.5f),
+            Color.Magenta.copy(alpha = 0.5f),
+            Color.Blue.copy(alpha = 0.5f),
+            Color.Black.copy(alpha = 0.5f),
+            Color.Cyan.copy(alpha = 0.5f),
+            Color.Yellow.copy(alpha = 0.5f),
+            Color.Gray.copy(alpha = 0.5f),
+        )
+
+        var count = 0
+
+        return originalList.map { (name, value) ->
+            ChartModel(value = value.toFloat(), color = colors[count++], name = name)
+        }
     }
 }
