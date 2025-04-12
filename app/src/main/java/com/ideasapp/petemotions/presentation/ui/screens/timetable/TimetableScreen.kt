@@ -21,6 +21,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -38,6 +39,7 @@ fun FullTimetableScreen(
     onDeleteTimetableItem : (TimetableItem) -> Unit,
 ) {
     var showDialog by remember { mutableStateOf(false) }
+    var showPermissionDialog = remember { mutableStateOf(true) }
     var selectedItem by remember { mutableStateOf<TimetableItem?>(null) }
 
     val lazyTimetableItems = timetableFlow.collectAsLazyPagingItems()

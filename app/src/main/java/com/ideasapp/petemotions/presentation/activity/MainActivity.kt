@@ -19,16 +19,14 @@ import androidx.core.content.ContextCompat
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.work.Constraints
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequest
-import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.ideasapp.petemotions.presentation.ui.screens.screen_containers.MainScreen
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.util.GlobalPreferences
-import com.ideasapp.petemotions.presentation.util.workManager.DailyWorker
+import com.ideasapp.petemotions.presentation.util.services.DailyWorker
+import com.ideasapp.petemotions.presentation.util.services.requestBootPermission
+import com.ideasapp.petemotions.presentation.util.services.requestExactAlarmPermission
 import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import com.ideasapp.petemotions.presentation.viewModels.DayAttributesViewModel
 import com.ideasapp.petemotions.presentation.viewModels.StatisticsViewModel
@@ -43,8 +41,6 @@ import java.util.concurrent.TimeUnit
 // 45. clean all files
 // 49. reform ui directories (by sumin)
 // 69. tips on how to manage day attributes
-// 79. diagram for attributes
-// 81. notifications for timetable
 // 86. stub showing while load data
 
 //TODO (design)
@@ -109,25 +105,24 @@ class MainActivity : ComponentActivity() {
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun grantPermissions() {
-
-            val permissionStatus = ContextCompat.checkSelfPermission(
+        val permissionStatus = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.POST_NOTIFICATIONS
+        )
+        if (permissionStatus != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
                 this,
-                Manifest.permission.POST_NOTIFICATIONS
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                1
             )
-            if (permissionStatus != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                    1
-                )
-            } else {
-                Log.d("AutoFill", "permission granted")
-                if (GlobalPreferences.isFirstLaunch(this)) {
-                    Log.d("AutoFill", "isFirstLaunch true")
-                    scheduleDailyWork()
-                    GlobalPreferences.updateFirstLaunch(this)
-                }
+        } else {
+            Log.d("AutoFill", "Notification permission granted")
+            if (GlobalPreferences.isFirstLaunch(this)) {
+                Log.d("AutoFill", "isFirstLaunch true")
+                scheduleDailyWork()
+                GlobalPreferences.updateFirstLaunch(this)
             }
+        }
     }
 
     private fun scheduleDailyWork() {

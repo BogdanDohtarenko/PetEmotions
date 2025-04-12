@@ -1,9 +1,8 @@
 package com.ideasapp.petemotions.di
 
 import android.app.Application
-import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.ideasapp.petemotions.presentation.util.workManager.DailyWorkerFactory
+import com.ideasapp.petemotions.presentation.util.services.DailyWorkerFactory
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
