@@ -1,4 +1,4 @@
-package com.ideasapp.petemotions.presentation.util.workManager
+package com.ideasapp.petemotions.presentation.util.services
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -7,13 +7,11 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
-import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.ideasapp.petemotions.R
 import com.ideasapp.petemotions.domain.use_case.calendar.AutofillPreviousDayUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import javax.inject.Inject
 
 @HiltWorker
 class DailyWorker @AssistedInject constructor(

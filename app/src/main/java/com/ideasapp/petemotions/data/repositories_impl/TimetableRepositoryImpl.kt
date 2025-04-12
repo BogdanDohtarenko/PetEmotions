@@ -1,21 +1,27 @@
 package com.ideasapp.petemotions.data.repositories_impl
 
+import android.content.Context
 import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.ideasapp.petemotions.data.alarm.cancelAlarm
+import com.ideasapp.petemotions.data.alarm.saveTasks
+import com.ideasapp.petemotions.data.alarm.setAlarm
 import com.ideasapp.petemotions.data.db.dao.TimetableDao
 import com.ideasapp.petemotions.data.db.mappers.TimetableMapper
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
 import com.ideasapp.petemotions.domain.repositories.TimetableRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class TimetableRepositoryImpl @Inject constructor(
+    @ApplicationContext private val appContext: Context,
     private val timetableDao: TimetableDao
 ) : TimetableRepository {
 
@@ -27,6 +33,8 @@ class TimetableRepositoryImpl @Inject constructor(
         val dbModel = TimetableMapper.entityToDbModel(newItem)
         try {
             timetableDao.addTimetableItem(dbModel)
+            appContext.setAlarm(newItem)
+            saveTasks(appContext, listOf(newItem))
             Log.d("Timetable", "Item inserted with ID: ${dbModel.id}")
         } catch (e: Exception) {
             Log.e("Timetable", "Error inserting item: ${e.localizedMessage}", e)
@@ -35,6 +43,7 @@ class TimetableRepositoryImpl @Inject constructor(
 
     override suspend fun deleteTimetableItem(oldItem: TimetableItem) {
         val dbModel = TimetableMapper.entityToDbModel(oldItem)
+        appContext.cancelAlarm(oldItem)
         timetableDao.deleteTimetableItem(dbModel.id)
     }
 
