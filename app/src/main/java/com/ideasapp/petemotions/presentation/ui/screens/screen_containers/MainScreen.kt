@@ -13,13 +13,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
@@ -33,6 +37,7 @@ import com.ideasapp.petemotions.presentation.ui.reusableElements.NavigationHost
 import com.ideasapp.petemotions.presentation.ui.reusableElements.showToast
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.CalendarScreen
 import com.ideasapp.petemotions.presentation.ui.screens.calendar.DayInfoEdit
+import com.ideasapp.petemotions.presentation.ui.screens.profile.ProfileScreen
 import com.ideasapp.petemotions.presentation.ui.screens.statistics.StatisticsScreen
 import com.ideasapp.petemotions.presentation.ui.screens.timetable.FullTimetableScreen
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
@@ -42,6 +47,7 @@ import com.ideasapp.petemotions.presentation.viewModels.DayAttributesViewModel
 import com.ideasapp.petemotions.presentation.viewModels.StatisticsViewModel
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("ContextCastToActivity")
 @Composable
 fun MainScreen(
@@ -55,6 +61,9 @@ fun MainScreen(
     val petIdTimetable = remember { mutableIntStateOf(0) } //TODO Add pets to timetable
     val selectedYearIndex = remember { mutableIntStateOf(0) }
     val petsList by calendarViewModel.petsList.collectAsState(initial = emptyList())
+    val sheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
+    var showBottomSheet = remember { mutableStateOf(false) }
 
     val moodPortion = statisticsViewModel.moodPortion.observeAsState()
     val moodOfYear = statisticsViewModel.moodOfYear.observeAsState()
@@ -79,10 +88,9 @@ fun MainScreen(
     ) {
         paddingValues ->
         val heightToDecrease = 20.dp //Custom shape's notch height to decrease from bottom padding
-        Box(Modifier.fillMaxSize().padding(
-            PaddingValues(
-                top = paddingValues.calculateTopPadding(),
-                bottom = paddingValues.calculateBottomPadding() - heightToDecrease))) {
+        Box(Modifier
+            .fillMaxSize()
+            .padding(PaddingValues(top = paddingValues.calculateTopPadding(),bottom = paddingValues.calculateBottomPadding()-heightToDecrease))) {
 
         }
         Column(
@@ -110,7 +118,10 @@ fun MainScreen(
                         },
                         moodPortion = moodPortion.value,
                         moodOfYear = moodOfYear.value,
-                        charts = charts.value
+                        charts = charts.value,
+                        openProfile = {
+                            showBottomSheet.value = true
+                        }
                     )
                 },
                 calendarScreenContent = {
@@ -136,6 +147,9 @@ fun MainScreen(
                             //Navigate to EditDay
                             navController.navigate("${NavItem.EditDay.route}/${dateJson}/${petId}")
                         },
+                        openProfile = {
+                            showBottomSheet.value = true
+                        }
                     )},
                 dayInfoEditContent = { date, onClose, petId ->
                     DayInfoEdit(
@@ -176,6 +190,13 @@ fun MainScreen(
                         }
                     )
                 }
+            )
+        }
+        if (showBottomSheet.value) {
+            ProfileScreen(
+                showBottomSheet = showBottomSheet,
+                bottomSheetState = sheetState,
+                coroutineScope = scope
             )
         }
     }

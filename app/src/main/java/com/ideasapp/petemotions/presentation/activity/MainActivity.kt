@@ -52,6 +52,7 @@ import java.util.concurrent.TimeUnit
 // 83. change attribute/statistics icons
 // 88. animation
 // 89. bottom sheet
+// 92. app icon
 
 //TODO (for future)
 // 2. notifications with timetable
@@ -65,6 +66,8 @@ import java.util.concurrent.TimeUnit
 // 73. by long click on date you can see attributes
 // 75. my server + Workers to work with it
 // 81. turn on/off auto filling
+// 90. deeplink
+// 91. set reminder status done
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

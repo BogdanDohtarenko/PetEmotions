@@ -33,10 +33,11 @@ fun CalendarScreen(
     onNextMonthButtonClicked: (nextMonth: YearMonth) -> Unit,
     onEditDayClick: (CalendarUiState.Date, Int) -> Unit,
     onPetClick: (Int) -> Unit,
+    openProfile: () -> Unit,
 ) {
         Box(modifier = Modifier.fillMaxSize().background(MainTheme.colors.singleTheme)) {
             Column(horizontalAlignment = Alignment.CenterHorizontally,modifier = Modifier.background(MainTheme.colors.singleTheme)) {
-                TopButtonCalendarBar(pets = petsList,onPetClick = onPetClick,petId = petId) //TODO ADD FILTER
+                TopButtonCalendarBar(pets = petsList, openProfile = openProfile, onPetClick = onPetClick,petId = petId) //TODO ADD FILTER
                 CalendarWidget(days = CalendarDateUtil.daysOfWeek,yearMonth = uiState.yearMonth,dates = uiState.dates,onPreviousMonthButtonClicked = onPreviousMonthButtonClicked,onNextMonthButtonClicked = onNextMonthButtonClicked,onDateClickListener = {dayClicked->
                     if (dayClicked.dayInfoItem.date <= LocalDate.now().toEpochDay()) onEditDayClick(dayClicked,petId.intValue)
                     else Log.d(MainActivity.CALENDAR_LOG_TAG,"this day haven't arrived yet")

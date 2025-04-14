@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -38,6 +39,7 @@ import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 fun TopButtonCalendarBar(
     pets: List<Pet>,
     onPetClick: (Int) -> Unit,
+    openProfile: () -> Unit,
     petId: MutableIntState
 ) {
     Row(
@@ -54,7 +56,7 @@ fun TopButtonCalendarBar(
                 .padding(8.dp)
         ) {
             Icon(
-                imageVector = Icons.Filled.AccountBox,
+                imageVector = Icons.Filled.Search,
                 contentDescription = stringResource(id = R.string.back), // TODO change icon to shadow of pet
                 tint = Color.White
             )
@@ -88,6 +90,19 @@ fun TopButtonCalendarBar(
                         else MainTheme.colors.mainColor
                 )
             }
+        }
+
+        IconButton(
+            onClick = { openProfile() },
+            modifier = Modifier
+                .background(color = MainTheme.colors.singleTheme, shape = CircleShape)
+                .padding(8.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Filled.AccountBox,
+                contentDescription = stringResource(id = R.string.app_name),
+                tint = Color.White
+            )
         }
     }
 }
