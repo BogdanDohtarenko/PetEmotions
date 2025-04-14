@@ -70,8 +70,6 @@ class CalendarViewModel @Inject constructor(
         collectAllDates()
         collectForPetDates()
         viewModelScope.launch {
-            addPet(Pet(0, "Ellie"))
-            addPet(Pet(1, "Hina"))
             collectPetList()
         }
     }
@@ -108,13 +106,20 @@ class CalendarViewModel @Inject constructor(
         petIdLD.value = petId
     }
 
-    //TODO use in onboarding and in profile
     suspend fun addPet(pet: Pet) {
         val currentList = _petsList.value
         val updatedList = currentList + pet
         _petsList.value = updatedList
         addPetUseCase(updatedList)
     }
+
+    suspend fun deletePet(pet: Pet) {
+        val currentList = _petsList.value
+        val updatedList = currentList - pet
+        _petsList.value = updatedList
+        addPetUseCase(updatedList)
+    }
+
     private suspend  fun collectPetList() {
         val flowOfLists: Flow<List<Pet>> = getPetsListUseCase()
         flowOfLists.collect { list ->

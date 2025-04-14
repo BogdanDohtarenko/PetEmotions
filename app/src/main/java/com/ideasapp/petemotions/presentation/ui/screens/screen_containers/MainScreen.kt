@@ -46,6 +46,7 @@ import com.ideasapp.petemotions.presentation.viewModels.CalendarViewModel
 import com.ideasapp.petemotions.presentation.viewModels.DayAttributesViewModel
 import com.ideasapp.petemotions.presentation.viewModels.StatisticsViewModel
 import com.ideasapp.petemotions.presentation.viewModels.TimetableViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("ContextCastToActivity")
@@ -196,7 +197,17 @@ fun MainScreen(
             ProfileScreen(
                 showBottomSheet = showBottomSheet,
                 bottomSheetState = sheetState,
-                pets = petsList
+                pets = petsList,
+                addPet = { pet ->
+                    scope.launch {
+                        calendarViewModel.addPet(pet)
+                    }
+                },
+                deletePet = { pet ->
+                    scope.launch {
+                        calendarViewModel.deletePet(pet)
+                    }
+                }
             )
         }
     }
