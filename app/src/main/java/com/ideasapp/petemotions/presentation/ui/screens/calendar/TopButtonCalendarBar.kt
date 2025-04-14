@@ -61,7 +61,18 @@ fun TopButtonCalendarBar(
                 tint = Color.White
             )
         }
-
+        IconButton(
+            onClick = { openProfile() },
+            modifier = Modifier
+                .background(color = MainTheme.colors.singleTheme, shape = CircleShape)
+                .padding(8.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Filled.AccountBox,
+                contentDescription = stringResource(id = R.string.app_name),
+                tint = Color.White
+            )
+        }
         LazyRow(
             horizontalArrangement = Arrangement.Center
         )  {
@@ -92,17 +103,6 @@ fun TopButtonCalendarBar(
             }
         }
 
-        IconButton(
-            onClick = { openProfile() },
-            modifier = Modifier
-                .background(color = MainTheme.colors.singleTheme, shape = CircleShape)
-                .padding(8.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Filled.AccountBox,
-                contentDescription = stringResource(id = R.string.app_name),
-                tint = Color.White
-            )
-        }
+
     }
 }

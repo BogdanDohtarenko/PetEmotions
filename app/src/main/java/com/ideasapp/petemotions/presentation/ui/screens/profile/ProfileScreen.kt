@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,10 +29,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.tv.material3.Button
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Button
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import com.ideasapp.petemotions.domain.entity.calendar.Pet
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 
@@ -47,6 +54,8 @@ fun ProfileScreen(
     var showWarningDialog by remember { mutableStateOf(false) }
     var showAddingDialog by remember { mutableStateOf(false) }
     val petToDelete = remember { mutableStateOf<Pet?>(null) }
+    var newPetName by remember { mutableStateOf(TextFieldValue("")) }
+
     ModalBottomSheet(
         onDismissRequest = {
             showBottomSheet.value = false
@@ -72,12 +81,12 @@ fun ProfileScreen(
                         .align(Alignment.CenterHorizontally)
                         .padding(10.dp)
                 )
-                LazyRow (
+                LazyRow(
                     horizontalArrangement = Arrangement.Center,
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
                         .padding(20.dp)
-                )  {
+                ) {
                     items(
                         items = pets,
                         key = { it.id }
@@ -86,8 +95,11 @@ fun ProfileScreen(
                             text = pet.name,
                             fontSize = 16.sp,
                             modifier = Modifier
-                                .padding(horizontal = 8.dp,vertical = 4.dp)
-                                .background(color = MainTheme.colors.mainColor,shape = RoundedCornerShape(8.dp))
+                                .padding(horizontal = 8.dp, vertical = 4.dp)
+                                .background(
+                                    color = MainTheme.colors.mainColor,
+                                    shape = RoundedCornerShape(8.dp)
+                                )
                                 .padding(8.dp)
                                 .pointerInput(Unit) {
                                     detectTapGestures(
@@ -104,22 +116,31 @@ fun ProfileScreen(
                 Button(
                     onClick = {
                         showAddingDialog = true
-                    }
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MainTheme.colors.mainColor,
+                        contentColor = MainTheme.colors.singleTheme
+                    ),
+                    modifier = Modifier.padding(16.dp)
                 ) {
-
+                    Text("Add Pet")
                 }
             }
         }
+
         if (showWarningDialog) {
             AlertDialog(
                 icon = {
-                    Icon(Icons.Default.Info, contentDescription = "Warning")
+                    Icon(Icons.Default.Info, tint = Color.Black, contentDescription = "Warning")
                 },
                 title = {
-                    Text(text = "Warning")
+                    Text(text = "Warning", color = MainTheme.colors.singleTheme)
                 },
                 text = {
-                    Text(text = "you are going to delete pet and all data")
+                    Text(
+                        text = "You are going to delete this pet and all associated data.",
+                        color = MainTheme.colors.singleTheme
+                    )
                 },
                 onDismissRequest = {
                     showWarningDialog = false
@@ -127,12 +148,14 @@ fun ProfileScreen(
                 confirmButton = {
                     TextButton(
                         onClick = {
-                            val id = petToDelete.value
-                            if (id != null)
-                                deletePet(id)
+                            val pet = petToDelete.value
+                            if (pet != null) {
+                                deletePet(pet)
+                            }
+                            showWarningDialog = false
                         }
                     ) {
-                        Text("Confirm")
+                        Text("Confirm", color = MainTheme.colors.singleTheme)
                     }
                 },
                 dismissButton = {
@@ -141,45 +164,81 @@ fun ProfileScreen(
                             showWarningDialog = false
                         }
                     ) {
-                        Text("Dismiss")
+                        Text("Dismiss", color = MainTheme.colors.singleTheme)
                     }
-                }
+                },
+                modifier = Modifier.background(MainTheme.colors.singleTheme),
+                containerColor = MainTheme.colors.mainColor,
+                textContentColor = MainTheme.colors.singleTheme,
+                tonalElevation = 8.dp
             )
         }
+
         if (showAddingDialog) {
             AlertDialog(
                 icon = {
-                    Icon(Icons.Default.Info, contentDescription = "Warning")
+                    Icon(Icons.Default.Add, tint = Color.Black, contentDescription = "Add Pet")
                 },
                 title = {
-                    Text(text = "Warning")
+                    Text(text = "Add New Pet", color = MainTheme.colors.singleTheme)
                 },
                 text = {
-                    Text(text = "you are going to delete pet and all data")
+                    Column {
+                        Text(
+                            text = "Enter the name of your new pet:",
+                            color = MainTheme.colors.singleTheme
+                        )
+                        OutlinedTextField(
+                            value = newPetName,
+                            onValueChange = { newPetName = it },
+                            label = { Text("Pet Name", color = MainTheme.colors.singleTheme) },
+                            colors = TextFieldDefaults.colors(
+                                unfocusedContainerColor = MainTheme.colors.mainColor,
+                                unfocusedTextColor = MainTheme.colors.singleTheme,
+                                focusedContainerColor = MainTheme.colors.mainColor,
+                                focusedTextColor = MainTheme.colors.singleTheme,
+                                cursorColor = MainTheme.colors.singleTheme,
+                                focusedIndicatorColor = MainTheme.colors.singleTheme,
+                                unfocusedIndicatorColor = MainTheme.colors.singleTheme.copy(alpha = 0.5f),
+                                focusedLabelColor = MainTheme.colors.singleTheme,
+                                unfocusedLabelColor = MainTheme.colors.singleTheme.copy(alpha = 0.5f)
+                            ),
+                            modifier = Modifier
+                                .padding(top = 8.dp)
+                                .background(MainTheme.colors.mainColor)
+                        )
+                    }
                 },
                 onDismissRequest = {
-                    showWarningDialog = false
+                    showAddingDialog = false
                 },
                 confirmButton = {
                     TextButton(
                         onClick = {
-                            val id = petToDelete.value
-                            if (id != null)
-                                deletePet(id)
+                            if (newPetName.text.isNotBlank()) {
+                                val newPet = Pet(id = pets.size + 1, name = newPetName.text)
+                                addPet(newPet)
+                                newPetName = TextFieldValue("")
+                                showAddingDialog = false
+                            }
                         }
                     ) {
-                        Text("Confirm")
+                        Text("Add", color = MainTheme.colors.singleTheme)
                     }
                 },
                 dismissButton = {
                     TextButton(
                         onClick = {
-                            showWarningDialog = false
+                            showAddingDialog = false
                         }
                     ) {
-                        Text("Dismiss")
+                        Text("Cancel", color = MainTheme.colors.singleTheme)
                     }
-                }
+                },
+                modifier = Modifier.background(MainTheme.colors.singleTheme),
+                containerColor = MainTheme.colors.mainColor,
+                textContentColor = MainTheme.colors.singleTheme,
+                tonalElevation = 8.dp
             )
         }
     }
