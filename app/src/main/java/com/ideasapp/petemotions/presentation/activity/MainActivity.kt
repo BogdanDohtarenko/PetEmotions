@@ -36,7 +36,6 @@ import java.util.concurrent.TimeUnit
 
 //TODO (important)
 // 8. top bar (filters)
-// 31. profile screen
 // 42. REFACTOR CalendarViewModel when it ready + by sumin flow
 // 45. clean all files
 // 49. reform ui directories (by sumin)
