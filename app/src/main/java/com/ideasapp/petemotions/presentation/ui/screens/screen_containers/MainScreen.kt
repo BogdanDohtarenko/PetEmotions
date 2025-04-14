@@ -196,7 +196,7 @@ fun MainScreen(
             ProfileScreen(
                 showBottomSheet = showBottomSheet,
                 bottomSheetState = sheetState,
-                coroutineScope = scope
+                pets = petsList
             )
         }
     }

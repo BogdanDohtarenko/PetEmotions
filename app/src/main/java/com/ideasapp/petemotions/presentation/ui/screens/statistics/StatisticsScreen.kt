@@ -53,7 +53,8 @@ fun StatisticsScreen(
                     .verticalScroll(scrollState)
             ) {
                 Box(modifier = Modifier.fillMaxWidth()) {
-                    TopButtonCalendarBar(pets = petsList,
+                    TopButtonCalendarBar(
+                        pets = petsList,
                         onPetClick = onPetClick,
                         petId = petId,
                         openProfile = openProfile
