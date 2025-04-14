@@ -36,7 +36,6 @@ import java.util.concurrent.TimeUnit
 
 //TODO (important)
 // 8. top bar (filters)
-// 31. profile screen
 // 42. REFACTOR CalendarViewModel when it ready + by sumin flow
 // 45. clean all files
 // 49. reform ui directories (by sumin)
@@ -52,6 +51,7 @@ import java.util.concurrent.TimeUnit
 // 83. change attribute/statistics icons
 // 88. animation
 // 89. bottom sheet
+// 92. app icon
 
 //TODO (for future)
 // 2. notifications with timetable
@@ -65,6 +65,8 @@ import java.util.concurrent.TimeUnit
 // 73. by long click on date you can see attributes
 // 75. my server + Workers to work with it
 // 81. turn on/off auto filling
+// 90. deeplink
+// 91. set reminder status done
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

@@ -34,6 +34,7 @@ fun StatisticsScreen(
     selectedYear: MutableIntState,
     years: List<Int>,
     onPetClick: (Int) -> Unit,
+    openProfile: () -> Unit,
     //for plots and diagrams
     moodPortion: MoodPortion?,
     moodOfYear: MoodOfYear?,
@@ -52,7 +53,12 @@ fun StatisticsScreen(
                     .verticalScroll(scrollState)
             ) {
                 Box(modifier = Modifier.fillMaxWidth()) {
-                    TopButtonCalendarBar(pets = petsList,onPetClick = onPetClick,petId = petId)
+                    TopButtonCalendarBar(
+                        pets = petsList,
+                        onPetClick = onPetClick,
+                        petId = petId,
+                        openProfile = openProfile
+                    )
                 }
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
