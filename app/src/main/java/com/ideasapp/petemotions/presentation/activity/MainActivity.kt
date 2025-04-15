@@ -45,12 +45,8 @@ import java.util.concurrent.TimeUnit
 // 95.
 
 //TODO (design)
-// 9. color scheme for light theme
 // 55. russian language !!!
-// 82. adjust mood icons size
-// 83. change attribute/statistics icons
 // 88. animation
-// 89. bottom sheet
 
 //TODO (for future)
 // 2. notifications with timetable
