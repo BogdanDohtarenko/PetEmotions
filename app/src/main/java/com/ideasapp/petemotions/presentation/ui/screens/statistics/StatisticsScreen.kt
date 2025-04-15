@@ -111,12 +111,6 @@ fun StatisticsScreen(
                             }
                         }
                     }
-                    Spacer(modifier = Modifier.height(18.dp))
-                    FoldableBox(titleText = "plot") {
-                        Box(contentAlignment = Alignment.Center,modifier = Modifier.fillMaxWidth()) {
-                            Text("plot")
-                        }
-                    }
                 }
             }
     }

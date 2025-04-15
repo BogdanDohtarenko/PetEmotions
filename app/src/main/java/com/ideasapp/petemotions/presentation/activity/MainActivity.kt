@@ -41,10 +41,10 @@ import java.util.concurrent.TimeUnit
 // 49. reform ui directories (by sumin)
 // 69. tips on how to manage day attributes
 // 86. stub showing while load data
+// 93. delete all data when deleting pet
 
 //TODO (design)
 // 9. color scheme for light theme
-// 27. icons for nav bar
 // 55. russian language !!!
 // 56. change spare color
 // 82. adjust mood icons size
@@ -52,6 +52,7 @@ import java.util.concurrent.TimeUnit
 // 88. animation
 // 89. bottom sheet
 // 92. app icon
+// 94. many icons for attributes
 
 //TODO (for future)
 // 2. notifications with timetable

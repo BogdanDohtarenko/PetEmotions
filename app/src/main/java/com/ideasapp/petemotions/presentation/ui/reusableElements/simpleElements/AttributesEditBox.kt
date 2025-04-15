@@ -51,7 +51,7 @@ fun AttributesEditBox(
     textColor: Color,
     attributeBoxType: String,
     addAttributeState: MutableState<Boolean>,
-    possibleIconsList: List<ImageVector>,
+    possibleIconsList: List<Int>,
     dayAttributesList: List<DayAttribute>,
     onAddAttributeClick: (DayAttribute) -> Unit,
     onDeleteAttributeClick: (DayAttribute) -> Unit,
