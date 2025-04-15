@@ -5,16 +5,20 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
+import com.ideasapp.petemotions.R
 import com.ideasapp.petemotions.domain.entity.calendar.CalendarUiState
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.domain.entity.calendar.Pet
@@ -151,17 +155,24 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    //TODO supplement icons with custom
-    fun getPossibleIcons(): List<ImageVector> {
+    fun getPossibleIcons(): List<Int> {
         return listOf(
-            Icons.Default.FavoriteBorder,
-            Icons.Default.Delete,
-            Icons.Default.ShoppingCart,
-            Icons.Default.DateRange,
-            Icons.Default.Warning,
-            Icons.Default.ThumbUp,
-            Icons.Default.Star,
-            Icons.Default.Share,
+            R.drawable.baseline_query_builder_24,
+            R.drawable.school,
+            R.drawable.baseline_sick_24,
+            R.drawable.hike,
+            R.drawable.rabbit,
+            R.drawable.run,
+            R.drawable.food,
+            R.drawable.drink,
+            R.drawable.health,
+            R.drawable.hourglass,
+            R.drawable.friends,
+            R.drawable.park,
+            R.drawable.baseline_shopping_cart_24,
+            R.drawable.baseline_sports_volleyball_24,
+            R.drawable.baseline_verified_24,
+            R.drawable.baseline_vaccines_24,
         )
     }
 

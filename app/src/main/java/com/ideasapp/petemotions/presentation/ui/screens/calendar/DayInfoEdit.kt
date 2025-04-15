@@ -41,7 +41,7 @@ fun DayInfoEdit(
     petId: Int?, // current pet
     dateItem: CalendarUiState.Date?, // current date
     //lists
-    possibleIconsList: List<ImageVector>,
+    possibleIconsList: List<Int>,
     dayAttributesFlow: Flow<List<DayAttribute>>, // attribute lists
     //lambdas
     onAddAttributeClick : (DayAttribute) -> Unit, //on attribute save
@@ -179,7 +179,7 @@ private fun MoodAttributesElement(
     attributeBoxType: String,
     editAttributeState : MutableState<Boolean>,
     textColor : Color,
-    possibleIconsList: List<ImageVector>,
+    possibleIconsList: List<Int>,
     dayAttributesList: List<DayAttribute>,
     chosenAttributesList: List<String>,
     onAddAttributeClick: (DayAttribute) -> Unit,

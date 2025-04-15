@@ -26,7 +26,7 @@ import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 @Composable
 fun AddEditAttributeDialog(
     itemState: MutableState<DayAttribute?>,
-    possibleIconsList: List<ImageVector>,
+    possibleIconsList: List<Int>,
     attributeBoxType: String,
     onDismiss: () -> Unit,
     onSave: (DayAttribute) -> Unit
