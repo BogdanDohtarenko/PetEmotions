@@ -16,6 +16,8 @@ val orange: Color = Color(0xFFf7b843)
 val yellow: Color = Color(0xFFfff263)
 val green: Color = Color(0xFF47bf67)
 val red: Color = Color(0xFFff5d0b)
+val lightBrown: Color = Color(0xFFfcb875)
+val darkBrown: Color = Color(0xFFb28151)
 
 val baseLightPalette = ColorPalette(
     mainColor = yellow,
@@ -24,7 +26,7 @@ val baseLightPalette = ColorPalette(
     buttonColor = Color(0xFFEFEEEE),
     navigationBarColor = Color.White,
     statusBarColor = Color.Transparent,
-    spareContentColor = yellow.copy(alpha = 0.8f),
+    spareContentColor = lightBrown,
     warningModeColor = red,
 )
 val baseDarkPalette = baseLightPalette.copy(
@@ -34,7 +36,7 @@ val baseDarkPalette = baseLightPalette.copy(
     buttonColor = Color(0xFF2D2D31),
     navigationBarColor = Color.Black,
     statusBarColor = Color.Transparent,
-    spareContentColor = orange.copy(alpha = 0.8f),
+    spareContentColor = darkBrown,
     warningModeColor = red,
 )
 val LocalColors = staticCompositionLocalOf<ColorPalette> {
