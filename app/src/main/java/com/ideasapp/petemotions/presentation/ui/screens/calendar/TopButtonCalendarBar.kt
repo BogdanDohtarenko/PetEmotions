@@ -53,7 +53,7 @@ fun TopButtonCalendarBar(
             onClick = { },
             modifier = Modifier
                 .background(color = MainTheme.colors.singleTheme, shape = CircleShape)
-                .padding(8.dp)
+                .padding(4.dp)
         ) {
             Icon(
                 imageVector = Icons.Filled.Search,
@@ -65,7 +65,6 @@ fun TopButtonCalendarBar(
             onClick = { openProfile() },
             modifier = Modifier
                 .background(color = MainTheme.colors.singleTheme, shape = CircleShape)
-                .padding(8.dp)
         ) {
             Icon(
                 imageVector = Icons.Filled.AccountBox,
@@ -74,7 +73,8 @@ fun TopButtonCalendarBar(
             )
         }
         LazyRow(
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(8.dp)
         )  {
             items(
                 items = pets,
