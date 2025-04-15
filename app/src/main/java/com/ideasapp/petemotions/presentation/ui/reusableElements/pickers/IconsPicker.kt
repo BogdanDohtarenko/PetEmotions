@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,23 +26,30 @@ import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.
 fun IconsPicker(
     iconsList: List<Int>,
     onIconClick: (ImageVector) -> Unit,
-    modifier : Modifier = Modifier
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(20.dp))
-            .border(1.dp,Color.Black)
+            .border(1.dp, Color.Black)
             .padding(4.dp)
     ) {
-        LazyVerticalGrid(columns = GridCells.Fixed(4), // 4 items per row
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(4), // 4 items per row
             modifier = modifier
                 .fillMaxWidth()
-                .heightIn(max = 200.dp)
-                .padding(top = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(iconsList) {icon->
+                .heightIn(max = 200.dp) // Restrict the grid height to make it scrollable
+                .padding(top = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(iconsList) { icon ->
                 val imageVector = ImageVector.vectorResource(id = icon)
-                Image(imageVector = imageVector, contentDescription = icon.toString(), modifier = modifier.clickable {
-                    onIconClick(imageVector)
+                Image(
+                    imageVector = imageVector,
+                    contentDescription = icon.toString(),
+                    modifier = Modifier.clickable {
+                        onIconClick(imageVector)
                     }
                 )
             }

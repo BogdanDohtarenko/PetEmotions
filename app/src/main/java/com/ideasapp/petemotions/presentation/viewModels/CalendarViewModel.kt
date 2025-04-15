@@ -157,10 +157,22 @@ class CalendarViewModel @Inject constructor(
 
     fun getPossibleIcons(): List<Int> {
         return listOf(
-            R.drawable.ic_calendar,
-            R.drawable.ic_timetable,
-            R.drawable.ic_statistics,
-            R.drawable.
+            R.drawable.baseline_query_builder_24,
+            R.drawable.school,
+            R.drawable.baseline_sick_24,
+            R.drawable.hike,
+            R.drawable.rabbit,
+            R.drawable.run,
+            R.drawable.food,
+            R.drawable.drink,
+            R.drawable.health,
+            R.drawable.hourglass,
+            R.drawable.friends,
+            R.drawable.park,
+            R.drawable.baseline_shopping_cart_24,
+            R.drawable.baseline_sports_volleyball_24,
+            R.drawable.baseline_verified_24,
+            R.drawable.baseline_vaccines_24,
         )
     }
 
