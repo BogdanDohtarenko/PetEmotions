@@ -25,7 +25,7 @@ import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.
 @Composable
 fun IconsPicker(
     iconsList: List<Int>,
-    onIconClick: (ImageVector) -> Unit,
+    onIconClick: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -44,12 +44,11 @@ fun IconsPicker(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             items(iconsList) { icon ->
-                val imageVector = ImageVector.vectorResource(id = icon)
                 Image(
-                    imageVector = imageVector,
+                    imageVector = ImageVector.vectorResource(id = icon),
                     contentDescription = icon.toString(),
                     modifier = Modifier.clickable {
-                        onIconClick(imageVector)
+                        onIconClick(icon)
                     }
                 )
             }

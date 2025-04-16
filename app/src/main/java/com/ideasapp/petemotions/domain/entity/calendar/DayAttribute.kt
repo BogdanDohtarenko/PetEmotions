@@ -3,7 +3,7 @@ package com.ideasapp.petemotions.domain.entity.calendar
 import androidx.compose.ui.graphics.vector.ImageVector
 
 data class DayAttribute(
-    val imageVector : ImageVector,
+    val imageVectorResource: Int,
     val title : String,
     val id: Int = 0,
     val type: String,

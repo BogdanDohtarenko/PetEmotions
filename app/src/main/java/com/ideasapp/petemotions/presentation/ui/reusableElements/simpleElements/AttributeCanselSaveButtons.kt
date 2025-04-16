@@ -20,7 +20,7 @@ fun AttributeCanselSaveButtons(
     onDismiss : ()->Unit,
     item : DayAttribute?,
     title : String,
-    imageVector : ImageVector,
+    imageVector : Int,
     onSave : (DayAttribute) -> Unit,
     attributeBoxType: String
 ) {
@@ -31,14 +31,14 @@ fun AttributeCanselSaveButtons(
         Button(onClick = {
             val newItem = if (item != null) {
                 DayAttribute(
-                    imageVector = imageVector,
+                    imageVectorResource = imageVector,
                     title = title,
                     id = item.id,
                     type = item.type
                 )
             } else {
                 DayAttribute(
-                    imageVector = imageVector,
+                    imageVectorResource = imageVector,
                     title = title,
                     type = attributeBoxType
                     )
