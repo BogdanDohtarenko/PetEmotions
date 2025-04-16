@@ -28,6 +28,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.ideasapp.petemotions.domain.entity.timetable.TimetableItem
+import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.FloatingTip
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import kotlinx.coroutines.flow.Flow
 
@@ -128,7 +129,6 @@ fun FullTimetableScreen(
             }
         }
     }
-
     if (showDialog) {
         EditTimetableDialog(
             item = selectedItem,

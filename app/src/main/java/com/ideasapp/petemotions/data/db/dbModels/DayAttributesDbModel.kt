@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "DayAttributes")
 data class DayAttributesDbModel(
-    @ColumnInfo(name = "imageVector") val imageVector: ImageVector,
+    @ColumnInfo(name = "imageVectorResource") val imageVectorResource: Int,
     @ColumnInfo(name = "title") val title: String,
     @PrimaryKey(autoGenerate = true)  val id: Int,
     @ColumnInfo(name = "type") val type: String,

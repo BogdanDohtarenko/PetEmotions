@@ -17,7 +17,7 @@ val orange: Color = Color(0xFFf7b843)
 val yellow: Color = Color(0xFFfff263)
 val green: Color = Color(0xFF47bf67)
 val red: Color = Color(0xFFff5d0b)
-val lightBrown: Color = Color(0xFFfcb875)
+val lightBrown: Color = Color(0xFFf8f5a0)
 val darkBrown: Color = Color(0xFFb28151)
 
 val baseLightPalette = ColorPalette(

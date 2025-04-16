@@ -17,13 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 
 
 @Composable
 fun AttributeItem(
-    imageVector: ImageVector,
+    imageVector: Int,
     textColor: Color,
     title: String,
     isChosen: Boolean,
@@ -32,18 +33,14 @@ fun AttributeItem(
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(10.dp))
-            .background(
-                if (!isChosen)
-                    MainTheme.colors.spareContentColor.copy(alpha = 0f)
-                else
-                    MainTheme.colors.mainColor
-            )
+            .background(if (!isChosen) MainTheme.colors.spareContentColor.copy(alpha = 0f)
+            else MainTheme.colors.mainColor)
             .padding(8.dp)
             .wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Icon(
-            imageVector = imageVector,
+            imageVector = ImageVector.vectorResource(id = imageVector),
             contentDescription = title,
             tint = textColor,
             modifier = Modifier

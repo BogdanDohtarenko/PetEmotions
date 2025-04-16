@@ -100,7 +100,7 @@ fun AttributesEditBox(
                 ) {
                     items(dayAttributesList) { attribute ->
                         AttributeItem(
-                            imageVector = attribute.imageVector,
+                            imageVector = attribute.imageVectorResource,
                             textColor = textColor,
                             title = attribute.title,
                             isChosen = false,

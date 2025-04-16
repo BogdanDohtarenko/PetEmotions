@@ -39,17 +39,15 @@ import java.util.concurrent.TimeUnit
 // 42. REFACTOR CalendarViewModel when it ready + by sumin flow
 // 45. clean all files
 // 49. reform ui directories (by sumin)
-// 69. tips on how to manage day attributes
 // 86. stub showing while load data
 // 93. delete all data when deleting pet
-// 95.
+// 96.
 
 //TODO (design)
 // 55. russian language !!!
-// 88. animation
+// 88. animations
 
 //TODO (for future)
-// 2. notifications with timetable
 // 3. PERSONAL TIPS !
 // 26. achievements
 // 28. switch between screens by swipe
@@ -57,11 +55,13 @@ import java.util.concurrent.TimeUnit
 // 60. migrate to ksp !!!
 // 61. Huge amount of plots
 // 64. deleting by swipe
+// 69. tips on how to manage day attributes
 // 73. by long click on date you can see attributes
 // 75. my server + Workers to work with it
 // 81. turn on/off auto filling
 // 90. deeplink
 // 91. set reminder status done
+// 95. tips on how to manage timetable
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

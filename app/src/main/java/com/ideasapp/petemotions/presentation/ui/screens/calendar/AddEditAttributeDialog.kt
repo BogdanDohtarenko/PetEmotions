@@ -10,12 +10,14 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.ideasapp.petemotions.R
 import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.presentation.ui.reusableElements.pickers.IconsPicker
 import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.AddEditTitle
@@ -33,7 +35,7 @@ fun AddEditAttributeDialog(
 ) {
     // without by to avoid unnecessary recompositions
     val title = remember { mutableStateOf(itemState.value?.title ?: "") }
-    val imageVector = remember { mutableStateOf(itemState.value?.imageVector ?: Icons.Default.FavoriteBorder) }
+    val imageVector = remember { mutableIntStateOf(itemState.value?.imageVectorResource ?: R.drawable.heart) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -53,12 +55,12 @@ fun AddEditAttributeDialog(
                 Spacer(modifier = Modifier.height(18.dp))
                 IconsPicker(
                     iconsList = possibleIconsList,
-                    onIconClick = { imageVector.value = it }
+                    onIconClick = { imageVector.intValue = it }
                 )
                 Spacer(modifier = Modifier.height(18.dp))
                 AttributeCreatingPreview(
                     title = title.value,
-                    imageVector = imageVector.value,
+                    imageVector = imageVector.intValue,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
@@ -68,12 +70,12 @@ fun AddEditAttributeDialog(
                 onDismiss = onDismiss,
                 item = DayAttribute(
                     title = title.value,
-                    imageVector = imageVector.value,
+                    imageVectorResource = imageVector.intValue,
                     type = attributeBoxType
                 ),
                 attributeBoxType = attributeBoxType,
                 title = title.value,
-                imageVector = imageVector.value,
+                imageVector = imageVector.intValue,
                 onSave = onSave,
             )
         },

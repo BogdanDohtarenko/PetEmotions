@@ -10,13 +10,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.sp
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 
 @Composable
 fun AttributeCreatingPreview(
     title : String,
-    imageVector : ImageVector,
+    imageVector : Int,
     modifier : Modifier = Modifier,
 ) {
     Column(
@@ -24,7 +25,7 @@ fun AttributeCreatingPreview(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        Image(imageVector = imageVector, contentDescription = title, modifier = modifier)
+        Image(imageVector = ImageVector.vectorResource(id = imageVector), contentDescription = title, modifier = modifier)
         Text(text = title, color = MainTheme.colors.singleTheme, fontSize = 16.sp, modifier = modifier)
     }
 }
