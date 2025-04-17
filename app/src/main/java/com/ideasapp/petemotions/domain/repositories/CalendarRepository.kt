@@ -24,4 +24,6 @@ interface CalendarRepository {
     suspend fun addPet(pets: List<Pet>)
 
     suspend fun autofillPreviousDay():  Boolean
+
+    suspend fun deleteAllPetData(petId: Int)
 }
