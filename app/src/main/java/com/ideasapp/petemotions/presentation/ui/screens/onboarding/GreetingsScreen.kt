@@ -142,12 +142,12 @@ fun GreetingsScreen(
                 if (petList.size > 0) {
                     Button(
                         onClick = {
-                        petList.forEach {item->
                             coroutineScope.launch {
-                                calendarViewModel.addPet(item)
+                                petList.forEach {item->
+                                    calendarViewModel.addPet(item)
+                                }
+                                onExitClick()
                             }
-                        }
-                        onExitClick()
                     },
                         colors = ButtonColors(containerColor = MainTheme.colors.singleTheme,disabledContainerColor = MainTheme.colors.singleTheme,contentColor = MainTheme.colors.mainColor,disabledContentColor = MainTheme.colors.spareContentColor),
                         modifier = Modifier.padding(40.dp).align(Alignment.End)
