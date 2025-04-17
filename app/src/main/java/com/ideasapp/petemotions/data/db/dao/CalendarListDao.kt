@@ -19,4 +19,7 @@ interface CalendarListDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addItemDayInfo(ideaItemDbModel : DayItemInfoDbModel)
 
+    @Query("DELETE FROM DayInfo WHERE petId = :petId")
+    suspend fun deleteAllPetData(petId: Int)
+
 }

@@ -1,5 +1,6 @@
 package com.ideasapp.petemotions.data.repositories_impl
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import com.ideasapp.petemotions.data.dataStore.PetDataStore
@@ -12,10 +13,12 @@ import com.ideasapp.petemotions.domain.entity.calendar.Pet
 import com.ideasapp.petemotions.domain.repositories.CalendarRepository
 import com.ideasapp.petemotions.presentation.util.getDayOfMonthStartingFromMonday
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.YearMonth
 import javax.inject.Inject
@@ -25,6 +28,7 @@ class CalendarRepositoryImpl @Inject constructor(
     private val calendarListDao: CalendarListDao,
 ) : CalendarRepository {
     //auto filling service
+    @SuppressLint("SuspiciousIndentation")
     override suspend fun autofillPreviousDay(): Boolean {
         var needFilling = false
             try {
@@ -52,7 +56,7 @@ class CalendarRepositoryImpl @Inject constructor(
                             needFilling = true
                             val newYesterdayRecord = dayBeforeYesterdayRecord.copy(
                                 date = yesterday.toEpochDay(),
-                                //TODO set all other fields to null
+                                attributeNames = listOf()
                             )
                             calendarListDao.addItemDayInfo(newYesterdayRecord)
                             Log.d("AutoFill", "Copied record for pet ${pet.id} from $dayBeforeYesterday to $yesterday")
@@ -118,5 +122,9 @@ class CalendarRepositoryImpl @Inject constructor(
     }
     override suspend fun addPet(pets : List<Pet>) {
         PetDataStore.savePets(context = appContext, pets = pets)
+    }
+
+    override suspend fun deleteAllPetData(petId: Int) {
+        calendarListDao.deleteAllPetData(petId)
     }
 }

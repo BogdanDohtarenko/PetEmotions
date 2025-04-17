@@ -27,6 +27,7 @@ import com.ideasapp.petemotions.domain.use_case.calendar.GetCalendarUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetMoodForPetUseCase
 import com.ideasapp.petemotions.domain.use_case.calendar.GetPetsListUseCase
 import com.ideasapp.petemotions.domain.use_case.pets.AddPetUseCase
+import com.ideasapp.petemotions.domain.use_case.pets.DeleteAllPetData
 import com.ideasapp.petemotions.presentation.activity.MainActivity
 import com.ideasapp.petemotions.presentation.activity.MainActivity.Companion.CALENDAR_LOG_TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,6 +55,7 @@ class CalendarViewModel @Inject constructor(
     private val addDayItemUseCase: AddDayItemUseCase,
     private val getPetsListUseCase : GetPetsListUseCase,
     private val addPetUseCase :AddPetUseCase,
+    private val deleteAllPetData: DeleteAllPetData,
 )  : ViewModel() {
 
     //TODO REFACTOR, DELETE UNNECESSARY
@@ -118,6 +120,7 @@ class CalendarViewModel @Inject constructor(
     }
 
     suspend fun deletePet(pet: Pet) {
+        deleteAllPetData.invoke(pet.id)
         val currentList = _petsList.value
         val updatedList = currentList - pet
         _petsList.value = updatedList

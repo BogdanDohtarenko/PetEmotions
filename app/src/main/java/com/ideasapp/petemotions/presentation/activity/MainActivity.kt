@@ -39,12 +39,11 @@ import java.util.concurrent.TimeUnit
 // 42. REFACTOR CalendarViewModel when it ready + by sumin flow
 // 45. clean all files
 // 49. reform ui directories (by sumin)
-// 86. stub showing while load data
-// 93. delete all data when deleting pet
 // 96.
 
 //TODO (design)
 // 55. russian language !!!
+// 86. stub showing while load data
 // 88. animations
 
 //TODO (for future)
@@ -136,8 +135,6 @@ class MainActivity : ComponentActivity() {
 
         WorkManager.getInstance(this).enqueue(workRequest)
     }
-
-
 
     companion object {
         private val Context.dataStore by preferencesDataStore(name = "global_preferences")
