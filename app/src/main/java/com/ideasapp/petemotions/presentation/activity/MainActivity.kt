@@ -23,6 +23,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.work.Constraints
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ideasapp.petemotions.presentation.ui.screens.onboarding.GreetingsScreen
 import com.ideasapp.petemotions.presentation.ui.screens.screen_containers.MainScreen
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
@@ -90,23 +91,17 @@ class MainActivity : ComponentActivity() {
             )
         )
         setContent {
-            val isOnboarding = remember { mutableStateOf(GlobalPreferences.onBoardingLaunch(this)) }
-            MainTheme {
-                if (isOnboarding.value) {
-                    GreetingsScreen(
-                        calendarViewModel,
-                        onExitClick = {
-                            GlobalPreferences.updateOnBoardingLaunch(this)
-                            isOnboarding.value = false
-                        }
-                    )
-                } else {
-                    MainScreen(
-                        calendarViewModel,
-                        timetableViewModel,
-                        attributesViewModel,
-                        statisticsViewModel
-                    )
+            val isOnboarding = remember {mutableStateOf(GlobalPreferences.onBoardingLaunch(this))}
+            if (isOnboarding.value) {
+                MainTheme {
+                    GreetingsScreen(calendarViewModel,onExitClick = {
+                        GlobalPreferences.updateOnBoardingLaunch(this)
+                        isOnboarding.value = false
+                    })
+                }
+            } else {
+                MainTheme {
+                    MainScreen(calendarViewModel,timetableViewModel,attributesViewModel,statisticsViewModel)
                 }
             }
         }
