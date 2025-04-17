@@ -14,6 +14,8 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -21,6 +23,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.work.Constraints
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
+import com.ideasapp.petemotions.presentation.ui.screens.onboarding.GreetingsScreen
 import com.ideasapp.petemotions.presentation.ui.screens.screen_containers.MainScreen
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import com.ideasapp.petemotions.presentation.util.GlobalPreferences
@@ -38,13 +41,13 @@ import java.util.concurrent.TimeUnit
 // 8. top bar (filters)
 // 42. REFACTOR CalendarViewModel when it ready + by sumin flow
 // 45. clean all files
-// 49. reform ui directories (by sumin)
-// 96.
+// 96. onBoarding
 
 //TODO (design)
 // 55. russian language !!!
 // 86. stub showing while load data
 // 88. animations
+// 97. onBoarding with good animations
 
 //TODO (for future)
 // 3. PERSONAL TIPS !
@@ -87,13 +90,24 @@ class MainActivity : ComponentActivity() {
             )
         )
         setContent {
+            val isOnboarding = remember { mutableStateOf(GlobalPreferences.onBoardingLaunch(this)) }
             MainTheme {
-                MainScreen(
-                    calendarViewModel,
-                    timetableViewModel,
-                    attributesViewModel,
-                    statisticsViewModel
-                )
+                if (isOnboarding.value) {
+                    GreetingsScreen(
+                        calendarViewModel,
+                        onExitClick = {
+                            GlobalPreferences.updateOnBoardingLaunch(this)
+                            isOnboarding.value = false
+                        }
+                    )
+                } else {
+                    MainScreen(
+                        calendarViewModel,
+                        timetableViewModel,
+                        attributesViewModel,
+                        statisticsViewModel
+                    )
+                }
             }
         }
         grantPermissions()
@@ -137,9 +151,6 @@ class MainActivity : ComponentActivity() {
     }
 
     companion object {
-        private val Context.dataStore by preferencesDataStore(name = "global_preferences")
-        private val FIRST_LAUNCH_KEY = booleanPreferencesKey("first_launch")
-
         const val CALENDAR_LOG_TAG = "Calendar"
         const val TIMETABLE_LOG_TAG = "Timetable"
         const val STATISTICS_LOG_TAG = "Statistics"
