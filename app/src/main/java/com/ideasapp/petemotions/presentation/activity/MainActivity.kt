@@ -39,10 +39,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
 //TODO (important)
-// 8. top bar (filters)
 // 42. REFACTOR CalendarViewModel when it ready + by sumin flow
 // 45. clean all files
-// 96. onBoarding
 
 //TODO (design)
 // 55. russian language !!!

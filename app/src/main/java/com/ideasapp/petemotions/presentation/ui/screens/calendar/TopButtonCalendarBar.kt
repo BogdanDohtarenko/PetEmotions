@@ -50,18 +50,6 @@ fun TopButtonCalendarBar(
         horizontalArrangement = Arrangement.Start
     ) {
         IconButton(
-            onClick = { },
-            modifier = Modifier
-                .background(color = MainTheme.colors.singleTheme, shape = CircleShape)
-                .padding(4.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Search,
-                contentDescription = stringResource(id = R.string.back), // TODO change icon to shadow of pet
-                tint = Color.White
-            )
-        }
-        IconButton(
             onClick = { openProfile() },
             modifier = Modifier
                 .background(color = MainTheme.colors.singleTheme, shape = CircleShape)
@@ -99,6 +87,79 @@ fun TopButtonCalendarBar(
                     color =
                         if (petId.intValue == pet.id) MainTheme.colors.singleTheme
                         else MainTheme.colors.mainColor
+                )
+            }
+        }
+
+
+    }
+}
+
+@Composable
+fun TopButtonCalendarBarWithFilter(
+    pets: List<Pet>,
+    onPetClick: (Int) -> Unit,
+    openProfile: () -> Unit,
+    onFilterChoose: (String) -> Unit,
+    petId: MutableIntState
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(0.1f),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
+    ) {
+        IconButton(
+            onClick = { },
+            modifier = Modifier
+                .background(color = MainTheme.colors.singleTheme, shape = CircleShape)
+                .padding(4.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Search,
+                contentDescription = stringResource(id = R.string.back), // TODO change icon to shadow of pet
+                tint = Color.White
+            )
+        }
+        IconButton(
+            onClick = { openProfile() },
+            modifier = Modifier
+                .background(color = MainTheme.colors.singleTheme, shape = CircleShape)
+        ) {
+            Icon(
+                imageVector = Icons.Filled.AccountBox,
+                contentDescription = stringResource(id = R.string.app_name),
+                tint = Color.White
+            )
+        }
+        LazyRow(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(8.dp)
+        )  {
+            items(
+                items = pets,
+                key = { it.id }
+            ) { pet ->
+                Text(
+                    text = pet.name,
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                        .background(
+                            color =
+                            if (petId.intValue == pet.id) MainTheme.colors.mainColor
+                            else MainTheme.colors.singleTheme,
+                            shape = RoundedCornerShape(8.dp)
+                        )
+                        .padding(8.dp)
+                        .clickable {
+                            Log.d(CALENDAR_LOG_TAG, "pet: ${pet.id} clicked")
+                            petId.intValue = pet.id
+                            onPetClick(pet.id)
+                        },
+                    color =
+                    if (petId.intValue == pet.id) MainTheme.colors.singleTheme
+                    else MainTheme.colors.mainColor
                 )
             }
         }
