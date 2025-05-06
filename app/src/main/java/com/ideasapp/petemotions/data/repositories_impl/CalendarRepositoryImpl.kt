@@ -34,7 +34,7 @@ class CalendarRepositoryImpl @Inject constructor(
             try {
                 val today = LocalDate.now()
                 val yesterday = today.minusDays(1)
-                val dayBeforeYesterday = today.minusDays(2)
+                var dayBeforeYesterday = today.minusDays(2)
 
                 val petsList = PetDataStore.getPetsFlow(appContext).first()
 
@@ -44,7 +44,7 @@ class CalendarRepositoryImpl @Inject constructor(
                     try {
                         val allDays = calendarListDao.getDayInfoList(pet.id)
 
-                        val dayBeforeYesterdayRecord = allDays.find {
+                        var dayBeforeYesterdayRecord = allDays.find {
                             LocalDate.ofEpochDay(it.date) == dayBeforeYesterday
                         }
                         Log.d("AutoFill", "dayBeforeYesterdayRecord: $dayBeforeYesterdayRecord")
@@ -60,6 +60,25 @@ class CalendarRepositoryImpl @Inject constructor(
                             )
                             calendarListDao.addItemDayInfo(newYesterdayRecord)
                             Log.d("AutoFill", "Copied record for pet ${pet.id} from $dayBeforeYesterday to $yesterday")
+                        } else if (dayBeforeYesterdayRecord == null && yesterdayRecord == null) {
+                            needFilling = true
+                            var count = 3
+                            repeat(7) {
+                                count++
+                                dayBeforeYesterday = today.minusDays(3)
+                                dayBeforeYesterdayRecord = allDays.find {
+                                    LocalDate.ofEpochDay(it.date) == dayBeforeYesterday
+                                }
+                                if (dayBeforeYesterdayRecord != null) {
+                                    val newYesterdayRecord = dayBeforeYesterdayRecord!!.copy(
+                                        date = yesterday.toEpochDay(),
+                                        attributeNames = listOf()
+                                    )
+                                    calendarListDao.addItemDayInfo(newYesterdayRecord)
+                                    Log.d("AutoFill", "Copied record for pet ${pet.id} from $dayBeforeYesterday to $yesterday")
+                                    return@repeat
+                                }
+                            }
                         }
                     } catch (e: Exception) {
                         Log.e("AutoFill", "Error processing pet ${pet.id}", e)
