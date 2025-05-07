@@ -29,3 +29,25 @@ fun CustomTextField(description: MutableState<String>) {
         modifier = Modifier.fillMaxWidth()
     )
 }
+
+@Composable
+fun CustomTextField(description: MutableState<String>, label: String) {
+    TextField(
+        value = description.value,
+        onValueChange = { description.value = it },
+        label = { Text(label) },
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = MainTheme.colors.mainColor,
+            unfocusedTextColor = MainTheme.colors.singleTheme,
+            focusedContainerColor = MainTheme.colors.mainColor,
+            focusedTextColor = MainTheme.colors.singleTheme,
+            cursorColor = MainTheme.colors.singleTheme,
+            focusedIndicatorColor = MainTheme.colors.singleTheme,
+            unfocusedIndicatorColor = MainTheme.colors.singleTheme.copy(alpha = 0.5f),
+            focusedLabelColor = MainTheme.colors.singleTheme,
+            unfocusedLabelColor = MainTheme.colors.singleTheme.copy(alpha = 0.5f)
+        ),
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+

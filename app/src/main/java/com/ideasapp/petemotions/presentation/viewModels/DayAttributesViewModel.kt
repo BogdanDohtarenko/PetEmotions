@@ -39,7 +39,6 @@ class DayAttributesViewModel @Inject constructor(
     }
 
     //Work with attributes
-    //TODO add basic attributes one time after onBoarding
     fun onAddDayAttribute(dayAttribute: DayAttribute) {
         Log.d(CALENDAR_LOG_TAG, "onAddDayAttribute called with ${dayAttribute.title}, type: ${dayAttribute.type}")
         viewModelScope.launch {
