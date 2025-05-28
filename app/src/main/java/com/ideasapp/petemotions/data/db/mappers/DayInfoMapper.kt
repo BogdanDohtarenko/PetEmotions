@@ -5,9 +5,9 @@ import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 
 object DayInfoMapper {
     fun dbModelToEntity(dbModel: DayItemInfoDbModel): DayItemInfo {
-        return DayItemInfo(date = dbModel.date, mood = dbModel?.mood, petId = dbModel.petId, attributeNames = dbModel.attributeNames)
+        return DayItemInfo(date = dbModel.date, mood = dbModel.mood, petId = dbModel.petId, attributeNames = dbModel.attributeNames, text = dbModel.text)
     }
     fun entityToDbModel(entity:DayItemInfo): DayItemInfoDbModel {
-        return DayItemInfoDbModel(date = entity.date, mood = entity?.mood, petId = entity.petId, attributeNames = entity.attributeNames)
+        return DayItemInfoDbModel(date = entity.date, mood = entity.mood, petId = entity.petId, attributeNames = entity.attributeNames, text = entity.text)
     }
 }
