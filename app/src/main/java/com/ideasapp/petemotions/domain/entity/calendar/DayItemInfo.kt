@@ -11,6 +11,8 @@ data class DayItemInfo(
     var petId: Int = 0,
     @SerializedName("mood")
     val mood: Int? = null,
+    @SerializedName("text")
+    val text: String = "",
     @SerializedName("attributeNames")
     val attributeNames: List<String> = listOf<String>()
 ): Serializable {

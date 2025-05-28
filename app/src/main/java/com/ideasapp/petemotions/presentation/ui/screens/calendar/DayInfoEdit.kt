@@ -31,6 +31,7 @@ import com.ideasapp.petemotions.domain.entity.calendar.DayAttribute
 import com.ideasapp.petemotions.domain.entity.calendar.DayItemInfo
 import com.ideasapp.petemotions.presentation.ui.reusableElements.FoldableBox
 import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.AttributesEditBox
+import com.ideasapp.petemotions.presentation.ui.reusableElements.simpleElements.CustomTextField
 import com.ideasapp.petemotions.presentation.ui.theme.MainTheme
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
@@ -59,6 +60,7 @@ fun DayInfoEdit(
     val editFoodAttributeState = remember { mutableStateOf(false) }
     val editEventsAttributeState = remember { mutableStateOf(false) }
     val editHealthAttributeState = remember { mutableStateOf(false) }
+    val textFieldDescription = remember { mutableStateOf(dateItem.dayInfoItem.text) }
     val chosenAttributesList = remember { mutableStateOf(dateItem.dayInfoItem.attributeNames.toMutableList()) }
     val scrollState = rememberScrollState()
     Box(
@@ -83,6 +85,8 @@ fun DayInfoEdit(
                 onClick = { moodState.intValue = it },
                 moodState = moodState
             )
+            Spacer(modifier = Modifier.height(18.dp))
+            CustomTextField(description = textFieldDescription)
             // TODO add attribute choosing
             // TODO set shaking when editing
             // TODO guide (how to delete add etc.)
@@ -149,6 +153,8 @@ fun DayInfoEdit(
                     }
                 }
             )
+
+
             Spacer(modifier = Modifier.height(18.dp))
             Button(
                 onClick = {
@@ -157,6 +163,7 @@ fun DayInfoEdit(
                         petId = petId,
                         mood = moodState.intValue,
                         attributeNames = chosenAttributesList.value,
+                        text = textFieldDescription.value
                     )
                     onSaveDayInfoClick(newDayInfo)
                     exitCallback()

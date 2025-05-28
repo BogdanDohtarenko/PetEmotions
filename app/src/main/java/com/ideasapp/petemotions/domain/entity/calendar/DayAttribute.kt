@@ -1,6 +1,5 @@
 package com.ideasapp.petemotions.domain.entity.calendar
 
-import androidx.compose.ui.graphics.vector.ImageVector
 
 data class DayAttribute(
     val imageVectorResource: Int,
